@@ -1,9 +1,8 @@
 ## How do you design and build scalable and metadata-driven data ingestion pipelines for batch and streaming datasets?
-    
-    Ans: 
-    1. Requirements Gathering
--        Understand the data sources: Identify batch vs. streaming sources (e.g., file systems, databases, APIs, Kafka).
--        Define SLAs and latency requirements: Real-time, near-real-time, or scheduled processing.
+### Ans: 
+1.  Requirements Gathering
+-       Understand the data sources: Identify batch vs. streaming sources (e.g., file systems, databases, APIs, Kafka).
+-       Define SLAs and latency requirements: Real-time, near-real-time, or scheduled processing.
 -       Metadata requirements: Identify schema, source types, update frequency, and change data capture (CDC) needs.
 
     2. Architecture Design
