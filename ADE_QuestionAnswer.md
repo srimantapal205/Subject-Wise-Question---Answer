@@ -1,10 +1,11 @@
 ## How do you design and build scalable and metadata-driven data ingestion pipelines for batch and streaming datasets?
 
-Ans: 1. Requirements Gathering
-•	Understand the data sources: Identify batch vs. streaming sources (e.g., file systems, databases, APIs, Kafka).
-•	Define SLAs and latency requirements: Real-time, near-real-time, or scheduled processing.
-•	Metadata requirements: Identify schema, source types, update frequency, and change data capture (CDC) needs.
-________________________________________
+    Ans: 
+    1. Requirements Gathering
+        - Understand the data sources: Identify batch vs. streaming sources (e.g., file systems, databases, APIs, Kafka).
+        * Define SLAs and latency requirements: Real-time, near-real-time, or scheduled processing.
+        * Metadata requirements: Identify schema, source types, update frequency, and change data capture (CDC) needs.
+
 2. Architecture Design
 •	Scalable and Decoupled:
 o	Use a distributed framework like Apache Spark, Kafka Streams, or Flink for scalability.
@@ -76,6 +77,7 @@ ________________________________________
 •	Metadata: AWS Glue Catalog, Hive Metastore, relational DBs.
 •	Orchestration: Apache Airflow, Azure Data Factory, AWS Step Functions.
 •	Monitoring: Prometheus, Azure Monitor, CloudWatch.
+
 Can you explain how you have handled structured and unstructured data processing in past projects?
 
 Structured Data Processing
@@ -219,8 +221,7 @@ Use try-catch blocks strategically around critical operations:
 •	Data transformation logic.
 •	External API calls.
 For example, in Python:
-python
-Copy code
+
 try:
     # Load data
     data = spark.read.csv("data.csv")
