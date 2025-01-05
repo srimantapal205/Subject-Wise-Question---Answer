@@ -8,8 +8,8 @@
 
     2. Architecture Design
 •	    - Scalable and Decoupled:
-o	        Use a distributed framework like Apache Spark, Kafka Streams, or Flink for scalability.
-o	        Decouple pipeline stages using queues or event hubs (e.g., Kafka, Azure Event Hub).
+o	        * Use a distributed framework like Apache Spark, Kafka Streams, or Flink for scalability.
+o	        * Decouple pipeline stages using queues or event hubs (e.g., Kafka, Azure Event Hub).
 •	    - Metadata-Driven Design:
 o	        Use a metadata layer to abstract pipeline configurations (e.g., schema, transformations, validations).
 o	        Leverage centralized metadata storage (e.g., a relational database, a catalog like AWS Glue, or Azure Data Catalog).
