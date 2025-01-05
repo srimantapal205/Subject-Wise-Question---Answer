@@ -3,16 +3,16 @@
     Ans: 
     1. Requirements Gathering
         - Understand the data sources: Identify batch vs. streaming sources (e.g., file systems, databases, APIs, Kafka).
-        * Define SLAs and latency requirements: Real-time, near-real-time, or scheduled processing.
-        * Metadata requirements: Identify schema, source types, update frequency, and change data capture (CDC) needs.
+        - Define SLAs and latency requirements: Real-time, near-real-time, or scheduled processing.
+        - Metadata requirements: Identify schema, source types, update frequency, and change data capture (CDC) needs.
 
-2. Architecture Design
-•	Scalable and Decoupled:
-o	Use a distributed framework like Apache Spark, Kafka Streams, or Flink for scalability.
-o	Decouple pipeline stages using queues or event hubs (e.g., Kafka, Azure Event Hub).
-•	Metadata-Driven Design:
-o	Use a metadata layer to abstract pipeline configurations (e.g., schema, transformations, validations).
-o	Leverage centralized metadata storage (e.g., a relational database, a catalog like AWS Glue, or Azure Data Catalog).
+    2. Architecture Design
+•	    - Scalable and Decoupled:
+o	        Use a distributed framework like Apache Spark, Kafka Streams, or Flink for scalability.
+o	        Decouple pipeline stages using queues or event hubs (e.g., Kafka, Azure Event Hub).
+•	    - Metadata-Driven Design:
+o	        Use a metadata layer to abstract pipeline configurations (e.g., schema, transformations, validations).
+o	        Leverage centralized metadata storage (e.g., a relational database, a catalog like AWS Glue, or Azure Data Catalog).
 ________________________________________
 3. Metadata-Driven Pipeline Components
 •	Ingestion Layer:
@@ -78,7 +78,7 @@ ________________________________________
 •	Orchestration: Apache Airflow, Azure Data Factory, AWS Step Functions.
 •	Monitoring: Prometheus, Azure Monitor, CloudWatch.
 
-Can you explain how you have handled structured and unstructured data processing in past projects?
+## Can you explain how you have handled structured and unstructured data processing in past projects?
 
 Structured Data Processing
 Structured data is organized in a predefined schema, like rows and columns, typically found in databases or CSV files. Here’s how I have processed it:
@@ -190,7 +190,7 @@ Example Use Case: E-commerce Sales and Marketing Data
 •	Outcome: Created a unified dataset with consistent dimensions (e.g., customer, product) and key metrics (e.g., sales, campaign ROI), enabling seamless analysis and cross-platform reporting.
 
 
-Describe your experience with scheduling, orchestrating, and validating data pipelines.
+## Describe your experience with scheduling, orchestrating, and validating data pipelines.
 
 Experience with Scheduling, Orchestrating, and Validating Data Pipelines
 In my projects, I have gained extensive experience in scheduling, orchestrating, and validating data pipelines, particularly using tools like Azure Data Factory (ADF), Apache Airflow, and Python-based custom scripts.
@@ -208,7 +208,7 @@ o	In one instance, I created a Python-based validation script that compared the 
 Overall, my experience has taught me the importance of automation, resilience, and visibility in managing data pipelines. I continuously strive to optimize workflows and minimize latency while ensuring data quality and reliability
 
 
-How do you design exception handling and log monitoring for debugging data pipelines?
+## How do you design exception handling and log monitoring for debugging data pipelines?
 Exception Handling
 Proper exception handling ensures your data pipeline can gracefully manage errors without halting the entire process.
 a. Categorize Exceptions
@@ -262,8 +262,7 @@ c. Log Levels
 •	ERROR: Errors that caused certain pipeline parts to fail.
 •	CRITICAL: Severe errors requiring immediate attention.
 d. Sample Log Message
-json
-Copy code
+
 {
   "timestamp": "2025-01-05T14:20:00Z",
   "pipeline_name": "ETL_Pipeline",
