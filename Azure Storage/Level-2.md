@@ -1,22 +1,18 @@
 # Azure Sorage Level 2 Question
 
 ### Question 11: Can a storage account name be duplicate? Provide the reason.
-Answer:
-No, a storage account name cannot be duplicate. This applies not only within your account but across all Azure clients.
-The reason is tied to the URL created for accessing the storage account. Each storage account has a unique endpoint in the format:
-'' <storage_account_name> ''.blob.core.windows.net.
-If duplicate storage account names were allowed, multiple storage accounts would have the same URL, leading to conflicts in identifying which account to access. To prevent this issue, Azure enforces unique storage account names, ensuring every storage account is accessible via a distinct URL.
-This concept is similar to domain names on the internet; for example, if a domain like facebook.com already exists, it cannot be reused by another website because URLs must be unique.
-
+  Answer: No, a storage account name cannot be duplicate. This applies not only within your account but across all Azure clients. The reason is tied to the URL created for accessing the storage account. Each storage account has a unique endpoint in the format:'' <storage_account_name> ''.blob.core.windows.net.
+    If duplicate storage account names were allowed, multiple storage accounts would have the same URL, leading to conflicts in identifying which account to access. To prevent this issue, Azure enforces unique storage account names, ensuring every storage account is accessible via a distinct URL.
+  This concept is similar to domain names on the internet; for example, if a domain like facebook.com already exists, it cannot be reused by another website because URLs must be unique.
 
 ### Question 12: What are the different types of blobs in Azure Storage?
-Answer:
-There are three types of blobs in Azure Storage:
+  Answer: There are three types of blobs in Azure Storage:
+  
     1. Block Blobs:
-        ○ Comprises blocks of data, where each block is uploaded separately and then assembled into a blob.
-        ○ Ideal for storing text or binary files such as images, videos, and documents.
-        ○ Maximum storage capacity is 190 terabytes.
-        ○ Default blob type in Azure Storage.
+        - Comprises blocks of data, where each block is uploaded separately and then assembled into a blob.
+        - Ideal for storing text or binary files such as images, videos, and documents.
+        - Maximum storage capacity is 190 terabytes.
+        - Default blob type in Azure Storage.
     2. Append Blobs:
         ○ Designed specifically for append operations, such as logging.
         ○ New data can only be added to the end of the blob, making it ideal for scenarios like maintaining logs.
@@ -30,6 +26,7 @@ By default, Azure Blob Storage uses block blobs, but users can specify the blob 
 
 ### Question 13: What are the factors affecting the cost of a storage account in Azure?
 Answer: The cost of an Azure storage account is influenced by the following six factors:
+
     1. Region:
         ○ The geographical location where the storage account is created affects the cost.
         ○ Some regions, like the U.S., may have higher storage costs, while others, such as regions with lower living costs, may be cheaper.
@@ -54,8 +51,8 @@ Optimization: To optimize costs, adjust these parameters based on your use case,
 
 
 ### Question 14: What are the different ways of authorizing data access for a storage account?
-Answer 1:
-There are three main ways to authorize access to a storage account in Azure:
+  Answer :There are three main ways to authorize access to a storage account in Azure:
+  
     1. Account Access Keys:
         ○ These provide full access to the storage account, including all its services (e.g., blob storage, file shares, queues, containers).
         ○ Access keys allow actions like adding, deleting, and updating data.
@@ -69,8 +66,8 @@ There are three main ways to authorize access to a storage account in Azure:
         ○ Roles are managed through the "Access Control (IAM)" option in the Azure Portal.
 
 ### Question 15: How does Azure ensure data security for storage accounts?
-Answer 2:
-Azure ensures data security for storage accounts through the following mechanisms:
+  Answer: Azure ensures data security for storage accounts through the following mechanisms:
+  
     1. Server-Side Encryption (SSE):
         ○ All data stored in Azure storage accounts is encrypted at rest.
         ○ Even if unauthorized access occurs, the data remains unreadable due to encryption.
@@ -84,8 +81,8 @@ Azure ensures data security for storage accounts through the following mechanism
         ○ Encryption is enabled by default and cannot be disabled, ensuring robust data security.
 
 ### Question 16: How can you ensure data protection in Azure Blob Storage?
-Answer:
-To ensure data protection in Azure Blob Storage, you can use the following strategies:
+  Answer: To ensure data protection in Azure Blob Storage, you can use the following strategies:
+  
     1. Azure Resource Manager Logs:
         ○ Enable logging on your storage account to monitor and track changes, protecting against unauthorized updates or deletions.
     2. Soft Delete:
@@ -100,8 +97,8 @@ To ensure data protection in Azure Blob Storage, you can use the following strat
 These practices ensure that data is accessible only to the right users and is protected against accidental loss or modification.
 
 ### Question 17: How does the soft delete feature work for containers in Azure Blob Storage?
-Answer:
-The soft delete feature in Azure Blob Storage ensures that deleted containers or files are not permanently removed immediately. Instead, they are retained for a specified period, allowing recovery if needed. Here's how it works:
+  Answer: The soft delete feature in Azure Blob Storage ensures that deleted containers or files are not permanently removed immediately. Instead, they are retained for a specified period, allowing recovery if needed. Here's how it works:
+  
     1. Soft Delete Functionality:
         ○ When a file or container is deleted, it is marked as "deleted" but is not permanently removed.
         ○ This behavior is similar to a recycle bin on a computer.
@@ -118,8 +115,8 @@ This feature provides a safeguard against accidental deletions and ensures that 
 
 
 ### Question 18: What is the AZCopy tool?
-Answer:
-AZCopy is a command-line tool provided by Azure for transferring data to and from Azure storage accounts. It offers a more streamlined and automated alternative to the Azure Portal for data management. Here's what it does:
+  Answer: AZCopy is a command-line tool provided by Azure for transferring data to and from Azure storage accounts. It offers a more streamlined and automated alternative to the Azure Portal for data management. Here's what it does:
+  
     1. Purpose:
         ○ Facilitates uploading, downloading, and copying data in and out of Azure storage accounts using command-line commands.
     2. Use Case:
@@ -136,8 +133,8 @@ The AZCopy tool is an efficient way to handle large-scale data transfers program
 
 
 ### Question 19: What is the difference between Azure Blob Storage and Azure Data Lake Storage (ADLS)?
-Answer:
-Azure Blob Storage and Azure Data Lake Storage (ADLS) are both storage solutions in Azure, but they serve different purposes and have distinct features. Here's a comparison:
+  Answer:Azure Blob Storage and Azure Data Lake Storage (ADLS) are both storage solutions in Azure, but they serve different purposes and have distinct features. Here's a comparison:
+    
     1. Hierarchical Namespace:
         ○ ADLS: Supports hierarchical namespaces, allowing the creation of a directory-like structure with folders and subfolders, similar to the file system on a laptop.
         ○ Blob Storage: Uses a flat namespace. While folders can be mimicked through naming conventions, no actual directory structure is created under the hood.
@@ -152,8 +149,8 @@ Azure Blob Storage and Azure Data Lake Storage (ADLS) are both storage solutions
 These differences make ADLS the preferred choice for big data applications, while Blob Storage is suited for more straightforward storage requirements
 
 ### Question 20: Why does an Azure Storage account have two access keys, Key 1 and Key 2?
-Answer:
-Azure Storage accounts have two access keys (Key 1 and Key 2) to facilitate key rotation while maintaining uninterrupted access to the storage account. Here's why they are needed:
+  Answer: Azure Storage accounts have two access keys (Key 1 and Key 2) to facilitate key rotation while maintaining uninterrupted access to the storage account. Here's why they are needed:
+  
     1. Compliance Requirements:
         ○ Many organizations have compliance policies that mandate periodic key rotation (e.g., every 90 days).
     2. Security Concerns:
@@ -167,18 +164,3 @@ Azure Storage accounts have two access keys (Key 1 and Key 2) to facilitate key 
             § Finally, regenerate Key 2 if required.
 This approach ensures that the storage account is always accessible during the key rotation process, thereby preventing downtime or service interruptions.
 
-### Question 21: Why does an Azure Storage account have two access keys, Key 1 and Key 2?
-Answer:
-Azure Storage accounts have two access keys (Key 1 and Key 2) to facilitate key rotation while maintaining uninterrupted access to the storage account. Here's why they are needed:
-    1. Compliance Requirements:
-        ○ Many organizations have compliance policies that mandate periodic key rotation (e.g., every 90 days).
-    2. Security Concerns:
-        ○ If an access key is suspected of being compromised, it can be regenerated to ensure security.
-    3. Smooth Key Rotation Process:
-        ○ While rotating keys, you need one key to remain active to prevent disruptions to connected applications or services.
-        ○ Example process:
-            § Update all applications to use Key 2 instead of Key 1.
-            § Once all applications are confirmed to use Key 2, regenerate Key 1.
-            § Update applications to use the regenerated Key 1.
-            § Finally, regenerate Key 2 if required.
-This approach ensures that the storage account is always accessible during the key rotation process, thereby preventing downtime or service interruptions.
