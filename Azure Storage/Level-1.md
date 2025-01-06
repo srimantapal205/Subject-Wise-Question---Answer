@@ -4,18 +4,18 @@
  Answer: Azure storage is a cloud-based storage solution provided by Microsoft. It allows users to store different types of data such as images, files, audio, video, and binary data on the cloud. This data can be accessed in various ways, including through a browser, programmatically, or using protocols like HTTPS and REST APIs. Azure storage supports access via PowerShell scripts and is designed for flexible and secure data handling.
 ### Question 2: What are the benefits of Azure storage?
  Answer: The benefits of Azure storage include:
-     • Durability: Data is replicated across multiple locations to ensure availability, even during server failures or natural disasters.
-     • Security: Data is stored and transmitted in an encrypted form.
-     • Scalability: Storage capacity can be scaled up or down as needed without predefined limits.
-     • Managed Service: Azure handles maintenance, performance tuning, and patch deployment.
-     • Accessibility: Data can be accessed through multiple methods, including REST APIs, programmatic access, and PowerShell scripts.
+  - Durability: Data is replicated across multiple locations to ensure availability, even during server failures or natural disasters.
+  - Security: Data is stored and transmitted in an encrypted form.
+  - Scalability: Storage capacity can be scaled up or down as needed without predefined limits.
+  - Managed Service: Azure handles maintenance, performance tuning, and patch deployment.
+  - Accessibility: Data can be accessed through multiple methods, including REST APIs, programmatic access, and PowerShell scripts.
 ### Question 3: What are the different Azure storage data services?
  Answer:
-     1. Azure Blobs: Stores text and binary data, including files like CSV, images, and videos.
-     2. Azure Files: A shared folder service for applications that require shared folder access.
-     3. Azure Queues: Facilitates message queuing for communication between services.
-     4. Azure Tables: A NoSQL storage solution for high-performance, schema-less data storage.
-     5. Azure Disks: Block-level storage volumes that can be attached to virtual machines, similar to local hard disks.
+  1. Azure Blobs: Stores text and binary data, including files like CSV, images, and videos.
+  2. Azure Files: A shared folder service for applications that require shared folder access.
+  3. Azure Queues: Facilitates message queuing for communication between services.
+  4. Azure Tables: A NoSQL storage solution for high-performance, schema-less data storage.
+  5. Azure Disks: Block-level storage volumes that can be attached to virtual machines, similar to local hard disks.
 ### Question 4: What is Azure Blob storage?
  Answer: Azure Blob storage is a service for storing unstructured data like documents and multimedia files. It supports data access through REST APIs and is suitable for use cases such as image/document storage, streaming applications, log storage, and backup solutions. It is a durable solution due to its data replication capabilities, making it a good choice for disaster recovery.
 ### Question 5: What is Azure Data Lake Storage Gen2?
