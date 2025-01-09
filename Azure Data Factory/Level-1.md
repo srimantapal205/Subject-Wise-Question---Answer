@@ -1,25 +1,22 @@
 ### Question 1: What is Azure Data Factory and why do you need it?
-Answer:
-Azure Data Factory is a cloud-based service that enables data orchestration and integration. It acts as a conductor, managing various data activities to solve business problems. Common use cases include: 1. Data Migration: Moving data between sources using activities like the Copy Activity. 2. On-Premises to Cloud Data Transfer: For example, transferring data from an on-premises SQL Server to Azure SQL Cloud incrementally or on a schedule. 3. ETL Operations: Extracting, transforming, and loading data, even unstructured or semi-structured data, using features like Data Flow.
+    Answer: Azure Data Factory is a cloud-based service that enables data orchestration and integration. It acts as a conductor, managing various data activities to solve business problems. Common use cases include: 1. Data Migration: Moving data between sources using activities like the Copy Activity. 2. On-Premises to Cloud Data Transfer: For example, transferring data from an on-premises SQL Server to Azure SQL Cloud incrementally or on a schedule. 3. ETL Operations: Extracting, transforming, and loading data, even unstructured or semi-structured data, using features like Data Flow.
 
 ### Question 2: What is a pipeline in Azure Data Factory?
-Answer:
-A pipeline in Azure Data Factory is a collection of activities designed to execute in a defined sequence to achieve a specific task. It is the fundamental building block in ADF. For example:
-• A pipeline may start with a Lookup Activity, followed by a Copy Activity.
-• It can be used to define conditional logic, like "if condition A, do X; if condition B, do Y."
-• A basic pipeline could include just a single activity, such as moving data from an on-premises server to the cloud.
+    Answer:A pipeline in Azure Data Factory is a collection of activities designed to execute in a defined sequence to achieve a specific task. It is the fundamental building block in ADF. For example:
+        • A pipeline may start with a Lookup Activity, followed by a Copy Activity.
+        • It can be used to define conditional logic, like "if condition A, do X; if condition B, do Y."
+        • A basic pipeline could include just a single activity, such as moving data from an on-premises server to the cloud.
 
 ### Question 3: What do you mean by a data source in Azure Data Factory?
-Answer:
-A data source in Azure Data Factory represents the input or output system involved in data movement or transformation processes. It can be:
-• Source System: Where data is read from.
-• Destination System: Where data is written to.
-Key Points about Data Sources:
-• Data sources are integral to ADF operations like reading, writing, or transforming data.
-• Examples include SQL Server, Azure Blob Storage, Snowflake, MySQL, Postgres, etc.
-• Supported data formats include text, binary, JSON, CSV, and even multimedia formats like audio, video, or images.
-• ADF supports around 80–100 connectors for various data sources and destinations.
-In essence, a data source is a system or storage used to interact with data during ADF operations.
+    Answer: A data source in Azure Data Factory represents the input or output system involved in data movement or transformation processes. It can be:
+        • Source System: Where data is read from.
+        • Destination System: Where data is written to.
+    Key Points about Data Sources:
+        • Data sources are integral to ADF operations like reading, writing, or transforming data.
+        • Examples include SQL Server, Azure Blob Storage, Snowflake, MySQL, Postgres, etc.
+        • Supported data formats include text, binary, JSON, CSV, and even multimedia formats like audio, video, or images.
+        • ADF supports around 80–100 connectors for various data sources and destinations.
+    In essence, a data source is a system or storage used to interact with data during ADF operations.
 
 ### Question 4: What is a linked service in Azure Data Factory?
     Answer: A linked service in Azure Data Factory is a connection object that defines how ADF connects to external data sources or systems.
