@@ -58,7 +58,7 @@
 + Monitoring and auditing access and activity using Azure Monitor and Azure Security Center.
 + Implementing data governance policies and ensuring compliance with industry standards and regulations.
 <details open>
-<summary><h2>Azure Data Factory </h2></summary>
+<summary>Azure Data Factory </summary>
  
 
 ### 1. What are the key components of Azure Data Factory?
@@ -283,7 +283,8 @@ Using watermark columns: Use a column that captures the last modified time or a 
 3. Use a Data Flow activity to read the daily transactional data, apply necessary transformations, and deduplicate the records.
 4. Write the transformed and deduplicated data to the fact table, using an Upsert pattern to handle new and existing records.
 </details>
-## Azure Data Lake Storage
+<details open>
+<summary>Azure Data Lake Storage</summary>
 
 ### 1. What is Azure Data Lake Storage (ADLS)?
 **Answer**: Azure Data Lake Storage is a scalable and secure data lake service that allows organizations to store and analyze large amounts of data. It combines the scalability and cost benefits of Azure Blob Storage with enhanced capabilities for big data analytics, making it ideal for data storage, processing, and analysis.
@@ -468,3 +469,4 @@ renaming and deleting directories), and better integration with big data process
 3. Optimize data transfer by enabling parallelism and using data compression techniques.
 4. Ensure data consistency and integrity by implementing checkpoints and retries in the pipeline.
 5. Validate the migrated data in ADLS and perform any necessary transformations or reformatting to fit the target schema.
+</details>
