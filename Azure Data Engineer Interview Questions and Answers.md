@@ -58,7 +58,7 @@
 + Monitoring and auditing access and activity using Azure Monitor and Azure Security Center.
 + Implementing data governance policies and ensuring compliance with industry standards and regulations.
 
-## Day 2: Azure Data Factory Basics
+## Azure Data Factory Basics
 
 ### 1. What are the key components of Azure Data Factory?
 **Answer**: The main components of Azure Data Factory are:
