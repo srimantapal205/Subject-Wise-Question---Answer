@@ -57,7 +57,7 @@
 + Encrypting data at rest and in transit.
 + Monitoring and auditing access and activity using Azure Monitor and Azure Security Center.
 + Implementing data governance policies and ensuring compliance with industry standards and regulations.
-
+<details open>
 ## Azure Data Factory Basics
 
 ### 1. What are the key components of Azure Data Factory?
@@ -281,7 +281,7 @@ Using watermark columns: Use a column that captures the last modified time or a 
 2. Create datasets for the source data and the destination fact table.
 3. Use a Data Flow activity to read the daily transactional data, apply necessary transformations, and deduplicate the records.
 4. Write the transformed and deduplicated data to the fact table, using an Upsert pattern to handle new and existing records.
-
+</details>
 ## Azure Data Lake Storage
 
 ### 1. What is Azure Data Lake Storage (ADLS)?
