@@ -1,5 +1,8 @@
 <h1 style="text-align: center;">Azure Data Engineer Interview Questions and Answers</h1>
 
+<details open>
+<summary><h2>Azure Data Engineer Questions and Answers</h2> </summary>
+
 
 ### 1. What is Azure Data Factory?
 
@@ -57,6 +60,9 @@
 + Encrypting data at rest and in transit.
 + Monitoring and auditing access and activity using Azure Monitor and Azure Security Center.
 + Implementing data governance policies and ensuring compliance with industry standards and regulations.
+
+</details>
+
 <details open>
 <summary><h2>Azure Data Factory</h2> </summary>
  
