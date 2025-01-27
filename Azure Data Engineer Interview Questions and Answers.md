@@ -115,3 +115,47 @@
 + **Logs and Alerts:** Configuring logging to capture detailed execution logs and setting up alerts to notify of failures.
 + **Retry Policies:** Implementing retry policies for transient failures.
 + **Debugging Tools:** Using the debug mode in the Data
+
+### 11. What is the purpose of the Mapping Data Flow in Azure Data Factory?
+**Answer**: The Mapping Data Flow in Azure Data Factory allows users to design and execute complex data transformations visually without writing code. It provides a graphical interface to transform data at scale using data flow transformations like join, aggregate, lookup, and filter.
+### 12. How do you schedule a pipeline in Azure Data Factory?
+**Answer**: To schedule a pipeline in Azure Data Factory, you use triggers. There are three types of triggers:
++ Schedule trigger: Runs pipelines on a specified schedule.
++ Tumbling window trigger: Runs pipelines in a series of fixed-size, non-overlapping time intervals.
++ Event-based trigger: Runs pipelines in response to events, such as the arrival of a file in a storage account.
+### 13. What is the role of parameters in Azure Data Factory?
+**Answer**: Parameters in Azure Data Factory allow you to pass dynamic values to pipelines, datasets, and linked services at runtime. They enable reusability and flexibility by allowing you to customize the behavior of your data factory components based on input values.
+### 14. How can you monitor the execution of pipelines in Azure Data Factory?
+**Answer**: You can monitor the execution of pipelines in Azure Data Factory using the Monitor tab in the ADF UI. It provides a dashboard with real-time status, run history, and detailed logs for pipelines, activities, and triggers. You can also set up alerts and notifications to stay informed about pipeline execution.
+### 15. What are the benefits of using Integration Runtime (IR) in Azure Data Factory?
+**Answer**: Integration Runtime (IR) in Azure Data Factory provides the compute infrastructure to perform data integration operations. The benefits include:
++ Scalability: Scale out to meet data volume and processing needs.
++ Flexibility: Choose between Azure IR, Self-hosted IR, and Azure-SSIS IR based on your requirements.
++ Security: Securely move data across different network environments.
++ Compatibility: Support for various data stores and transformation activities.
+### 16. How do you handle error logging and retry policies in Azure Data Factory?
+**Answer**: In Azure Data Factory, you can handle error logging and retry policies by:
++ Setting up retry policies: Configure retry policies for activities to handle transient failures. Specify the maximum retry count and the interval between retries.
++ Using the Set Variable activity: Capture error details using the Set Variable activity in the pipeline and store the error information.
++ Creating custom error handling: Use conditional activities like If Condition or Switch to implement custom error handling logic.
++ Integrating with monitoring tools: Integrate with Azure Monitor and Log Analytics for advanced error logging and alerting.
+### 17. Explain the concept of Data Flow Debugging in Azure Data Factory.
+**Answer**: Data Flow Debugging in Azure Data Factory allows you to test and troubleshoot data flows interactively before publishing them. When debugging is enabled, a debug cluster is spun up, and you can preview data transformations, inspect intermediate data, and validate the logic step-by-step. This helps ensure that the data flow performs as expected and allows for quicker identification and resolution of issues.
+### 18. What are the best practices for designing pipelines in Azure Data Factory?
+**Answer**: Best practices for designing pipelines in Azure Data Factory include:
++ Modularize pipelines: Break down complex workflows into smaller, reusable pipelines.
++ Parameterize components: Use parameters to create flexible and reusable pipelines, datasets, and linked services.
++ Implement logging and monitoring: Set up comprehensive logging and monitoring to track pipeline executions and diagnose issues.
++ Optimize performance: Use parallelism, data partitioning, and efficient data movement strategies to optimize pipeline performance.
++ Secure data: Implement robust security practices, such as using managed identities, encryption, and access control.
+### 19. How do you use Azure Key Vault in Azure Data Factory?
+**Answer**: Azure Key Vault can be used in Azure Data Factory to securely store and manage sensitive information such as connection strings, secrets, and keys. To use Azure Key Vault in ADF:
+1. Create a Key Vault in Azure and add your secrets.
+2. In ADF, create a linked service for Azure Key Vault.
+3. Reference the Key Vault secrets in your linked services, datasets, and pipeline parameters by using the Key Vault linked service.
+### 20. Explain how to implement incremental data load using Azure Data Factory.
+**Answer**: Incremental data load in Azure Data Factory involves loading only the new or changed data since the last load. It can be implemented by:
+Using watermark columns: Use a column that captures the last modified time or a sequential ID. Store the last processed value and use it to filter new records during subsequent loads.
++ Source query filtering: Use source queries to fetch only new or changed data based on the watermark column.
++ Upsert patterns: Implement upsert (update and insert) logic in the destination to handle new and updated records.
++ Delta Lake: Use Delta Lake with ADF to manage incremental data loads efficiently with ACID transactions and versioning.
