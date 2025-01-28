@@ -476,3 +476,161 @@ renaming and deleting directories), and better integration with big data process
 4. Ensure data consistency and integrity by implementing checkpoints and retries in the pipeline.
 5. Validate the migrated data in ADLS and perform any necessary transformations or reformatting to fit the target schema.
 </details>
+
+<details open>
+<summary><h2>Azure Databricks</h2></summary>
+
+### 1. What is Azure Databricks and how is it different from regular Apache Spark?
+**Answer**: Azure Databricks is an Apache Spark-based analytics platform optimized for the Microsoft Azure cloud services platform. It provides a unified analytics environment that integrates with Azure services such as Azure Storage, Azure SQL Data Warehouse, and Azure Machine Learning. Key differences from regular Apache Spark include:
+1. Simplified cluster management and deployment.
+2. Integration with Azure security and data services.
+3. Collaborative workspace with interactive notebooks.
+4. Optimized runtime for improved performance.
+
+### 2. What are the main components of the Azure Databricks architecture?
+**Answer**: The main components of the Azure Databricks architecture include:
+1. Workspaces: Collaborative environments where data engineers and data scientists can work together using notebooks.
+2. Clusters: Groups of virtual machines that run Apache Spark applications.
+3. Jobs: Automated workloads scheduled to run on Databricks clusters.
+4. Libraries: Packages and modules that can be imported into notebooks to extend functionality.
+5. Databricks Runtime: An optimized Apache Spark environment with performance and security enhancements.
+
+### 3. How do you create and manage clusters in Azure Databricks?
+**Answer**: Clusters in Azure Databricks can be created and managed through the Databricks workspace UI, the Databricks CLI, or the Databricks REST API. The steps to create a cluster include:
+1. Navigate to the Clusters tab in the Databricks workspace.
+2. Click on "Create Cluster" and configure the cluster settings, such as the cluster name, cluster mode (standard or high concurrency), node types, and Spark version.
+3. Click "Create Cluster" to launch the cluster. Once created, clusters can be started, stopped, and edited from the Clusters tab.
+
+### 4. What are Databricks notebooks and how are they used?
+**Answer**: Databricks notebooks are interactive, web-based documents that combine code, visualizations, and markdown text. They are used for data exploration, visualization, and collaborative development. Notebooks support multiple languages, including Python, Scala, SQL, and R, allowing users to write and execute code in different languages within the same notebook. Notebooks are often used to develop and share data pipelines, machine learning models, and data analyses.
+
+### 5. What are some common use cases for Azure Databricks?
+**Answer**: Common use cases for Azure Databricks include:
+1. Data Engineering: Building and orchestrating data pipelines for ETL processes.
+2. Data Science and Machine Learning: Developing, training, and deploying machine learning models.
+3. Big Data Analytics: Performing large-scale data analysis and processing.
+4. Streaming Analytics: Processing and analyzing real-time data streams.
+5. Business Intelligence: Integrating with BI tools for interactive data visualization and reporting.
+
+
+### 6. Scenario: You need to develop a data pipeline that processes large volumes of data from Azure Data Lake Storage and transforms it using Spark in Azure Databricks. Describe your approach.
+**Answer**:
+1. Create a new Databricks cluster or use an existing one.
+2. Set up a notebook in the Databricks workspace to develop the data pipeline.
+3. Mount the Azure Data Lake Storage account to Databricks using dbutils.fs.mount.
+4. Read the data from ADLS into a Spark DataFrame using the spark.read API.
+5. Apply the necessary transformations using Spark SQL or DataFrame API.
+6. Write the transformed data back to ADLS or another storage service using the write API.
+7. Schedule the notebook as a job to automate the pipeline execution using the Databricks job scheduler.
+
+### 7. Scenario: You need to implement a machine learning model in Azure Databricks and deploy it to production. Explain the steps you would take.
+**Answer**:
+1. Data Preparation: Use Databricks notebooks to load and preprocess the data required for training the model.
+2. Model Training: Use MLlib or other machine learning libraries in Databricks to train the model on the prepared data.
+3. Model Evaluation: Evaluate the model's performance using appropriate metrics and validation techniques.
+4. Model Deployment: Save the trained model to a storage service (e.g., ADLS, Azure Blob Storage) or a model registry like MLflow.
+5. Production Deployment: Deploy the model to an Azure Machine Learning endpoint or Azure Kubernetes Service (AKS) for real-time inference.
+6. Monitoring: Set up monitoring and logging to track the model's performance in production.
+LinkedIn - Anubhav Shukla
+
+### 8. How can you optimize the performance of Spark jobs in Azure Databricks?
+**Answer**:
+1. Cluster Configuration: Choose appropriate VM types and cluster sizes based on workload requirements.
+2. Data Partitioning: Use partitioning and bucketing to optimize data access and shuffle operations.
+3. Caching: Cache intermediate results to reduce recomputation.
+4. Broadcast Joins: Use broadcast joins for small lookup tables to avoid expensive shuffle operations.
+5. Adaptive Query Execution (AQE): Enable AQE to dynamically optimize query execution based on runtime statistics.
+6. Tuning Spark Configurations: Adjust Spark configurations (e.g., executor memory, shuffle partitions) for better performance.
+
+### 9. Scenario: Your Databricks job fails due to a long-running shuffle operation. How would you troubleshoot and resolve the issue?
+**Answer**:
+1. Check Logs: Examine the job and cluster logs to identify the root cause of the failure.
+2. Data Skew: Check for data skew and repartition the data to balance the load across partitions.
+3. Shuffle Optimization: Optimize shuffle operations by increasing shuffle partitions and adjusting Spark configurations.
+4. Resource Allocation: Ensure that the cluster has sufficient resources (memory, CPU) to handle the shuffle operation.
+5. Job Debugging: Use Spark UI to analyze job stages and tasks to identify performance bottlenecks.
+
+### 10. How do you manage and version control notebooks in Azure Databricks?
+**Answer**:
+1. Databricks Repos: Use Databricks Repos to integrate with Git repositories (e.g., GitHub, Azure DevOps) for version control.
+2. Notebook Exports: Export notebooks as .dbc or .ipynb files and store them in a version-controlled storage system.
+3. Git Integration: Use the built-in Git integration in Databricks to directly commit and push changes from the workspace.
+4. Version Control Practices: Follow best practices for branching, merging, and committing changes to ensure collaborative development and maintainability.
+
+
+### 11. What is Databricks Delta and how does it enhance the capabilities of Azure Databricks?
+**Answer**: Databricks Delta, now known as Delta Lake, is an open-source storage layer that brings ACID transactions to Apache Spark and big data workloads. It enhances Azure Databricks by providing features like:
+1. ACID transactions for data reliability and consistency.
+2. Scalable metadata handling for large tables.
+3. Time travel for data versioning and historical data analysis.
+4. Schema enforcement and evolution.
+5. Improved performance with data skipping and Z-ordering.
+
+### 12. Explain how you can use Databricks to implement a Medallion Architecture (Bronze, Silver, Gold).
+**Answer**:
+1. Bronze Layer (Raw Data): Ingest raw data from various sources into the Bronze layer. This data is stored as-is, without any transformation.
+2. Silver Layer (Cleaned Data): Clean and enrich the data from the Bronze layer. Apply transformations, data cleansing, and filtering to create more refined datasets.
+3. Gold Layer (Aggregated Data): Aggregate and further transform the data from the Silver layer to create high-level business tables or machine learning features. This layer is used for analytics and reporting.
+
+### 13. How can you use Azure Databricks for real-time data processing?
+**Answer**:
+1. Use Azure Event Hubs or Azure IoT Hub to ingest real-time data streams.
+2. Create a Databricks Structured Streaming job to process the streaming data.
+3. Perform transformations and aggregations on the streaming data using Spark SQL or DataFrame API.
+4. Output the processed data to a storage service like ADLS, Azure SQL Database, or a real-time dashboard.
+
+### 14. Describe the role of MLflow in Azure Databricks and how it helps in managing the machine learning lifecycle.
+**Answer**: MLflow is an open-source platform for managing the end-to-end machine learning lifecycle. In Azure Databricks, MLflow helps by providing:
+1. Experiment Tracking: Log parameters, metrics, and artifacts from ML experiments to track performance and reproducibility.
+LinkedIn - Anubhav Shukla
+2. Model Management: Register, version, and organize models in a centralized model registry.
+3. Deployment: Deploy models to various environments, including Databricks, Azure ML, and other platforms.
+4. Reproducibility: Ensure experiments are reproducible with tracked code, data, and configurations.
+
+### 15. What is AutoML in Azure Databricks, and how can it simplify the machine learning process?
+**Answer**: AutoML in Azure Databricks automates the process of training and tuning machine learning models. It simplifies the machine learning process by:
+1. Automatically selecting the best model algorithm based on the data.
+2. Performing hyperparameter tuning to optimize model performance.
+3. Providing easy-to-understand summaries and visualizations of model performance.
+4. Allowing data scientists and engineers to focus on higher-level tasks instead of manual model selection and tuning.
+
+### 16. Scenario: You need to implement a data governance strategy in Azure Databricks. What steps would you take?
+**Answer**:
+1. Data Classification: Classify data based on sensitivity and compliance requirements.
+2. Access Controls: Implement role-based access control (RBAC) using Azure Active Directory.
+3. Data Lineage: Use tools like Databricks Lineage to track data transformations and movement.
+4. Audit Logs: Enable and monitor audit logs to track access and changes to data.
+5. Compliance Policies: Implement Azure Policies and Azure Purview for data governance and compliance monitoring.
+
+### 17. Scenario: You need to optimize a Spark job that has a large number of shuffle operations causing performance issues. What techniques would you use?
+**Answer**:
+1. Repartitioning: Repartition the data to balance the workload across nodes and reduce skew.
+2. Broadcast Joins: Use broadcast joins for small datasets to avoid shuffle operations.
+3. Caching: Cache intermediate results to reduce the need for recomputation.
+4. Shuffle Partitions: Increase the number of shuffle partitions to distribute the workload more evenly.
+5. Skew Handling: Identify and handle skewed data by adding salt keys or custom partitioning strategies.
+
+### 18. Scenario: You are working with a large dataset that requires frequent schema changes. How would you handle schema evolution in Delta Lake?
+LinkedIn - Anubhav Shukla
+**Answer**:
+1. Enable Delta Lake's schema evolution feature by setting mergeSchema to true when writing data.
+2. Use ALTER TABLE statements to manually update the schema if necessary.
+3. Implement a versioning strategy using Delta Lake's time travel feature to keep track of schema changes over time.
+4. Monitor and validate schema changes to ensure they do not break downstream processes or analytics.
+
+### 19. How would you secure and manage secrets in Azure Databricks when connecting to external data sources?
+**Answer**:
+1. Use Azure Key Vault to store and manage secrets securely.
+2. Integrate Azure Key Vault with Azure Databricks using Databricks-backed or Azure-backed scopes.
+3. Access secrets in notebooks and jobs using the dbutils.secrets API.
+4. Ensure that secret access policies are strictly controlled and audited.
+
+### 20. Scenario: You need to migrate an on-premises Hadoop workload to Azure Databricks. Describe your migration strategy.
+**Answer**:
+1. Assessment: Evaluate the existing Hadoop workloads and identify components to be migrated.
+2. Data Transfer: Use Azure Data Factory or Azure Databricks to transfer data from on-premises HDFS to ADLS.
+3. Code Migration: Convert Hadoop jobs (e.g., MapReduce, Hive) to Spark jobs and test them in Databricks.
+4. Optimization: Optimize the Spark jobs for performance and cost-efficiency.
+5. Validation: Validate the migrated workloads to ensure they produce the same results as on-premises.
+6. Deployment: Deploy the migrated workloads to production and monitor their performance.
+</details>
