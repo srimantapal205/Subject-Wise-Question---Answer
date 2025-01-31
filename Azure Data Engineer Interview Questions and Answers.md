@@ -167,7 +167,7 @@ Using watermark columns: Use a column that captures the last modified time or a 
 + Upsert patterns: Implement upsert (update and insert) logic in the destination to handle new and updated records.
 + Delta Lake: Use Delta Lake with ADF to manage incremental data loads efficiently with ACID transactions and versioning.
 
-##Scenario-Based Questions for Azure Data Factory
+## Scenario-Based Questions for Azure Data Factory
 
 ### 21. Scenario: Your company needs to move data from an on-premises SQL Server database to an Azure SQL Database daily. How would you set up this data movement in Azure Data Factory?
 **Answer**: To set up this data movement:
