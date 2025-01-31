@@ -1389,7 +1389,10 @@ o Analyze the query execution plan to identify bottlenecks.
 + Set up data lifecycle policies in Azure Data Lake to manage log data retention and archiving.
 + Monitor and manage costs by reviewing query patterns and optimizing resource usage.
 
+</details>
 
+<details open>
+<summary><h2>Azure HDInsight</h2></summary>
 
-
+-----------------------------------
 </details>
