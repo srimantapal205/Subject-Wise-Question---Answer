@@ -40,21 +40,17 @@
 - Version Control: Maintain pipeline configurations and metadata in version-controlled systems like Git.
 
 8. Metadata Storage and Management
-        Centralized Metadata:
-        Use relational databases (e.g., MySQL, PostgreSQL) or catalogs (e.g., AWS Glue, Hive Metastore).
-        Dynamic Configuration:
-        Drive pipeline parameters (e.g., file locations, schemas, transformations) from metadata tables or APIs.
+- Centralized Metadata: Use relational databases (e.g., MySQL, PostgreSQL) or catalogs (e.g., AWS Glue, Hive Metastore).
+- Dynamic Configuration: Drive pipeline parameters (e.g., file locations, schemas, transformations) from metadata tables or APIs.
 
 9. Example Metadata-Driven Design
-    Metadata Example:
-    Source	File Type	Schema Definition	Transformation Rules	Destination
-    S3 Bucket	CSV	{id, name, age}	Cleanse age, uppercase name	Snowflake Table
-    Kafka	JSON	{event_id, payload}	Extract payload, enrich data	Azure SQL Database
-    Pipeline Flow:
-    1.	Read metadata to determine data source and schema.
-    2.	Dynamically load data using connectors (e.g., Spark, Kafka consumers).
-    3.	Apply transformations and validations based on metadata rules.
-    4.	Write processed data to destinations based on metadata.
+
+Metadata Example:  Source File Type	Schema Definition	Transformation Rules	Destination   S3 Bucket	CSV	{id, name, age}	Cleanse age, uppercase name	Snowflake Table  Kafka	JSON	{event_id, payload}	Extract payload, enrich data	Azure SQL Database  Pipeline Flow:
+
+1.	Read metadata to determine data source and schema.
+2.	Dynamically load data using connectors (e.g., Spark, Kafka consumers).
+3.	Apply transformations and validations based on metadata rules.
+4.	Write processed data to destinations based on metadata.
 
 10. Technologies and Tools
         Batch: Apache Spark, Azure Data Factory, AWS Glue.
