@@ -1,25 +1,21 @@
-1. Databricks Fundamentals
-What is Databricks, and how does it differ from traditional big data processing frameworks?
-What are the key components of the Databricks architecture?
-Explain the differences between Databricks and Azure Synapse Analytics.
-What is the role of Databricks Workflows (formerly Jobs) in automation?
-How does Databricks handle cluster management and auto-scaling?
-ChatGPT said:
-1. What is Databricks, and how does it differ from traditional big data processing frameworks?
-Answer:
-Databricks is a cloud-based data analytics and machine learning platform built on Apache Spark. It provides a managed environment that simplifies big data processing, data engineering, and machine learning.
+# Databricks Fundamentals
+
+### 1. What is Databricks, and how does it differ from traditional big data processing frameworks?
+**Answer:** Databricks is a cloud-based data analytics and machine learning platform built on Apache Spark. It provides a managed environment that simplifies big data processing, data engineering, and machine learning.
 
 Differences from traditional big data frameworks:
 
-Feature	Databricks	Traditional Big Data Frameworks (e.g., Hadoop, On-Prem Spark)
-Cluster Management	Fully managed, auto-scaling	Manual setup and scaling
-Performance	Optimized with Photon Engine and Delta Lake	Performance tuning required
-Ease of Use	Interactive Notebooks, SQL, Python, R	Complex configuration
-Cost Efficiency	Optimized cluster utilization	Fixed infrastructure costs
-Security & Governance	Built-in RBAC, Unity Catalog	Requires additional security tools
-Integration	Native integrations with cloud storage & services	Needs manual integration
-2. What are the key components of the Databricks architecture?
-Answer:
+|Feature|	Databricks	|Traditional Big Data Frameworks (e.g., Hadoop, On-Prem Spark)|
+|-------|--------------|------------------------------------------------------------|
+|Cluster Management|	Fully managed, auto-scaling	|Manual setup and scaling|
+|Performance|	Optimized with Photon Engine and Delta Lake|	Performance tuning required|
+|Ease of Use|	Interactive Notebooks, SQL, Python, R	|Complex configuration|
+|Cost Efficiency	Optimized cluster utilization|	Fixed infrastructure costs|
+|Security & Governance |	Built-in RBAC, Unity Catalog	|Requires additional security tools|
+|Integration|	Native integrations with cloud storage & services	|Needs manual integration|
+
+### 2. What are the key components of the Databricks architecture?
+**Answer:**
 Databricks has several key components that enable efficient big data processing:
 
 Workspace – A collaborative environment for data engineers, analysts, and scientists.
@@ -30,8 +26,9 @@ Jobs (Workflows) – Automates and schedules pipelines.
 Delta Lake – A storage layer with ACID transactions for reliability.
 MLflow – Machine learning lifecycle management.
 Unity Catalog – Centralized data governance and access control.
-3. Explain the differences between Databricks and Azure Synapse Analytics.
-Answer:
+
+### 3. Explain the differences between Databricks and Azure Synapse Analytics.
+**Answer:**
 
 Feature	Databricks	Azure Synapse Analytics
 Core Technology	Apache Spark	SQL-based MPP (Massively Parallel Processing)
@@ -44,7 +41,7 @@ SQL Support	Databricks SQL (Spark SQL)	T-SQL (Synapse SQL)
 Streaming Support	Yes, via Structured Streaming	Limited
 ML & AI Support	Strong MLflow integration	Basic ML capabilities
 4. What is the role of Databricks Workflows (formerly Jobs) in automation?
-Answer:
+**Answer:**
 Databricks Workflows (previously known as Jobs) enable automation and scheduling of ETL pipelines, data transformations, machine learning training, and batch processing.
 
 Key features:
@@ -60,7 +57,7 @@ Example: Running a Databricks Job using the CLI
 
 databricks jobs run-now --job-id 1234
 5. How does Databricks handle cluster management and auto-scaling?
-Answer:
+**Answer:**
 Databricks offers intelligent cluster management and auto-scaling to optimize costs and performance.
 
 Cluster Management Features:
@@ -98,7 +95,7 @@ What are the different ways to perform ETL in Databricks?
 
 ChatGPT said:
 1. How do you read and write data in Databricks using different formats (CSV, Parquet, Delta Lake)?
-Answer:
+**Answer:**
 Databricks supports multiple file formats for reading and writing data, including CSV, Parquet, and Delta Lake.
 
 ✅ Reading Data
@@ -124,7 +121,7 @@ df.write.format("parquet").save("/mnt/output/sample.parquet")
 # Write as Delta Lake
 df.write.format("delta").mode("overwrite").save("/mnt/output/sample-delta")
 2. What is Delta Lake, and how does it enhance data reliability in Databricks?
-Answer:
+**Answer:**
 Delta Lake is an open-source storage layer that enhances data lakes by adding ACID transactions, schema enforcement, and time travel.
 
 ✅ Key Features of Delta Lake:
@@ -143,7 +140,7 @@ Time Travel	✅ Yes	❌ No
 Data Compaction	✅ Yes	❌ No
 Performance	🚀 Faster (Optimized reads/writes)	⚡ Slower
 3. Explain ACID transactions in Delta Lake.
-Answer:
+**Answer:**
 Delta Lake ensures data reliability with ACID transactions (Atomicity, Consistency, Isolation, Durability).
 
 🔹 Atomicity – A transaction is either fully completed or fully rolled back.
@@ -166,7 +163,7 @@ delta_table.alias("old") \
   .whenNotMatchedInsert(values={"id": "new.id", "value": "new.value"}) \
   .execute()
 4. How does Databricks handle schema evolution in Delta Lake?
-Answer:
+**Answer:**
 Delta Lake supports schema evolution, allowing changes in table structure without breaking existing data.
 
 ✅ Handling Schema Evolution Automatically:
@@ -180,7 +177,7 @@ The mergeSchema option ensures new columns in incoming data are added to the exi
 
 ALTER TABLE delta.`/mnt/output/sample-delta` ADD COLUMNS (new_column STRING);
 5. What are the different ways to perform ETL in Databricks?
-Answer:
+**Answer:**
 Databricks provides multiple approaches to extract, transform, and load (ETL) data.
 
 ETL Method	Description
@@ -225,7 +222,7 @@ How can you improve the performance of joins in Spark?
 What are some best practices for partitioning data in Databricks?
 ChatGPT said:
 1. How do you optimize Spark jobs in Databricks?
-Answer:
+**Answer:**
 Optimizing Spark jobs in Databricks involves multiple techniques to reduce execution time and improve resource utilization.
 
 ✅ Best Practices for Spark Job Optimization:
@@ -245,7 +242,7 @@ Optimize Garbage Collection (GC) – Use Executor Memory Tuning (spark.memory.fr
 
 spark.conf.set("spark.sql.adaptive.enabled", "true")
 2. Explain caching and persist operations in Spark.
-Answer:
+**Answer:**
 Caching and persistence store frequently accessed RDDs or DataFrames in memory/disk to speed up computations.
 
 ✅ Cache (df.cache())
@@ -272,7 +269,7 @@ df.count()  # Triggers cache
 from pyspark import StorageLevel
 df.persist(StorageLevel.MEMORY_AND_DISK)  # Stores in both memory and disk
 3. What is Adaptive Query Execution (AQE) in Spark, and how does it help?
-Answer:
+**Answer:**
 Adaptive Query Execution (AQE) dynamically optimizes query plans at runtime based on data characteristics.
 
 ✅ Key Features of AQE:
@@ -294,7 +291,7 @@ ON sales.customer_id = customers.customer_id
 WHERE customers.region = 'North America';
 AQE automatically prunes unnecessary partitions, reducing the amount of data scanned.
 4. How can you improve the performance of joins in Spark?
-Answer:
+**Answer:**
 Joins can be expensive in Spark due to shuffle operations. The following techniques help optimize joins:
 
 ✅ 1. Use Broadcast Joins for Small Tables
@@ -329,7 +326,7 @@ spark.conf.set("spark.sql.shuffle.partitions", "200")
 (Default is 200, can be adjusted based on dataset size.)
 
 5. What are some best practices for partitioning data in Databricks?
-Answer:
+**Answer:**
 Partitioning helps improve query performance by allowing Spark to scan only relevant partitions.
 
 ✅ Best Practices for Partitioning:
@@ -380,7 +377,7 @@ What are the different cluster types in Databricks (Single Node, Standard, High 
 How do you handle dependencies in a Databricks workflow?
 ChatGPT said:
 1. How do you schedule a Databricks notebook as a job?
-Answer:
+**Answer:**
 You can schedule a Databricks notebook as a job using Databricks Workflows (formerly Jobs).
 
 ✅ Steps to Schedule a Databricks Notebook as a Job:
@@ -427,7 +424,7 @@ curl -X POST https://<databricks-instance>/api/2.1/jobs/create \
   }]
 }'
 2. What are widgets in Databricks, and how can they be used?
-Answer:
+**Answer:**
 Widgets allow users to pass parameters dynamically into notebooks for interactive execution.
 
 ✅ Types of Widgets:
@@ -454,7 +451,7 @@ print(f"Input Parameter: {param_value}, Job Type: {job_type}")
 
 Widgets allow passing dynamic values from Azure Data Factory or REST API when running notebooks.
 3. How do you integrate Databricks with Azure Data Factory (ADF)?
-Answer:
+**Answer:**
 Azure Data Factory (ADF) can orchestrate Databricks by executing notebooks, JARs, or Python scripts.
 
 ✅ Steps to Integrate Databricks with ADF:
@@ -490,7 +487,7 @@ curl -X POST https://<databricks-instance>/api/2.1/jobs/run-now \
   "notebook_params": { "input_file": "data.csv", "table_name": "sales" }
 }'
 4. What are the different cluster types in Databricks?
-Answer:
+**Answer:**
 Databricks provides four main cluster types depending on workload needs.
 
 Cluster Type	Description	Use Case
@@ -517,7 +514,7 @@ Use High Concurrency Clusters for SQL analytics to reduce startup times.
 Use Job Clusters for ETL workflows to minimize costs.
 Enable Auto-Termination to prevent idle clusters from incurring charges.
 5. How do you handle dependencies in a Databricks workflow?
-Answer:
+**Answer:**
 In Databricks Workflows, dependencies can be managed using:
 
 Library Management (pip install, Maven, DBFS storage).
@@ -589,7 +586,7 @@ What are Unity Catalog and its benefits in Databricks?
 How do you implement row-level and column-level security in Databricks?
 ChatGPT said:
 1. What are the different ways to manage access control in Databricks?
-Answer:
+**Answer:**
 Databricks provides multiple access control mechanisms to secure data, notebooks, and clusters.
 
 ✅ 1. Identity & Access Management (IAM)
@@ -621,7 +618,7 @@ Enforces resource limits (number of nodes, instance types).
 Uses Dynamic Views in Unity Catalog to mask sensitive data.
 Supports tokenization to replace PII with pseudonyms.
 2. How does Databricks handle data encryption and security?
-Answer:
+**Answer:**
 Databricks encrypts data at rest and in transit using industry-standard security.
 
 ✅ 1. Encryption at Rest
@@ -660,7 +657,7 @@ SELECT
   CASE WHEN current_user() = 'admin' THEN ssn ELSE 'XXX-XX-XXXX' END AS masked_ssn
 FROM customers;
 3. What is Unity Catalog and its benefits in Databricks?
-Answer:
+**Answer:**
 Unity Catalog is Databricks' unified governance layer for managing data access, security, and lineage.
 
 ✅ Key Benefits of Unity Catalog:
@@ -693,7 +690,7 @@ GRANT SELECT ON TABLE catalog_name.schema_name.sales_data TO user1;
 CREATE VIEW sales_data_filtered AS
 SELECT * FROM sales_data WHERE region = current_user();
 4. How do you implement row-level and column-level security in Databricks?
-Answer:
+**Answer:**
 Row-level and column-level security (RLS & CLS) can be implemented using Unity Catalog Dynamic Views.
 
 ✅ 1. Implementing Row-Level Security (RLS)
@@ -761,7 +758,7 @@ What is the difference between mounting storage in Databricks and using direct a
 How can you use Databricks connectors for Snowflake, AWS Redshift, or Google BigQuery?
 ChatGPT said:
 1. How do you connect Databricks to Azure Blob Storage?
-Answer:
+**Answer:**
 Databricks can connect to Azure Blob Storage using:
 
 ABFS (Azure Blob File System) via Azure Data Lake Storage Gen2
@@ -799,7 +796,7 @@ df.show()
 Mounted storage is persistent across sessions but only accessible within the workspace.
 ABFS is preferred for higher performance and scalability.
 2. How can Databricks be integrated with external databases like Azure SQL Database?
-Answer:
+**Answer:**
 Databricks connects to Azure SQL Database using:
 
 JDBC Driver
@@ -825,7 +822,7 @@ df.write \
 ADF orchestrates ETL pipelines from Databricks to Azure SQL.
 Uses Copy Activity or Databricks Notebook Activity.
 3. What is the difference between mounting storage in Databricks and using direct access?
-Answer:
+**Answer:**
 
 Feature	Mounting Storage (DBFS)	Direct Access (ABFS, WASBS)
 Performance	Slower (involves DBFS layer)	Faster (direct connection)
@@ -835,7 +832,7 @@ Use Case	Good for interactive analysis	Best for big data processing
 ✅ Recommendation: Use ABFS for production and DBFS mount for ad-hoc analysis.
 
 4. How can you use Databricks connectors for Snowflake, AWS Redshift, or Google BigQuery?
-Answer:
+**Answer:**
 Databricks provides built-in connectors for cloud data warehouses.
 
 ✅ Connecting Databricks to Snowflake
@@ -892,7 +889,7 @@ What are some common errors in Spark and their resolutions?
 How do you monitor Databricks jobs and logs?
 ChatGPT said:
 1. How do you debug performance issues in Databricks?
-Answer:
+**Answer:**
 Debugging performance issues in Databricks involves identifying bottlenecks in data processing, execution plans, cluster configuration, and memory usage.
 
 ✅ Step 1: Check Spark UI for Job Execution Details
@@ -930,7 +927,7 @@ Enable Delta Caching
 
 spark.conf.set("spark.databricks.io.cache.enabled", "true")
 2. What are some common errors in Spark and their resolutions?
-Answer:
+**Answer:**
 
 Error	Cause	Resolution
 OutOfMemoryError (OOM) in Driver	Large data collected using .collect()	Use .show(), .limit(), or .take() instead of .collect()
@@ -953,7 +950,7 @@ small_data = df.limit(100).collect()
 spark.conf.set("spark.sql.adaptive.enabled", "true")  # Enable AQE
 df = df.repartition(100)  # Reduce shuffle partitions
 3. How do you monitor Databricks jobs and logs?
-Answer:
+**Answer:**
 Databricks provides multiple ways to monitor jobs and logs.
 
 ✅ 1. Databricks Job UI (Jobs > Run Output)
