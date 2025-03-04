@@ -424,7 +424,6 @@ This setup ensures that:
     • The pipeline operates normally for successful copy activities.
     • In case of failure, the Logic App sends an automated email notification with relevant error details.
 
-
 ### Question 32: Assume you are developing a pipeline that copies data from source to destination. This pipeline runs daily, and you need to create a folder hierarchy to store the file in a proper date format. The folder structure should dynamically change based on the date the pipeline runs. How would you design this solution using Azure Data Factory?
 **Answer :**
 To design the solution:
