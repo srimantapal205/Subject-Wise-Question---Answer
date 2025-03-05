@@ -366,7 +366,6 @@ Considerations
 
 By following this high watermark-based approach, you ensure efficient and reliable incremental data loading from an on-premises database to Azure SQL Database.
 
-
 ### Question 30: Assume there is a business requirement where an external application drops a file in a Blob Storage account. Your pipeline has to pick this file and push the data into an Azure SQL Database. How would you design the solution using Azure Data Factory?
 **Answer :**
 To design the solution:
