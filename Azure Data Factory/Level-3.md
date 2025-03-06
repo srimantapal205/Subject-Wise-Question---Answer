@@ -304,182 +304,189 @@ By following this structured troubleshooting process, you can systematically ide
 ### Question 28: How would you create an incremental pipeline to pull data from an on-premises database to Azure SQL Database on a daily basis?
 **Answer :** To create an incremental pipeline in Azure Data Factory (ADF), the high watermark concept can be utilized. Here's a detailed explanation of how to implement this approach:
 High Watermark Concept
-    • High Watermark File/Table: This acts as a storage for the last execution timestamp. Initially, this timestamp can be set to an old date (e.g., 100 years ago).
-    • Purpose: To fetch only new or updated records (incremental data) from the source database by comparing timestamps.
+
+-   High Watermark File/Table: This acts as a storage for the last execution timestamp. Initially, this timestamp can be set to an old date (e.g., 100 years ago).
+-   Purpose: To fetch only new or updated records (incremental data) from the source database by comparing timestamps.
 
 Steps to Create the Incremental Pipeline
 1. Initialize High Watermark
-    • Create a high watermark table/file in your Azure SQL Database.
-    • Add a column to store the last execution date.
-    • Initially, set the date to an old value (e.g., 1900-01-01).
+ - Create a high watermark table/file in your Azure SQL Database.
+ - Add a column to store the last execution date.
+ - Initially, set the date to an old value (e.g., 1900-01-01).
 2. ADF Pipeline Design
 The pipeline consists of the following activities:
-Activity 1: Lookup Activity
-    • Purpose: Fetch the last execution date from the high watermark table.
-    • Configuration:
-        ○ Connect to the high watermark table using a linked service.
-        ○ Query the table to retrieve the last execution date. Example:
-SELECT LastExecutionDate FROM HighWatermarkTable
-Activity 2: Lookup/Derived Column Activity
-    • Purpose: Fetch the latest update date from the source on-premises table.
-    • Configuration:
-        ○ Use a linked service connected to your on-premises database.
-        ○ Query the table to get the latest update timestamp. Example:
+* Activity 1: Lookup Activity
+    - Purpose: Fetch the last execution date from the high watermark table.
+    - Configuration: Connect to the high watermark table using a linked service.
+    - Query the table to retrieve the last execution date. Example: SELECT LastExecutionDate FROM HighWatermarkTable
+* Activity 2: Lookup/Derived Column Activity
+    - Purpose: Fetch the latest update date from the source on-premises table.
+    - Configuration:
+        + Use a linked service connected to your on-premises database.
+        + Query the table to get the latest update timestamp. Example:
 
-SELECT MAX(LastModifiedDate) AS MaxDate FROM SourceTable
+    SELECT MAX(LastModifiedDate) AS MaxDate FROM SourceTable
 
-Activity 3: Copy Activity (Incremental Data Load)
-    • Purpose: Pull incremental data between the two dates.
-    • Configuration:
-        ○ Use the last execution date (from Activity 1) and the latest update date (from Activity 2) as parameters.
-        ○ Query the source table for records updated between these dates. Example:
+* Activity 3: Copy Activity (Incremental Data Load)
+    - Purpose: Pull incremental data between the two dates.
+    - Configuration:
+        + Use the last execution date (from Activity 1) and the latest update date (from Activity 2) as parameters.
+        + Query the source table for records updated between these dates. Example:
 
-SELECT * FROM SourceTable
-WHERE LastModifiedDate > @LastExecutionDate
-  AND LastModifiedDate <= @MaxDate
-        ○ Write the results to Azure SQL Database.
+    SELECT * FROM SourceTable
+    WHERE LastModifiedDate > @LastExecutionDate
+      AND LastModifiedDate <= @MaxDate
+- Write the results to Azure SQL Database.
 
-Activity 4: Copy Activity (Update High Watermark)
-    • Purpose: Update the high watermark table with the new last execution date.
-    • Configuration:
-        ○ Use the latest update date (from Activity 2) as the new high watermark.
-        ○ Write this date to the high watermark table. Example:
-UPDATE HighWatermarkTable
-SET LastExecutionDate = @MaxDate
+* Activity 4: Copy Activity (Update High Watermark)
+    - Purpose: Update the high watermark table with the new last execution date.
+    - Configuration:
+        - Use the latest update date (from Activity 2) as the new high watermark.
+        - Write this date to the high watermark table. Example:
 
-Pipeline Workflow
-    1. First Run:
-        ○ Fetches all data from the source table since the initial high watermark (e.g., 100 years ago).
-        ○ Updates the high watermark table with the latest timestamp.
-    2. Subsequent Runs:
-        ○ Fetches only the new/updated records between the last execution date and the current timestamp.
-        ○ Updates the high watermark with the latest timestamp after data ingestion.
+    UPDATE HighWatermarkTable
+    SET LastExecutionDate = @MaxDate
 
-Considerations
-    • Performance:
-        ○ Ensure proper indexing on the timestamp column in the source table to optimize query performance.
-    • Fault Tolerance:
-        ○ Configure retries for transient failures.
-        ○ Use a retry mechanism in case the pipeline fails to ensure no data loss.
-    • Monitoring:
-        ○ Set up alerts to monitor pipeline execution status.
+**Pipeline Workflow**
+1. First Run:
+    - Fetches all data from the source table since the initial high watermark (e.g., 100 years ago).
+    - Updates the high watermark table with the latest timestamp.
+2. Subsequent Runs:
+    - Fetches only the new/updated records between the last execution date and the current timestamp.
+    - Updates the high watermark with the latest timestamp after data ingestion.
+
+**Considerations**
+- Performance:
+    + Ensure proper indexing on the timestamp column in the source table to optimize query performance.
+- Fault Tolerance:
+    + Configure retries for transient failures.
+    + Use a retry mechanism in case the pipeline fails to ensure no data loss.
+- Monitoring:
+    + Set up alerts to monitor pipeline execution status.
 
 By following this high watermark-based approach, you ensure efficient and reliable incremental data loading from an on-premises database to Azure SQL Database.
 
 ### Question 30: Assume there is a business requirement where an external application drops a file in a Blob Storage account. Your pipeline has to pick this file and push the data into an Azure SQL Database. How would you design the solution using Azure Data Factory?
 **Answer :**
 To design the solution:
-    1. Define Source and Destination:
-        ○ Source: Azure Blob Storage.
-        ○ Destination: Azure SQL Database.
-    2. Pipeline Setup:
-        ○ Use a Copy Activity in Azure Data Factory.
-        ○ Set Blob Storage as the source and SQL Database as the sink in the Copy Activity.
-    3. Triggering the Pipeline:
-        ○ Implement a Storage Event Trigger for automation.
-            § This trigger activates the pipeline whenever a file is dropped in a specific Blob Storage location.
-            § Configure the trigger with the following:
-                □ Specify the storage account and container name.
-                □ Optionally, use a regular expression to match specific file names.
-                □ Choose the event type, such as "New Blob Created."
-        ○ Alternative triggers:
-            § Scheduled Trigger: Run the pipeline at a fixed frequency (e.g., hourly, daily).
-            § Tumbling Window Trigger: Execute the pipeline at regular intervals while maintaining a state.
-    4. Steps in Azure Data Factory Studio:
-        ○ Open the pipeline in the Azure Data Factory studio.
-        ○ Add a trigger by selecting "Add Trigger" and then "New."
-        ○ Choose Storage Event as the trigger type.
-        ○ Configure the trigger with the required settings for storage account, container, and file details.
-This setup ensures an automated, end-to-end process:
-    • The file is dropped in Blob Storage.
-    • The event trigger activates the pipeline.
-    • The Copy Activity transfers the data to Azure SQL Database.
+1. Define Source and Destination:
+    - Source: Azure Blob Storage.
+    - Destination: Azure SQL Database.
+2. Pipeline Setup:
+    - Use a Copy Activity in Azure Data Factory.
+    - Set Blob Storage as the source and SQL Database as the sink in the Copy Activity.
+3. Triggering the Pipeline:
+    - Implement a Storage Event Trigger for automation.
+        - This trigger activates the pipeline whenever a file is dropped in a specific Blob Storage location.
+        - Configure the trigger with the following:
+            + Specify the storage account and container name.
+            + Optionally, use a regular expression to match specific file names.
+            + Choose the event type, such as "New Blob Created."
+        - Alternative triggers:
+            + Scheduled Trigger: Run the pipeline at a fixed frequency (e.g., hourly, daily).
+            + Tumbling Window Trigger: Execute the pipeline at regular intervals while maintaining a state.
+4. Steps in Azure Data Factory Studio:
+    - Open the pipeline in the Azure Data Factory studio.
+    - Add a trigger by selecting "Add Trigger" and then "New."
+    - Choose Storage Event as the trigger type.
+    - Configure the trigger with the required settings for storage account, container, and file details.
+
+**This setup ensures an automated, end-to-end process:**
+- The file is dropped in Blob Storage.
+- The event trigger activates the pipeline.
+- The Copy Activity transfers the data to Azure SQL Database.
     
 ### Question 31: Assume there is a business requirement where your pipeline is copying data from source to destination. You want to receive an email notification whenever the copy activity fails. How would you design this solution using Azure Data Factory?
 **Answer :**
-To design the solution:
-    1. Create the Pipeline:
-        ○ Set up a pipeline in Azure Data Factory with a Copy Activity to transfer data from source to destination.
-    2. Set Up a Logic App for Email Notifications:
-        ○ Go to the Azure portal and create a Logic App.
-        ○ Configure the Logic App to be triggered by a REST API call.
-        ○ Add an action in the Logic App to send an email using Outlook or another email service.
-            § Specify email parameters such as subject, recipient, and body.
-        ○ Save the Logic App and note its trigger URL.
-    3. Integrate the Logic App with the Pipeline:
-        ○ Add a Web Activity in the pipeline.
-        ○ Configure the Web Activity to call the Logic App's REST API by specifying the Logic App trigger URL.
-        ○ Pass parameters like email subject, recipient, and error details from the pipeline to the Logic App.
-    4. Configure the Failure Condition:
-        ○ Set the Web Activity to execute only when the Copy Activity fails by configuring the pipeline's dependency condition for failure.
-    5. Steps in Azure Data Factory Studio:
-        ○ Create a new pipeline and add a Copy Activity for data transfer.
-        ○ Add a Web Activity and configure it with the Logic App URL.
-        ○ Set the Web Activity to trigger only on failure of the Copy Activity.
-    6. Customizing Email Notifications:
-        ○ Pass dynamic content (e.g., error details, activity name) from the pipeline to the Logic App for personalized email messages.
-        ○ Use the HTTP POST method in the Web Activity to send these details to the Logic App.
-This setup ensures that:
-    • The pipeline operates normally for successful copy activities.
-    • In case of failure, the Logic App sends an automated email notification with relevant error details.
+**To design the solution:**
+1. Create the Pipeline:
+    - Set up a pipeline in Azure Data Factory with a Copy Activity to transfer data from source to destination.
+2. Set Up a Logic App for Email Notifications:
+    - Go to the Azure portal and create a Logic App.
+    - Configure the Logic App to be triggered by a REST API call.
+    - Add an action in the Logic App to send an email using Outlook or another email service.
+        - Specify email parameters such as subject, recipient, and body.
+    - Save the Logic App and note its trigger URL.
+3. Integrate the Logic App with the Pipeline:
+    - Add a Web Activity in the pipeline.
+    - Configure the Web Activity to call the Logic App's REST API by specifying the Logic App trigger URL.
+    - Pass parameters like email subject, recipient, and error details from the pipeline to the Logic App.
+4. Configure the Failure Condition:
+    - Set the Web Activity to execute only when the Copy Activity fails by configuring the pipeline's dependency condition for failure.
+5. Steps in Azure Data Factory Studio:
+    - Create a new pipeline and add a Copy Activity for data transfer.
+    - Add a Web Activity and configure it with the Logic App URL.
+    - Set the Web Activity to trigger only on failure of the Copy Activity.
+6. Customizing Email Notifications:
+    - Pass dynamic content (e.g., error details, activity name) from the pipeline to the Logic App for personalized email messages.
+    - Use the HTTP POST method in the Web Activity to send these details to the Logic App.
+
+**This setup ensures that:**
+
+- The pipeline operates normally for successful copy activities.
+
+- In case of failure, the Logic App sends an automated email notification with relevant error details.
 
 ### Question 32: Assume you are developing a pipeline that copies data from source to destination. This pipeline runs daily, and you need to create a folder hierarchy to store the file in a proper date format. The folder structure should dynamically change based on the date the pipeline runs. How would you design this solution using Azure Data Factory?
 **Answer :**
-To design the solution:
-    1. Pipeline Overview:
-        ○ Create a pipeline with a Copy Activity that transfers data from the source to the destination.
-    2. Dynamic Folder Path:
-        ○ Use a dynamic path for the destination folder based on the current date.
-        ○ Utilize the formatDateTime function to dynamically generate the folder structure in the format Year/Month/Day.
-    3. Steps to Implement:
-        ○ In the Copy Activity destination settings, specify the folder path dynamically:
-@concat(formatDateTime(utcNow(), 'yyyy'), '/', formatDateTime(utcNow(), 'MM'), '/', formatDateTime(utcNow(), 'dd'))
-            § utcNow() provides the current timestamp.
-            § formatDateTime() formats the timestamp to extract the year, month, and day.
-            § concat() combines these components into a single folder path string.
-    4. Dataset Configuration:
-        ○ Create or use an existing dataset for the destination.
-        ○ In the File Path section of the dataset configuration:
-            § Enable dynamic content.
-            § Add the expression using the formatDateTime function to generate the dynamic folder structure.
-    5. Result:
-        ○ When the pipeline runs:
-            § For today's date, the file is saved in Year/Month/Day format (e.g., 2024/12/31).
-            § On subsequent days, the folder structure dynamically updates based on the current date.
-    6. Azure Data Factory Studio Implementation:
-        ○ Navigate to the pipeline in Azure Data Factory Studio.
-        ○ Open the Copy Activity settings.
-        ○ Configure the destination path dynamically using the above expression in the File Path section.
+**To design the solution:**
+1. Pipeline Overview:
+    - Create a pipeline with a Copy Activity that transfers data from the source to the destination.
+2. Dynamic Folder Path:
+    - Use a dynamic path for the destination folder based on the current date.
+    - Utilize the formatDateTime function to dynamically generate the folder structure in the format Year/Month/Day.
+3. Steps to Implement:
+    - In the Copy Activity destination settings, specify the folder path dynamically:
+    @concat(formatDateTime(utcNow(), 'yyyy'), '/', formatDateTime(utcNow(), 'MM'), '/', formatDateTime(utcNow(), 'dd'))
+    - utcNow() provides the current timestamp.
+    - formatDateTime() formats the timestamp to extract the year, month, and day.
+    - concat() combines these components into a single folder path string.
+4. Dataset Configuration:
+    - Create or use an existing dataset for the destination.
+    - In the File Path section of the dataset configuration:
+        - § Enable dynamic content.
+        - § Add the expression using the formatDateTime function to generate the dynamic folder structure.
+5. Result:
+    - When the pipeline runs:
+        - For today's date, the file is saved in Year/Month/Day format (e.g., 2024/12/31).
+        - On subsequent days, the folder structure dynamically updates based on the current date.
+6. Azure Data Factory Studio Implementation:
+    - Navigate to the pipeline in Azure Data Factory Studio.
+    - Open the Copy Activity settings.
+    - Configure the destination path dynamically using the above expression in the File Path section.
+
 This setup ensures that the folder hierarchy is automatically created based on the current date, providing an organized and date-specific file storage structure.
 
 
 
 ### Question 33: Assume you are developing a pipeline that copies data from a REST API source to a destination. The pipeline runs daily, and the REST endpoints are dynamic, with the URL containing a date parameter that changes based on the pipeline's execution day. How would you design this solution using Azure Data Factory?
 **Answer :**
-To design the solution:
-    1. Pipeline Structure:
-        ○ Create a pipeline with a Copy Activity to copy data from the REST API source to the destination.
-    2. REST API as Source:
-        ○ Create a REST linked service with the base URL of the API (e.g., https://abc.com).
-        ○ Create a REST dataset associated with the linked service.
-    3. Dynamic Relative URL:
-        ○ In the REST dataset, set the Relative URL dynamically using the formatDateTime function and utcNow().
-        ○ For example, construct the dynamic relative URL as follows:
-@concat('/BBM/', formatDateTime(utcNow(), 'yyyy-MM-dd'))
-        ○ This creates a complete URL such as https://abc.com/BBM/2024-12-31 for today's date. The date updates dynamically based on the pipeline's execution date.
-    4. Execution in Azure Data Factory Studio:
-        ○ Create the Linked Service:
-            § In Azure Data Factory, define the REST linked service with the base URL.
-            § For public APIs, specify anonymous authentication; for private APIs, provide necessary credentials.
-        ○ Define the Dataset:
-            § Use the REST linked service in the dataset configuration.
-            § In the Relative URL field, use the dynamic expression to append the date parameter to the base URL.
-        ○ Configure the Copy Activity:
-            § Use the REST dataset as the source.
-            § Define the destination dataset, such as Azure Blob Storage or Azure SQL Database.
-    5. Outcome:
-        ○ Each pipeline run generates a dynamic REST endpoint for the respective day's data.
-        ○ The data is copied from the dynamically generated REST endpoint to the destination efficiently.
+** To design the solution:**
+1. Pipeline Structure:
+    - Create a pipeline with a Copy Activity to copy data from the REST API source to the destination.
+2. REST API as Source:
+    - Create a REST linked service with the base URL of the API (e.g., https://abc.com).
+    - Create a REST dataset associated with the linked service.
+3. Dynamic Relative URL:
+    - In the REST dataset, set the Relative URL dynamically using the formatDateTime function and utcNow().
+    - For example, construct the dynamic relative URL as follows:
+    
+    @concat('/BBM/', formatDateTime(utcNow(), 'yyyy-MM-dd'))
+
+4. Execution in Azure Data Factory Studio:
+    - Create the Linked Service:
+        - In Azure Data Factory, define the REST linked service with the base URL.
+        - For public APIs, specify anonymous authentication; for private APIs, provide necessary credentials.
+    - Define the Dataset:
+        - Use the REST linked service in the dataset configuration.
+        - In the Relative URL field, use the dynamic expression to append the date parameter to the base URL.
+    - Configure the Copy Activity:
+        - Use the REST dataset as the source.
+        - Define the destination dataset, such as Azure Blob Storage or Azure SQL Database.
+5. Outcome:
+    - Each pipeline run generates a dynamic REST endpoint for the respective day's data.
+    - The data is copied from the dynamically generated REST endpoint to the destination efficiently.
+
 This method ensures that the REST endpoint dynamically adjusts to fetch the appropriate data based on the current execution date, aligning with the daily run schedule of the pipeline.
 
 
