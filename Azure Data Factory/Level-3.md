@@ -493,112 +493,116 @@ This method ensures that the REST endpoint dynamically adjusts to fetch the appr
 ### Question 34: How would you design a solution to copy data automatically from multiple files in a folder, where each file corresponds to a specific table in a database, and the file names match the table names?
 
 **Answer :**
-    1. Pipeline Design:
+1. Pipeline Design:
         ○ Use Azure Data Factory (ADF) to create a data pipeline.
-    2. Step-by-Step Implementation:
-        ○ Get Metadata Activity:
-            § Use this activity to list all files in the specified folder.
-            § Configure it to fetch the Child Items property, which provides the list of files.
-        ○ ForEach Activity:
-            § Pass the output of the Get Metadata activity (list of file names) to a ForEach activity to iterate through each file.
-        ○ Copy Activity:
-            § Inside the ForEach activity, use a Copy Activity to copy data from the file to the corresponding table.
-            § Configure the source and sink dynamically:
-                □ Source:
-                    ® Create a parameterized dataset for the file source.
-                    ® Pass the current file name (currentItem.name) dynamically to the file path parameter.
-                □ Sink:
-                    ® Create a parameterized dataset for the database table.
-                    ® Extract the table name by splitting the file name (e.g., removing the extension) using the split() function.
-                    ® Pass the extracted table name as a parameter to the sink dataset.
-    3. Dynamic Configuration:
-        ○ File Path:
-            § Use a parameterized source dataset where the file name is passed dynamically during each iteration.
-        ○ Table Name:
-            § Extract the table name by splitting the file name (e.g., fileName.split('.')[0]) to remove the extension.
-    4. Handling Extensions:
-        ○ Use a split function in ADF expressions to separate the base file name from the extension.
-    5. Scalability:
-        ○ The solution supports multiple files dynamically. Even if there are more files in the folder, the pipeline iterates through all files and processes them.
-    6. Final Notes:
-        ○ Ensure linked services for storage and database are correctly set up.
-        ○ Validate parameterization to avoid errors in dynamic dataset configurations.
+2. Step-by-Step Implementation:
+    - Get Metadata Activity:
+        - Use this activity to list all files in the specified folder.
+        - Configure it to fetch the Child Items property, which provides the list of files.
+    - ForEach Activity:
+        - Pass the output of the Get Metadata activity (list of file names) to a ForEach activity to iterate through each file.
+    - Copy Activity:
+        - Inside the ForEach activity, use a Copy Activity to copy data from the file to the corresponding table.
+        - Configure the source and sink dynamically:
+            - Source:
+                - Create a parameterized dataset for the file source.
+                - Pass the current file name (currentItem.name) dynamically to the file path parameter.
+            - Sink:
+                - Create a parameterized dataset for the database table.
+                - Extract the table name by splitting the file name (e.g., removing the extension) using the split() function.
+                - Pass the extracted table name as a parameter to the sink dataset.
+3. Dynamic Configuration:
+    - File Path:
+        - Use a parameterized source dataset where the file name is passed dynamically during each iteration.
+    - Table Name:
+        - Extract the table name by splitting the file name (e.g., fileName.split('.')[0]) to remove the extension.
+4. Handling Extensions:
+    - Use a split function in ADF expressions to separate the base file name from the extension.
+5. Scalability:
+    - The solution supports multiple files dynamically. Even if there are more files in the folder, the pipeline iterates through all files and processes them.
+6. Final Notes:
+    - Ensure linked services for storage and database are correctly set up.
+    - Validate parameterization to avoid errors in dynamic dataset configurations.
 
 
 ### Question 35: In which scenario would you use a Linked Self-Hosted Integration Runtime in Azure Data Factory?
 
 **Answer :**
+
 A Linked Self-Hosted Integration Runtime is used when you want to reuse an existing Self-Hosted Integration Runtime (SHIR) that has already been set up by another team or project within the organization, rather than creating a new SHIR. This helps in reducing costs and reusing resources effectively.
 
-Scenarios for Using Linked Self-Hosted Integration Runtime:
-    1. Cross-Team Collaboration:
+**Scenarios for Using Linked Self-Hosted Integration Runtime:** 
+1. Cross-Team Collaboration:
         ○ Two or more teams within the same organization are using different Azure Data Factory (ADF) instances.
         ○ One team has already set up a SHIR on a virtual machine, and the other team wants to utilize the same SHIR instead of creating a new one.
-    2. Cost Efficiency:
+2. Cost Efficiency:
         ○ Avoids the overhead of provisioning a new virtual machine and installing another SHIR, saving costs on infrastructure and maintenance.
-    3. Bandwidth Sharing:
+3. Bandwidth Sharing:
         ○ If the existing SHIR has sufficient bandwidth and resources, it can support multiple teams or ADF instances simultaneously.
-    4. Centralized Integration Runtime Management:
+4. Centralized Integration Runtime Management:
         ○ Centralized management of SHIR across multiple ADF instances simplifies administration and ensures consistency.
 
-How to Set Up a Linked Self-Hosted Integration Runtime:
-    1. Go to the Manage tab in Azure Data Factory Studio.
-    2. Select Integration Runtime and click + New.
-    3. Choose Azure Self-Hosted and select Linked Self-Hosted Integration Runtime.
-    4. Provide the Resource ID of the existing SHIR from the other team or ADF instance.
-    5. Establish the connection, and the linked SHIR can now be used in the current ADF instance.
+**How to Set Up a Linked Self-Hosted Integration Runtime:**
+1. Go to the Manage tab in Azure Data Factory Studio.
+2. Select Integration Runtime and click + New.
+3. Choose Azure Self-Hosted and select Linked Self-Hosted Integration Runtime.
+4. Provide the Resource ID of the existing SHIR from the other team or ADF instance.
+5. Establish the connection, and the linked SHIR can now be used in the current ADF instance.
 
-Benefits:
-    • Resource Optimization: Leverages existing infrastructure.
-    • Reduced Setup Time: Avoids redundant configuration.
-    • Cost Savings: Eliminates the need for additional virtual machines or integration runtimes.
+**Benefits:**
+- Resource Optimization: Leverages existing infrastructure.
+- Reduced Setup Time: Avoids redundant configuration.
+- Cost Savings: Eliminates the need for additional virtual machines or integration runtimes.
 
 
 ### Question 37: How would you handle a scenario where some rows in a file do not match the table schema, causing the Copy Activity in Azure Data Factory to fail?
 
 **Answer :**
+
 To handle schema mismatches and avoid the failure of the entire Copy Activity in Azure Data Factory (ADF), you can enable fault tolerance and logging. This ensures that the rows causing issues are skipped and logged, while the rest of the data is successfully copied.
 
-Steps to Handle the Issue:
-    1. Enable Fault Tolerance:
-        ○ In the Copy Activity, go to the Settings tab.
-        ○ Enable the Fault Tolerance option.
-        ○ Select the Skip Incompatible Rows option.
-            § This ensures rows with schema mismatches (e.g., missing or extra columns) are skipped instead of causing the activity to fail.
-    2. Enable Logging:
-        ○ Under Settings, enable the Enable Logging option.
-        ○ Configure a storage location (e.g., Azure Blob Storage or Data Lake) to save the log files.
-        ○ Specify the logging level:
-            § Warning or Info to capture details about the skipped rows.
-    3. Logging Failed Rows:
-        ○ The skipped rows will be logged in a specified file at the chosen storage location.
-        ○ This file contains details of the failed rows, which can be reviewed and corrected if needed.
-    4. Pipeline Execution:
-        ○ When the pipeline is executed:
-            § Rows matching the schema are successfully inserted into the table.
-            § Mismatched rows are skipped and logged without causing the pipeline to fail.
+**Steps to Handle the Issue:**
+1. Enable Fault Tolerance:
+    - In the Copy Activity, go to the Settings tab.
+    - Enable the Fault Tolerance option.
+    - Select the Skip Incompatible Rows option.
+        - This ensures rows with schema mismatches (e.g., missing or extra columns) are skipped instead of causing the activity to fail.
+2. Enable Logging:
+    - Under Settings, enable the Enable Logging option.
+    - Configure a storage location (e.g., Azure Blob Storage or Data Lake) to save the log files.
+    - Specify the logging level:
+        - Warning or Info to capture details about the skipped rows.
+3. Logging Failed Rows:
+    - The skipped rows will be logged in a specified file at the chosen storage location.
+    - This file contains details of the failed rows, which can be reviewed and corrected if needed.
+4. Pipeline Execution:
+    - When the pipeline is executed:
+        - Rows matching the schema are successfully inserted into the table.
+        - Mismatched rows are skipped and logged without causing the pipeline to fail.
 
 Example:
-    • Scenario:
-        ○ A file contains 10,000 rows.
-        ○ 9,990 rows match the schema and are inserted successfully.
-        ○ 10 rows have schema mismatches (e.g., extra/missing columns).
-    • Outcome:
-        ○ 9,990 rows are copied to the target table.
-        ○ 10 mismatched rows are skipped and logged in a file.
+- Scenario:
+    - A file contains 10,000 rows.
+    - 9,990 rows match the schema and are inserted successfully.
+    - 10 rows have schema mismatches (e.g., extra/missing columns).
+- Outcome:
+    - 9,990 rows are copied to the target table.
+    - 10 mismatched rows are skipped and logged in a file.
 
 Benefits:
-    • Ensures partial success of the pipeline, avoiding a complete failure.
-    • Provides detailed logs for troubleshooting the skipped rows.
-    • Implements best practices for data loading by maintaining pipeline reliability.
+- Ensures partial success of the pipeline, avoiding a complete failure.
+- Provides detailed logs for troubleshooting the skipped rows.
+- Implements best practices for data loading by maintaining pipeline reliability.
 
-Use Case Example in ADF:
-    1. Add a Copy Activity to the pipeline.
-    2. Configure the source (e.g., CSV file) and sink (e.g., SQL table).
-    3. In the Settings tab:
-        ○ Enable Fault Tolerance and set it to Skip Incompatible Rows.
-        ○ Enable Logging and set a storage location for the log files.
-    4. Run the pipeline. Rows with mismatched schemas are skipped and logged.
+**Use Case Example in ADF:**
+
+1. Add a Copy Activity to the pipeline.
+2. Configure the source (e.g., CSV file) and sink (e.g., SQL table).
+3. In the Settings tab:
+    - Enable Fault Tolerance and set it to Skip Incompatible Rows.
+    - Enable Logging and set a storage location for the log files.
+4. Run the pipeline. Rows with mismatched schemas are skipped and logged.
+
 This approach ensures efficient handling of data mismatches while providing visibility into the failed rows for corrective action.
 
 
@@ -607,65 +611,59 @@ This approach ensures efficient handling of data mismatches while providing visi
 **Answer :**Performance optimization for Copy Activity in Azure Data Factory (ADF) can be achieved at various levels. Below are strategies you can apply:
 
 1. Increase the Data Integration Unit (DIU):
-    • What is DIU?
-        ○ Data Integration Unit (DIU) is a combination of CPU, memory, and network resource allocation for your data movement. Higher DIUs provide more resources, resulting in faster performance.
-    • How to Configure:
-        ○ Go to the Settings tab in the Copy Activity.
-        ○ Increase the DIU value (range: 2 to 256).
-        ○ By default, ADF uses Auto DIU, starting with 4 and scaling up as needed. For better performance, set a higher DIU value (e.g., 16, 32).
-    • Trade-off:
-        ○ Higher DIUs increase performance but also cost more.
+    - What is DIU?
+        + Data Integration Unit (DIU) is a combination of CPU, memory, and network resource allocation for your data movement. Higher DIUs provide more resources, resulting in faster performance.
+    - How to Configure:
+        + Go to the Settings tab in the Copy Activity.
+        + Increase the DIU value (range: 2 to 256).
+        + By default, ADF uses Auto DIU, starting with 4 and scaling up as needed. For better performance, set a higher DIU value (e.g., 16, 32).
+    - Trade-off:
+         + Higher DIUs increase performance but also cost more.
 
 2. Enable Staging:
-    • What is Staging?
-        ○ Involves temporarily storing data in a staging area (e.g., Azure Blob Storage or Azure Data Lake) before transferring it to the destination.
-    • Benefits:
-        ○ Useful for handling large data volumes.
-        ○ Allows data to be transferred in bulk from the staging area, improving performance.
-    • How to Enable:
-        ○ In the Settings tab of the Copy Activity, enable the Staging option.
-        ○ Configure the temporary storage location for staging.
+    + What is Staging?
+        - ○ Involves temporarily storing data in a staging area (e.g., Azure Blob Storage or Azure Data Lake) before transferring it to the destination.
+    + Benefits:
+        - Useful for handling large data volumes.
+        - Allows data to be transferred in bulk from the staging area, improving performance.
+    + How to Enable:
+        - In the Settings tab of the Copy Activity, enable the Staging option.
+        - Configure the temporary storage location for staging.
 
 3. Optimize File Format:
-    • Choose Efficient Formats:
-        ○ Use binary formats like Parquet or Avro instead of CSV or JSON, as they are optimized for big data processing.
-    • Why it Helps:
-        ○ Binary formats reduce file size and processing time, leading to faster data transfer and transformation.
+    + Choose Efficient Formats:
+        - Use binary formats like Parquet or Avro instead of CSV or JSON, as they are optimized for big data processing.
+    + Why it Helps:
+        - Binary formats reduce file size and processing time, leading to faster data transfer and transformation.
 
 4. Optimize Source Queries and Data Partitioning:
-    • Query Optimization:
-        ○ If using a query to extract data, optimize the SQL query to reduce the data size and complexity.
-    • Partition Data:
-        ○ Partition large datasets by splitting data into smaller chunks (e.g., by date, region, etc.).
-        ○ Use parallelism to process partitions concurrently.
+    - Query Optimization:
+        - If using a query to extract data, optimize the SQL query to reduce the data size and complexity.
+    - Partition Data:
+        - Partition large datasets by splitting data into smaller chunks (e.g., by date, region, etc.).
+        - Use parallelism to process partitions concurrently.
 
 5. Improve Database and Network Performance:
-    • Database Tuning:
-        ○ Ensure proper indexing and optimize table schema in the target database.
-    • Network Bandwidth:
-        ○ Ensure sufficient network bandwidth between the source, staging, and destination.
+    - Database Tuning:
+        - Ensure proper indexing and optimize table schema in the target database.
+    - Network Bandwidth:
+        - Ensure sufficient network bandwidth between the source, staging, and destination.
 
 6. Enable Compression:
-    • Compress data during transfer to reduce size and speed up data movement.
+    - Compress data during transfer to reduce size and speed up data movement.
 
 Example in Azure Data Factory:
-    1. Add a Copy Activity to your pipeline.
-    2. Configure source and destination datasets.
-    3. In the Settings tab:
-        ○ Set DIU to a higher value (e.g., 16 or 32).
-        ○ Enable Staging and configure the temporary storage location.
-    4. If applicable, switch the file format to Parquet or Avro.
+1. Add a Copy Activity to your pipeline.
+2. Configure source and destination datasets.
+3. In the Settings tab:
+    - Enable Staging and configure the temporary storage location.
+    - Set DIU to a higher value (e.g., 16 or 32).
+4. If applicable, switch the file format to Parquet or Avro.
 
-Additional Tips:
-    • Monitor pipeline performance using ADF's Monitor feature.
-    • Enable logging to identify bottlenecks.
-    • Use Azure Integration Runtime if the source/destination is within Azure to reduce latency.
++ Additional Tips:
+    - Monitor pipeline performance using ADF's Monitor feature.
+    - Enable logging to identify bottlenecks.
+    - Use Azure Integration Runtime if the source/destination is within Azure to reduce latency.
+
 By applying these strategies, you can significantly enhance the performance of your Copy Activity in Azure Data Factory.
 
-
-
-### Question 38: What are the scenarios where copy activities and mapping configuration would be useful?
-**Answer :** Mapping configuration is useful in scenarios where there are differences between the source and destination data source schemas. For example, if a column in the source is named "cost" and in the destination, it is named "price," even though they represent the same data, the system will not automatically map them. In such cases, you can explicitly define the mapping to ensure correct data transfer. In Azure Data Factory, you can use the "Import schema" option to automatically generate the mapping, or you can manually specify the column mappings.
-
-### Question 39: Assume that your pipeline failed at the second activity. To avoid data inconsistency, you have been asked to rerun the pipeline from the failed activity. Can we do this? If yes or no, give the reason.
-**Answer :** Yes, it is possible to rerun the pipeline from the failed activity. In Azure Data Factory, you can go to the "Monitor" tab, open the failed pipeline, and you'll find an option to rerun the pipeline starting from the failed activity. This avoids the need to rerun the entire pipeline from the beginning, which is particularly useful in incremental pipelines with multiple activities.
