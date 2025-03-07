@@ -50,11 +50,17 @@ Databricks Workflows (previously known as Jobs) enable automation and scheduling
 **Key features:**
 
   ✅ Schedule Tasks – Automate notebooks, JAR files, and Python scripts.
+
   ✅ Task Dependencies – Define execution order and dependencies.
+
   ✅ Multi-Task Workflows – Run multiple tasks in a single job.
+
   ✅ Parameterized Execution – Pass runtime parameters dynamically.
+
   ✅ Error Handling & Alerts – Send alerts on failures.
+
   ✅ Integration with CI/CD – Connect with Azure DevOps, GitHub, and Jenkins.
+  
 
 Example: Running a Databricks Job using the CLI
 
