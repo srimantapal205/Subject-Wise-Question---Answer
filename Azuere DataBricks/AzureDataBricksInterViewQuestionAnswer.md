@@ -60,7 +60,7 @@ Databricks Workflows (previously known as Jobs) enable automation and scheduling
   ✅ Error Handling & Alerts – Send alerts on failures.
 
   ✅ Integration with CI/CD – Connect with Azure DevOps, GitHub, and Jenkins.
-  
+
 
 Example: Running a Databricks Job using the CLI
 
@@ -95,6 +95,7 @@ df_parquet = spark.read.format("parquet").load("/mnt/data/sample.parquet")
 
 ### Read Delta Lake table
 df_delta = spark.read.format("delta").load("/mnt/data/sample-delta")
+
 ✅ Writing Data
 
 
@@ -121,19 +122,30 @@ Scalability – Works on cloud storage (Azure, AWS, GCP).
 ✅ Delta Lake vs. Parquet Comparison:
 
 Feature	Delta Lake	Parquet
+
 ACID Transactions	✅ Yes	❌ No
+
 Schema Evolution	✅ Yes	❌ No
+
 Time Travel	✅ Yes	❌ No
+
 Data Compaction	✅ Yes	❌ No
+
 Performance	🚀 Faster (Optimized reads/writes)	⚡ Slower
+
 3. Explain ACID transactions in Delta Lake.
+
 **Answer:**
 Delta Lake ensures data reliability with ACID transactions (Atomicity, Consistency, Isolation, Durability).
 
 🔹 Atomicity – A transaction is either fully completed or fully rolled back.
+
 🔹 Consistency – Ensures that data adheres to predefined constraints.
+
 🔹 Isolation – Concurrent transactions do not interfere with each other.
+
 🔹 Durability – Once committed, the changes are permanent.
+
 
 ✅ Example: Writing data with ACID transactions in Delta Lake
 
@@ -174,111 +186,122 @@ Delta Live Tables (DLT)	Declarative ETL framework that ensures reliability.
 Apache Spark Structured Streaming	Real-time data processing from Kafka, Event Hubs, etc.
 Auto Loader	Efficient ingestion of new files from cloud storage.
 Databricks SQL	Perform ETL transformations using SQL queries.
+
 ✅ Example: Using Auto Loader for Streaming ETL
 
 
-df = spark.readStream \
-    .format("cloudFiles") \
-    .option("cloudFiles.format", "csv") \
-    .load("/mnt/raw-data")
+  df = spark.readStream \
+      .format("cloudFiles") \
+      .option("cloudFiles.format", "csv") \
+      .load("/mnt/raw-data")
 
-df.writeStream \
-    .format("delta") \
-    .option("checkpointLocation", "/mnt/checkpoints") \
-    .start("/mnt/processed-data")
-Summary:
-Databricks supports reading/writing in CSV, Parquet, and Delta formats.
-Delta Lake adds ACID transactions, schema enforcement, and time travel.
-ACID transactions ensure reliable data updates and deletes.
-Schema evolution allows adding new columns dynamically.
-ETL in Databricks can be done via Notebooks, Workflows, Delta Live Tables, and Auto Loader.
-Would you like real-world ETL scenarios for Databricks? 🚀
+  df.writeStream \
+      .format("delta") \
+      .option("checkpointLocation", "/mnt/checkpoints") \
+      .start("/mnt/processed-data")
 
-
-
-
-
-
-
-You said:
-Performance Optimization
-How do you optimize Spark jobs in Databricks?
-Explain caching and persist operations in Spark.
-What is adaptive query execution (AQE) in Spark, and how does it help?
-How can you improve the performance of joins in Spark?
-What are some best practices for partitioning data in Databricks?
-ChatGPT said:
-1. How do you optimize Spark jobs in Databricks?
+### How do you optimize Spark jobs in Databricks?
 **Answer:**
 Optimizing Spark jobs in Databricks involves multiple techniques to reduce execution time and improve resource utilization.
 
 ✅ Best Practices for Spark Job Optimization:
 
 Use Delta Lake – Faster reads/writes compared to Parquet/CSV.
+
 Enable Adaptive Query Execution (AQE) – Dynamically optimizes queries at runtime.
+
 Broadcast Smaller Tables in Joins – Avoids expensive shuffle joins.
+
 Optimize Data Partitioning – Ensures balanced workload distribution.
+
 Use Caching & Persistence – Avoids recomputation of expensive transformations.
+
 Optimize File Size – Aim for 100–250 MB file sizes for efficient reads.
+
 Use Columnar Formats – Parquet and Delta improve compression and read speed.
+
 Use Photon Engine (Databricks-specific) – Vectorized execution engine for faster performance.
+
 Reduce Shuffle Operations – Minimize groupBy(), distinct(), and repartition().
+
 Optimize Garbage Collection (GC) – Use Executor Memory Tuning (spark.memory.fraction).
+
 ✅ Example: Enabling AQE for Auto-Optimization
 
 
 spark.conf.set("spark.sql.adaptive.enabled", "true")
-2. Explain caching and persist operations in Spark.
+
+### 2. Explain caching and persist operations in Spark.
 **Answer:**
+
 Caching and persistence store frequently accessed RDDs or DataFrames in memory/disk to speed up computations.
 
 ✅ Cache (df.cache())
 
+
 Stores data only in memory (RAM).
+
 Best for small-to-medium-sized datasets.
+
 ✅ Persist (df.persist(StorageLevel))
 
+
 Provides more control over storage levels (memory, disk, or both).
+
 Useful for large datasets where memory is limited.
+
 ✅ Storage Levels in persist()
 
 Storage Level	Description
+
 MEMORY_ONLY	Fastest, stores in RAM, recomputes if lost.
+
 MEMORY_AND_DISK	Stores in RAM, writes to disk if needed.
+
 DISK_ONLY	Stores data only on disk (slower).
+
 MEMORY_AND_DISK_SER	Serialized storage, saves memory but increases CPU usage.
+
 ✅ Example: Using Cache and Persist
 
 
-df.cache()  # Stores DataFrame in memory for faster access
-df.count()  # Triggers cache
+  df.cache()  # Stores DataFrame in memory for faster access
+  df.count()  # Triggers cache
 
-from pyspark import StorageLevel
-df.persist(StorageLevel.MEMORY_AND_DISK)  # Stores in both memory and disk
-3. What is Adaptive Query Execution (AQE) in Spark, and how does it help?
+  from pyspark import StorageLevel
+  df.persist(StorageLevel.MEMORY_AND_DISK)  # Stores in both memory and disk
+
+### 3. What is Adaptive Query Execution (AQE) in Spark, and how does it help?
 **Answer:**
 Adaptive Query Execution (AQE) dynamically optimizes query plans at runtime based on data characteristics.
 
 ✅ Key Features of AQE:
 
 Dynamic Partition Pruning – Reduces unnecessary data scans.
+
 Optimized Join Strategies – Converts shuffle joins into broadcast joins when possible.
+
 Skew Join Handling – Reduces data skew by splitting large partitions.
+
 Coalescing Shuffle Partitions – Reduces shuffle overhead for better performance.
+
 ✅ Example: Enabling AQE
 
+  spark.conf.set("spark.sql.adaptive.enabled", "true")
 
-spark.conf.set("spark.sql.adaptive.enabled", "true")
 ✅ Example: Dynamic Partition Pruning
 
 
-SELECT * FROM sales
-JOIN customers
-ON sales.customer_id = customers.customer_id
-WHERE customers.region = 'North America';
+  SELECT * FROM sales
+  JOIN customers
+  ON sales.customer_id = customers.customer_id
+  WHERE customers.region = 'North America';
+
 AQE automatically prunes unnecessary partitions, reducing the amount of data scanned.
-4. How can you improve the performance of joins in Spark?
+
+### 4. How can you improve the performance of joins in Spark?
 **Answer:**
+
 Joins can be expensive in Spark due to shuffle operations. The following techniques help optimize joins:
 
 ✅ 1. Use Broadcast Joins for Small Tables
