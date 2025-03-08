@@ -373,19 +373,8 @@ Partitioning should balance the number of partitions and file sizes for optimal 
 Would you like a real-world case study on performance tuning in Databricks? 🚀
 
 
+ ## Databricks Notebooks and Workflows
 
-
-
-
-
-You said:
- Databricks Notebooks and Workflows
-How do you schedule a Databricks notebook as a job?
-What are widgets in Databricks, and how can they be used?
-How do you integrate Databricks with Azure Data Factory?
-What are the different cluster types in Databricks (Single Node, Standard, High Concurrency)?
-How do you handle dependencies in a Databricks workflow?
-ChatGPT said:
 1. How do you schedule a Databricks notebook as a job?
 **Answer:**
 You can schedule a Databricks notebook as a job using Databricks Workflows (formerly Jobs).
@@ -419,9 +408,7 @@ databricks jobs create --json '{
 }'
 ✅ Using REST API to Schedule a Job:
 
-sh
-Copy
-Edit
+
 curl -X POST https://<databricks-instance>/api/2.1/jobs/create \
 -H "Authorization: Bearer <token>" \
 -H "Content-Type: application/json" \
@@ -487,9 +474,7 @@ param2 = dbutils.widgets.get("param2")
 print(f"Received params: {param1}, {param2}")
 ✅ Example: Calling Databricks Job from ADF Using REST API
 
-sh
-Copy
-Edit
+
 curl -X POST https://<databricks-instance>/api/2.1/jobs/run-now \
 -H "Authorization: Bearer <token>" \
 -d '{
@@ -570,31 +555,10 @@ Edit
 }
 ✅ 4. Uploading External JARs for Scala/PySpark Dependencies
 
-sh
-Copy
-Edit
-databricks libraries install --cluster-id <cluster-id> --jar /dbfs/libraries/my_library.jar
-Summary:
-Schedule Databricks notebooks using Databricks Workflows, REST API, or CLI.
-Widgets allow parameterization of notebooks for dynamic execution.
-ADF integrates with Databricks via Linked Services, Notebook Activities, or REST API.
-Different cluster types are optimized for various workloads (ETL, ML, SQL, etc.).
-Dependencies can be handled via Pip, Maven, Repos, and Workflow task dependencies.
-Would you like a detailed case study on ADF and Databricks integration? 🚀
 
 
+## Security & Access Control
 
-
-
-
-
-You said:
- Security & Access Control
-What are the different ways to manage access control in Databricks?
-How does Databricks handle data encryption and security?
-What are Unity Catalog and its benefits in Databricks?
-How do you implement row-level and column-level security in Databricks?
-ChatGPT said:
 1. What are the different ways to manage access control in Databricks?
 **Answer:**
 Databricks provides multiple access control mechanisms to secure data, notebooks, and clusters.
@@ -755,18 +719,8 @@ Data Masking & Dynamic Views	Masks PII data based on user roles
 Would you like a hands-on implementation guide for Unity Catalog governance? 🚀
 
 
+## Integrations & Connectivity
 
-
-
-
-
-You said:
-Integrations & Connectivity
-How do you connect Databricks to Azure Blob Storage?
-How can Databricks be integrated with external databases like Azure SQL Database?
-What is the difference between mounting storage in Databricks and using direct access?
-How can you use Databricks connectors for Snowflake, AWS Redshift, or Google BigQuery?
-ChatGPT said:
 1. How do you connect Databricks to Azure Blob Storage?
 **Answer:**
 Databricks can connect to Azure Blob Storage using:
@@ -887,17 +841,8 @@ Snowflake	Databricks-Snowflake Connector
 Would you like a step-by-step guide on setting up a data pipeline using Databricks and Azure Data Factory? 🚀
 
 
+## Troubleshooting & Debugging
 
-
-
-
-
-You said:
-Troubleshooting & Debugging
-How do you debug performance issues in Databricks?
-What are some common errors in Spark and their resolutions?
-How do you monitor Databricks jobs and logs?
-ChatGPT said:
 1. How do you debug performance issues in Databricks?
 **Answer:**
 Debugging performance issues in Databricks involves identifying bottlenecks in data processing, execution plans, cluster configuration, and memory usage.
