@@ -389,9 +389,6 @@ Configure the schedule (daily, hourly, etc.).
 Click Create and enable email notifications if needed.
 ✅ Using Databricks CLI to Schedule a Job:
 
-sh
-Copy
-Edit
 databricks jobs create --json '{
   "name": "Daily Notebook Job",
   "tasks": [{
@@ -492,9 +489,7 @@ High Concurrency	Optimized for multi-user shared workloads	BI dashboards, SQL qu
 Job Clusters	Created per-job basis, auto-terminates	Scheduled jobs, ADF pipelines
 ✅ Example: Creating a Cluster Using REST API
 
-sh
-Copy
-Edit
+
 curl -X POST https://<databricks-instance>/api/2.0/clusters/create \
 -H "Authorization: Bearer <token>" \
 -d '{
@@ -527,18 +522,14 @@ import numpy as np
 print(pd.__version__, np.__version__)
 ✅ 2. Using Databricks Repos for Version Control
 
-sh
-Copy
-Edit
+
 # Clone a GitHub repo in Databricks
 databricks repos create --path /Repos/my_project --url https://github.com/user/repo.git
 ✅ 3. Setting Dependencies in Workflows
 
 Task A → Task B (dependent execution).
 Example: Load data before running transformations.
-json
-Copy
-Edit
+
 {
   "name": "ETL Workflow",
   "tasks": [
