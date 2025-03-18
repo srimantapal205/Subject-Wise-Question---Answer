@@ -179,13 +179,13 @@ ALTER TABLE delta.`/mnt/output/sample-delta` ADD COLUMNS (new_column STRING);
 **Answer:**
 Databricks provides multiple approaches to extract, transform, and load (ETL) data.
 
-ETL Method	Description
-Databricks Notebooks	Interactive development using Python, SQL, Scala.
-Databricks Workflows (Jobs)	Schedule and automate ETL pipelines.
-Delta Live Tables (DLT)	Declarative ETL framework that ensures reliability.
-Apache Spark Structured Streaming	Real-time data processing from Kafka, Event Hubs, etc.
-Auto Loader	Efficient ingestion of new files from cloud storage.
-Databricks SQL	Perform ETL transformations using SQL queries.
+* ETL Method	Description
+* Databricks Notebooks	Interactive development using Python, SQL, Scala.
+* Databricks Workflows (Jobs)	Schedule and automate ETL pipelines.
+* Delta Live Tables (DLT)	Declarative ETL framework that ensures reliability.
+* Apache Spark Structured Streaming	Real-time data processing from Kafka, Event Hubs, etc.
+* Auto Loader	Efficient ingestion of new files from cloud storage.
+* Databricks SQL	Perform ETL transformations using SQL queries.
 
 ✅ Example: Using Auto Loader for Streaming ETL
 
@@ -206,30 +206,21 @@ Optimizing Spark jobs in Databricks involves multiple techniques to reduce execu
 
 ✅ Best Practices for Spark Job Optimization:
 
-Use Delta Lake – Faster reads/writes compared to Parquet/CSV.
-
-Enable Adaptive Query Execution (AQE) – Dynamically optimizes queries at runtime.
-
-Broadcast Smaller Tables in Joins – Avoids expensive shuffle joins.
-
-Optimize Data Partitioning – Ensures balanced workload distribution.
-
-Use Caching & Persistence – Avoids recomputation of expensive transformations.
-
-Optimize File Size – Aim for 100–250 MB file sizes for efficient reads.
-
-Use Columnar Formats – Parquet and Delta improve compression and read speed.
-
-Use Photon Engine (Databricks-specific) – Vectorized execution engine for faster performance.
-
-Reduce Shuffle Operations – Minimize groupBy(), distinct(), and repartition().
-
-Optimize Garbage Collection (GC) – Use Executor Memory Tuning (spark.memory.fraction).
+* Use Delta Lake – Faster reads/writes compared to Parquet/CSV.
+* Enable Adaptive Query Execution (AQE) – Dynamically optimizes queries at runtime.
+* Broadcast Smaller Tables in Joins – Avoids expensive shuffle joins.
+* Optimize Data Partitioning – Ensures balanced workload distribution.
+* Use Caching & Persistence – Avoids recomputation of expensive transformations.
+* Optimize File Size – Aim for 100–250 MB file sizes for efficient reads.
+* Use Columnar Formats – Parquet and Delta improve compression and read speed.
+* Use Photon Engine (Databricks-specific) – Vectorized execution engine for faster performance.
+* Reduce Shuffle Operations – Minimize groupBy(), distinct(), and repartition().
+* Optimize Garbage Collection (GC) – Use Executor Memory Tuning (spark.memory.fraction).
 
 ✅ Example: Enabling AQE for Auto-Optimization
 
 
-spark.conf.set("spark.sql.adaptive.enabled", "true")
+    spark.conf.set("spark.sql.adaptive.enabled", "true")
 
 ### 12. Explain caching and persist operations in Spark.
 **Answer:**
@@ -238,38 +229,30 @@ Caching and persistence store frequently accessed RDDs or DataFrames in memory/d
 
 ✅ Cache (df.cache())
 
-
-Stores data only in memory (RAM).
-
-Best for small-to-medium-sized datasets.
+* Stores data only in memory (RAM).
+* Best for small-to-medium-sized datasets.
 
 ✅ Persist (df.persist(StorageLevel))
 
-
-Provides more control over storage levels (memory, disk, or both).
-
-Useful for large datasets where memory is limited.
+* Provides more control over storage levels (memory, disk, or both).
+* Useful for large datasets where memory is limited.
 
 ✅ Storage Levels in persist()
 
-Storage Level	Description
-
-MEMORY_ONLY	Fastest, stores in RAM, recomputes if lost.
-
-MEMORY_AND_DISK	Stores in RAM, writes to disk if needed.
-
-DISK_ONLY	Stores data only on disk (slower).
-
-MEMORY_AND_DISK_SER	Serialized storage, saves memory but increases CPU usage.
+* Storage Level	Description
+* MEMORY_ONLY	Fastest, stores in RAM, recomputes if lost.
+* MEMORY_AND_DISK	Stores in RAM, writes to disk if needed.
+* DISK_ONLY	Stores data only on disk (slower).
+* MEMORY_AND_DISK_SER	Serialized storage, saves memory but increases CPU usage.
 
 ✅ Example: Using Cache and Persist
 
 
-  df.cache()  # Stores DataFrame in memory for faster access
-  df.count()  # Triggers cache
+      df.cache()  # Stores DataFrame in memory for faster access
+      df.count()  # Triggers cache
 
-  from pyspark import StorageLevel
-  df.persist(StorageLevel.MEMORY_AND_DISK)  # Stores in both memory and disk
+      from pyspark import StorageLevel
+      df.persist(StorageLevel.MEMORY_AND_DISK)  # Stores in both memory and disk
 
 ### 13. What is Adaptive Query Execution (AQE) in Spark, and how does it help?
 **Answer:**
@@ -277,25 +260,22 @@ Adaptive Query Execution (AQE) dynamically optimizes query plans at runtime base
 
 ✅ Key Features of AQE:
 
-Dynamic Partition Pruning – Reduces unnecessary data scans.
-
-Optimized Join Strategies – Converts shuffle joins into broadcast joins when possible.
-
-Skew Join Handling – Reduces data skew by splitting large partitions.
-
-Coalescing Shuffle Partitions – Reduces shuffle overhead for better performance.
+* Dynamic Partition Pruning – Reduces unnecessary data scans.
+* Optimized Join Strategies – Converts shuffle joins into broadcast joins when possible.
+* Skew Join Handling – Reduces data skew by splitting large partitions.
+* Coalescing Shuffle Partitions – Reduces shuffle overhead for better performance.
 
 ✅ Example: Enabling AQE
 
-  spark.conf.set("spark.sql.adaptive.enabled", "true")
+      spark.conf.set("spark.sql.adaptive.enabled", "true")
 
 ✅ Example: Dynamic Partition Pruning
 
 
-  SELECT * FROM sales
-  JOIN customers
-  ON sales.customer_id = customers.customer_id
-  WHERE customers.region = 'North America';
+      SELECT * FROM sales
+      JOIN customers
+      ON sales.customer_id = customers.customer_id
+      WHERE customers.region = 'North America';
 
 AQE automatically prunes unnecessary partitions, reducing the amount of data scanned.
 
@@ -304,36 +284,39 @@ AQE automatically prunes unnecessary partitions, reducing the amount of data sca
 
 Joins can be expensive in Spark due to shuffle operations. The following techniques help optimize joins:
 
-✅ 1. Use Broadcast Joins for Small Tables
+#### ✅ 1. Use Broadcast Joins for Small Tables
 
 Avoids shuffle operations by copying small tables to each executor.
 
-from pyspark.sql.functions import broadcast
-df_large.join(broadcast(df_small), "id")
-✅ 2. Enable AQE for Auto-Optimization
+    from pyspark.sql.functions import broadcast
+    df_large.join(broadcast(df_small), "id")
 
+#### ✅ 2. Enable AQE for Auto-Optimization
 
-spark.conf.set("spark.sql.adaptive.enabled", "true")
-✅ 3. Use Bucketed and Sorted Joins
+    spark.conf.set("spark.sql.adaptive.enabled", "true")
+
+#### ✅ 3. Use Bucketed and Sorted Joins
 
 Pre-partition and sort tables before joining to reduce shuffle.
 
-df.write.format("parquet").bucketBy(10, "id").sortBy("id").saveAsTable("bucketed_table")
-✅ 4. Optimize Data Skew Handling
+    df.write.format("parquet").bucketBy(10, "id").sortBy("id").saveAsTable("bucketed_table")
 
-Identify skewed keys using:
+#### ✅ 4. Optimize Data Skew Handling
 
-df.groupBy("id").count().orderBy("count", ascending=False).show()
-If skew exists, use salting:
++ Identify skewed keys using:
 
-df = df.withColumn("salt", (rand() * 10).cast("int"))
-df_large = df_large.withColumn("salt", (rand() * 10).cast("int"))
-df_large.join(df_small, ["id", "salt"])
-✅ 5. Reduce Number of Shuffle Partitions
+    df.groupBy("id").count().orderBy("count", ascending=False).show()
 
++ If skew exists, use salting:
 
-spark.conf.set("spark.sql.shuffle.partitions", "200")
-(Default is 200, can be adjusted based on dataset size.)
+    df = df.withColumn("salt", (rand() * 10).cast("int"))
+    df_large = df_large.withColumn("salt", (rand() * 10).cast("int"))
+    df_large.join(df_small, ["id", "salt"])
+
+#### ✅ 5. Reduce Number of Shuffle Partitions
+
+    spark.conf.set("spark.sql.shuffle.partitions", "200")
+    (Default is 200, can be adjusted based on dataset size.)
 
 ### 15. What are some best practices for partitioning data in Databricks?
 **Answer:**
@@ -341,36 +324,35 @@ Partitioning helps improve query performance by allowing Spark to scan only rele
 
 ✅ Best Practices for Partitioning:
 
-Choose the Right Partition Column
+**Choose the Right Partition Column:**
 
-Select a high-cardinality column to balance partition sizes.
+* Select a high-cardinality column to balance partition sizes.
+
 Example: Good (date, region), Bad (gender, boolean fields).
-Avoid Too Many Small Partitions
+
+**Avoid Too Many Small Partitions**
 
 Ideal partition size: 100–250 MB (large enough for efficient reads).
-Use coalesce() or repartition() to optimize partitions.
 
-df.repartition(10, "region")  # Creates 10 partitions based on 'region'
-df.coalesce(5)  # Reduces to 5 partitions
+Use **coalesce()** or **repartition()** to optimize partitions.
+
+    df.repartition(10, "region")  # Creates 10 partitions based on 'region'
+    df.coalesce(5)  # Reduces to 5 partitions
+
 Optimize File Size for Performance
-Use Delta Lake’s OPTIMIZE command for compaction.
 
-OPTIMIZE my_table ZORDER BY (customer_id)
-Use Dynamic Partition Pruning (DPP) for Faster Queries
+**Use Delta Lake’s OPTIMIZE command for compaction:**
 
-Enabled by default in AQE (reduces unnecessary scans).
-Partition Pruning for Faster Reads
+  OPTIMIZE my_table ZORDER BY (customer_id)
 
+**Use Dynamic Partition Pruning (DPP) for Faster Queries**
 
-SELECT * FROM sales WHERE date >= '2024-01-01';
+**Enabled by default in AQE (reduces unnecessary scans):** Partition Pruning for Faster Reads
+
+    SELECT * FROM sales WHERE date >= '2024-01-01';
+
 This query automatically prunes unnecessary partitions.
-Summary:
-Optimize Spark jobs using Delta Lake, caching, AQE, partitioning, and join optimizations.
-Caching vs. Persisting – Use cache() for small datasets, persist() for large ones.
-AQE improves performance by adjusting join strategies, pruning partitions, and reducing shuffle overhead.
-Join performance can be improved using broadcast joins, bucketed joins, and data skew handling.
-Partitioning should balance the number of partitions and file sizes for optimal performance.
-Would you like a real-world case study on performance tuning in Databricks? 🚀
+
 
 
  ## Databricks Notebooks and Workflows
@@ -381,169 +363,184 @@ You can schedule a Databricks notebook as a job using Databricks Workflows (form
 
 ✅ Steps to Schedule a Databricks Notebook as a Job:
 
-Go to Databricks UI → Workflows (Jobs) → Create Job.
-Click Add Task and select Notebook.
-Choose the notebook to run.
-Select the cluster for execution.
-Configure the schedule (daily, hourly, etc.).
-Click Create and enable email notifications if needed.
+* Go to Databricks UI → Workflows (Jobs) → Create Job.
+* Click Add Task and select Notebook.
+* Choose the notebook to run.
+* Select the cluster for execution.
+* Configure the schedule (daily, hourly, etc.).
+* Click Create and enable email notifications if needed.
+
+
 ✅ Using Databricks CLI to Schedule a Job:
 
-databricks jobs create --json '{
-  "name": "Daily Notebook Job",
-  "tasks": [{
-    "task_key": "run_notebook",
-    "notebook_task": {
-      "notebook_path": "/Users/myuser/ETL_notebook"
-    },
-    "new_cluster": {
-      "spark_version": "12.2.x-scala2.12",
-      "node_type_id": "Standard_DS3_v2",
-      "num_workers": 2
-    }
-  }]
-}'
+    databricks jobs create --json '{
+      "name": "Daily Notebook Job",
+      "tasks": [{
+        "task_key": "run_notebook",
+        "notebook_task": {
+          "notebook_path": "/Users/myuser/ETL_notebook"
+        },
+        "new_cluster": {
+          "spark_version": "12.2.x-scala2.12",
+          "node_type_id": "Standard_DS3_v2",
+          "num_workers": 2
+        }
+      }]
+    }'
+
+
 ✅ Using REST API to Schedule a Job:
 
 
-curl -X POST https://<databricks-instance>/api/2.1/jobs/create \
--H "Authorization: Bearer <token>" \
--H "Content-Type: application/json" \
--d '{
-  "name": "Scheduled_ETL",
-  "tasks": [{
-    "task_key": "my_task",
-    "notebook_task": { "notebook_path": "/Users/myuser/ETL_notebook" },
-    "new_cluster": { "num_workers": 2, "spark_version": "12.2.x-scala2.12" }
-  }]
-}'
+    curl -X POST https://<databricks-instance>/api/2.1/jobs/create \
+    -H "Authorization: Bearer <token>" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Scheduled_ETL",
+      "tasks": [{
+        "task_key": "my_task",
+        "notebook_task": { "notebook_path": "/Users/myuser/ETL_notebook" },
+        "new_cluster": { "num_workers": 2, "spark_version": "12.2.x-scala2.12" }
+      }]
+    }'
+
+
 ### 17. What are widgets in Databricks, and how can they be used?
 **Answer:**
 Widgets allow users to pass parameters dynamically into notebooks for interactive execution.
 
 ✅ Types of Widgets:
 
-text – Accepts a single string input.
-dropdown – Allows selection from a predefined list.
-combobox – Similar to a dropdown but allows user input.
-multiselect – Allows multiple values to be selected.
+* text – Accepts a single string input.
+* dropdown – Allows selection from a predefined list.
+* combobox – Similar to a dropdown but allows user input.
+* multiselect – Allows multiple values to be selected.
+
 ✅ Example: Creating Widgets in Databricks Notebooks
 
+    # Create a text widget for dynamic input
+    dbutils.widgets.text("input_param", "default_value", "Enter a Parameter")
 
-# Create a text widget for dynamic input
-dbutils.widgets.text("input_param", "default_value", "Enter a Parameter")
+    # Create a dropdown widget
+    dbutils.widgets.dropdown("job_type", "ETL", ["ETL", "ML", "Analytics"], "Select Job Type")
 
-# Create a dropdown widget
-dbutils.widgets.dropdown("job_type", "ETL", ["ETL", "ML", "Analytics"], "Select Job Type")
+    # Retrieve widget values
+    param_value = dbutils.widgets.get("input_param")
+    job_type = dbutils.widgets.get("job_type")
+    print(f"Input Parameter: {param_value}, Job Type: {job_type}")
 
-# Retrieve widget values
-param_value = dbutils.widgets.get("input_param")
-job_type = dbutils.widgets.get("job_type")
-
-print(f"Input Parameter: {param_value}, Job Type: {job_type}")
 ✅ Use Case: Passing Parameters in Scheduled Jobs
 
 Widgets allow passing dynamic values from Azure Data Factory or REST API when running notebooks.
+
 ### 18. How do you integrate Databricks with Azure Data Factory (ADF)?
 **Answer:**
 Azure Data Factory (ADF) can orchestrate Databricks by executing notebooks, JARs, or Python scripts.
 
 ✅ Steps to Integrate Databricks with ADF:
 
-Create an Azure Databricks Linked Service in ADF.
-Use "Databricks Notebook" or "Databricks Python" activity.
-Pass parameters to the notebook using ADF pipeline variables.
-Trigger Databricks jobs via ADF pipelines.
+* Create an Azure Databricks Linked Service in ADF.
+* Use "Databricks Notebook" or "Databricks Python" activity.
+* Pass parameters to the notebook using ADF pipeline variables.
+* Trigger Databricks jobs via ADF pipelines.
+
 ✅ Example: Running a Databricks Notebook in ADF
 
-Create a Linked Service in ADF to Databricks using:
-Access Token or Managed Identity authentication.
-Add a Databricks Notebook Activity in an ADF pipeline.
-Pass parameters dynamically:
-Define parameters in ADF pipeline → Notebook Activity → Parameters.
+* Create a Linked Service in ADF to Databricks using:
+* Access Token or Managed Identity authentication.
+* Add a Databricks Notebook Activity in an ADF pipeline.
+* Pass parameters dynamically:
+* Define parameters in ADF pipeline → Notebook Activity → Parameters.
+
 ✅ Example: Passing Parameters from ADF to Databricks Notebook
+    # Retrieve parameters passed from ADF
+    param1 = dbutils.widgets.get("param1")
+    param2 = dbutils.widgets.get("param2")
 
+    print(f"Received params: {param1}, {param2}")
 
-# Retrieve parameters passed from ADF
-param1 = dbutils.widgets.get("param1")
-param2 = dbutils.widgets.get("param2")
-
-print(f"Received params: {param1}, {param2}")
 ✅ Example: Calling Databricks Job from ADF Using REST API
 
+    curl -X POST https://<databricks-instance>/api/2.1/jobs/run-now \
+    -H "Authorization: Bearer <token>" \
+    -d '{
+      "job_id": 123,
+      "notebook_params": { "input_file": "data.csv", "table_name": "sales" }
+    }'
 
-curl -X POST https://<databricks-instance>/api/2.1/jobs/run-now \
--H "Authorization: Bearer <token>" \
--d '{
-  "job_id": 123,
-  "notebook_params": { "input_file": "data.csv", "table_name": "sales" }
-}'
 ### 19. What are the different cluster types in Databricks?
 **Answer:**
 Databricks provides four main cluster types depending on workload needs.
 
-Cluster Type	Description	Use Case
-Single Node	Runs on one machine (no workers)	ML models, small ETL jobs
-Standard	Supports multiple workers, auto-scaling	General-purpose workloads
-High Concurrency	Optimized for multi-user shared workloads	BI dashboards, SQL queries
-Job Clusters	Created per-job basis, auto-terminates	Scheduled jobs, ADF pipelines
+* Cluster Type	Description	Use Case
+* Single Node	Runs on one machine (no workers)	ML models, small ETL jobs
+* Standard	Supports multiple workers, auto-scaling	General-purpose workloads
+* High Concurrency	Optimized for multi-user shared workloads	BI dashboards, SQL queries
+* Job Clusters	Created per-job basis, auto-terminates	Scheduled jobs, ADF pipelines
+
 ✅ Example: Creating a Cluster Using REST API
 
+    curl -X POST https://<databricks-instance>/api/2.0/clusters/create \
+    -H "Authorization: Bearer <token>" \
+    -d '{
+      "cluster_name": "ETL-Cluster",
+      "spark_version": "12.2.x-scala2.12",
+      "node_type_id": "Standard_DS3_v2",
+      "num_workers": 2
+    }'
 
-curl -X POST https://<databricks-instance>/api/2.0/clusters/create \
--H "Authorization: Bearer <token>" \
--d '{
-  "cluster_name": "ETL-Cluster",
-  "spark_version": "12.2.x-scala2.12",
-  "node_type_id": "Standard_DS3_v2",
-  "num_workers": 2
-}'
 ✅ Best Practices for Cluster Selection:
 
-Use High Concurrency Clusters for SQL analytics to reduce startup times.
-Use Job Clusters for ETL workflows to minimize costs.
-Enable Auto-Termination to prevent idle clusters from incurring charges.
+* Use High Concurrency Clusters for SQL analytics to reduce startup times.
+* Use Job Clusters for ETL workflows to minimize costs.
+* Enable Auto-Termination to prevent idle clusters from incurring charges.
+
 ### 20. How do you handle dependencies in a Databricks workflow?
 **Answer:**
 In Databricks Workflows, dependencies can be managed using:
 
-Library Management (pip install, Maven, DBFS storage).
-Task Dependencies in Workflows (define execution order).
-Databricks Repos (integrate with Git for version control).
+* Library Management (pip install, Maven, DBFS storage).
+* Task Dependencies in Workflows (define execution order).
+* Databricks Repos (integrate with Git for version control).
+
 ✅ 1. Handling Python Dependencies in Notebooks
 
 
-# Install required packages
-%pip install pandas numpy
+    # Install required packages
+    %pip install pandas numpy
 
-# Verify installation
-import pandas as pd
-import numpy as np
-print(pd.__version__, np.__version__)
+    # Verify installation
+    import pandas as pd
+    import numpy as np
+    print(pd.__version__, np.__version__)
+
 ✅ 2. Using Databricks Repos for Version Control
 
 
-# Clone a GitHub repo in Databricks
-databricks repos create --path /Repos/my_project --url https://github.com/user/repo.git
+    #Clone a GitHub repo in Databricks
+
+    databricks repos create --path /Repos/my_project --url https://github.com/user/repo.git
+
 ✅ 3. Setting Dependencies in Workflows
 
 Task A → Task B (dependent execution).
 Example: Load data before running transformations.
 
-{
-  "name": "ETL Workflow",
-  "tasks": [
     {
-      "task_key": "load_data",
-      "notebook_task": { "notebook_path": "/Users/load_data" }
-    },
-    {
-      "task_key": "transform_data",
-      "depends_on": [ { "task_key": "load_data" } ],
-      "notebook_task": { "notebook_path": "/Users/transform_data" }
+      "name": "ETL Workflow",
+      "tasks": [
+        {
+          "task_key": "load_data",
+          "notebook_task": { "notebook_path": "/Users/load_data" }
+        },
+        {
+          "task_key": "transform_data",
+          "depends_on": [ { "task_key": "load_data" } ],
+          "notebook_task": { "notebook_path": "/Users/transform_data" }
+        }
+      ]
     }
-  ]
-}
+
 ✅ 4. Uploading External JARs for Scala/PySpark Dependencies
 
 
