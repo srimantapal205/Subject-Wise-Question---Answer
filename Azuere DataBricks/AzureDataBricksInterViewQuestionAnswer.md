@@ -554,160 +554,158 @@ Example: Load data before running transformations.
 **Answer:**
 Databricks provides multiple access control mechanisms to secure data, notebooks, and clusters.
 
-✅ 1. Identity & Access Management (IAM)
+#### ✅ 1. Identity & Access Management (IAM)
 
-Uses Azure Active Directory (AAD) or AWS IAM for authentication.
-Supports Single Sign-On (SSO) via SAML, OAuth, and SCIM.
-Role-Based Access Control (RBAC) allows fine-grained permission management.
-✅ 2. Databricks Access Control Lists (ACLs)
++ Uses Azure Active Directory (AAD) or AWS IAM for authentication.
++ Supports Single Sign-On (SSO) via SAML, OAuth, and SCIM.
++ Role-Based Access Control (RBAC) allows fine-grained permission management.
 
-Controls workspace permissions (read/write/execute).
-Manages cluster access (who can attach, restart, or manage clusters).
-Defines notebook permissions (view/edit/run/manage).
-✅ 3. Table & Data Access Controls (Unity Catalog)
+#### ✅ 2. Databricks Access Control Lists (ACLs)
 
-Provides centralized data governance for Databricks.
-Uses catalog-level, schema-level, and table-level permissions.
-Enforces row-level and column-level security.
-✅ 4. Network Security
++ Controls workspace permissions (read/write/execute).
++ Manages cluster access (who can attach, restart, or manage clusters).
++ Defines notebook permissions (view/edit/run/manage).
 
-Supports Private Link for secure connections between Databricks and Azure/AWS services.
-Restricts IP-based access via Cluster Policies & Network Security Groups (NSGs).
-Uses VPC/VNet peering for secure internal networking.
-✅ 5. Cluster Policies for Governance
+#### ✅ 3. Table & Data Access Controls (Unity Catalog)
 
-Defines who can create clusters and what configurations they can use.
-Enforces resource limits (number of nodes, instance types).
-✅ 6. Data Masking & Tokenization
++ Provides centralized data governance for Databricks.
++ Uses catalog-level, schema-level, and table-level permissions.
++ Enforces row-level and column-level security.
 
-Uses Dynamic Views in Unity Catalog to mask sensitive data.
-Supports tokenization to replace PII with pseudonyms.
+#### ✅ 4. Network Security
+
++ Supports Private Link for secure connections between Databricks and Azure/AWS services.
++ Restricts IP-based access via Cluster Policies & Network Security Groups (NSGs).
++ Uses VPC/VNet peering for secure internal networking.
+#### ✅ 5. Cluster Policies for Governance
+
++ Defines who can create clusters and what configurations they can use.
++ Enforces resource limits (number of nodes, instance types).
+
+#### ✅ 6. Data Masking & Tokenization
+
++ Uses Dynamic Views in Unity Catalog to mask sensitive data.
++ Supports tokenization to replace PII with pseudonyms.
+
 ### 22. How does Databricks handle data encryption and security?
 **Answer:**
 Databricks encrypts data at rest and in transit using industry-standard security.
 
-✅ 1. Encryption at Rest
+#### ✅ 1. Encryption at Rest
 
 Uses AES-256 encryption for DBFS (Databricks File System), Delta Lake, and metadata.
 Allows Customer-Managed Keys (CMK) for additional security in Azure Key Vault or AWS KMS.
-✅ 2. Encryption in Transit
+#### ✅ 2. Encryption in Transit
 
 All data transfers use TLS 1.2+ encryption.
 Supports encrypted connections for JDBC/ODBC, APIs, and notebooks.
-✅ 3. Secure Data Sharing
+#### ✅ 3. Secure Data Sharing
 
 Unity Catalog enables secure data sharing across workspaces and accounts.
 Supports fine-grained access control (row-level, column-level security).
-✅ 4. Secret Management
+#### ✅ 4. Secret Management
 
 Uses Databricks Secrets to securely store credentials, API keys, and connection strings.
 Secrets can be fetched using environment variables in notebooks.
 ✅ Example: Using Databricks Secrets for Secure Authentication
 
+**Retrieve secret value from Databricks Secrets**
+    db_password = dbutils.secrets.get(scope="my_scope", key="db_password")
 
-# Retrieve secret value from Databricks Secrets
-db_password = dbutils.secrets.get(scope="my_scope", key="db_password")
+**Use the secret in a database connection**
+    jdbc_url = f"jdbc:mysql://mydbserver.com:3306/mydb?user=admin&password={db_password}"
 
-# Use the secret in a database connection
-jdbc_url = f"jdbc:mysql://mydbserver.com:3306/mydb?user=admin&password={db_password}"
-✅ 5. Data Masking & Anonymization
+#### ✅ 5. Data Masking & Anonymization
 
 Uses Dynamic Views to enforce masking on sensitive data.
 ✅ Example: Data Masking with Unity Catalog
 
+    CREATE VIEW masked_view AS
+    SELECT 
+      user_id, 
+      CASE WHEN current_user() = 'admin' THEN ssn ELSE 'XXX-XX-XXXX' END AS masked_ssn
+    FROM customers;
 
-CREATE VIEW masked_view AS
-SELECT 
-  user_id, 
-  CASE WHEN current_user() = 'admin' THEN ssn ELSE 'XXX-XX-XXXX' END AS masked_ssn
-FROM customers;
 ### 23. What is Unity Catalog and its benefits in Databricks?
 **Answer:**
 Unity Catalog is Databricks' unified governance layer for managing data access, security, and lineage.
 
-✅ Key Benefits of Unity Catalog:
+#### ✅ Key Benefits of Unity Catalog:
 
-Centralized Access Control:
-Manages permissions across workspaces, tables, schemas, and catalogs.
-Fine-Grained Permissions:
-Supports row-level & column-level security with Attribute-Based Access Control (ABAC).
-Data Lineage Tracking:
-Tracks how data is created, transformed, and consumed across Databricks.
-Secure Data Sharing (Delta Sharing):
-Allows cross-account sharing of Delta tables without copying data.
-Multi-Cloud Support:
-Works across Azure, AWS, and GCP, providing unified governance.
+**1. Centralized Access Control:** Manages permissions across workspaces, tables, schemas, and catalogs.
+**1. Fine-Grained Permissions:** Supports row-level & column-level security with Attribute-Based Access Control (ABAC).
+**1. Data Lineage Tracking:** Tracks how data is created, transformed, and consumed across Databricks.
+**1. Secure Data Sharing (Delta Sharing):** Allows cross-account sharing of Delta tables without copying data.
+**1. Multi-Cloud Support:** Works across Azure, AWS, and GCP, providing unified governance.
+
 ✅ Example: Creating a Table in Unity Catalog
 
+    CREATE TABLE catalog_name.schema_name.sales_data (
+      order_id STRING,
+      customer_name STRING,
+      amount DECIMAL(10,2)
+    );
 
-CREATE TABLE catalog_name.schema_name.sales_data (
-  order_id STRING,
-  customer_name STRING,
-  amount DECIMAL(10,2)
-);
 ✅ Example: Granting Table-Level Permissions in Unity Catalog
 
+    GRANT SELECT ON TABLE catalog_name.schema_name.sales_data TO user1;
 
-GRANT SELECT ON TABLE catalog_name.schema_name.sales_data TO user1;
 ✅ Example: Enabling Row-Level Security in Unity Catalog
 
+    CREATE VIEW sales_data_filtered AS
+    SELECT * FROM sales_data WHERE region = current_user();
 
-CREATE VIEW sales_data_filtered AS
-SELECT * FROM sales_data WHERE region = current_user();
+
 ### 24. How do you implement row-level and column-level security in Databricks?
 **Answer:**
 Row-level and column-level security (RLS & CLS) can be implemented using Unity Catalog Dynamic Views.
 
-✅ 1. Implementing Row-Level Security (RLS)
+#### ✅ 1. Implementing Row-Level Security (RLS)
 
 Uses Dynamic Views to restrict access based on user identity.
 
-CREATE VIEW sales_filtered AS
-SELECT *
-FROM sales_data
-WHERE region = current_user();
+    CREATE VIEW sales_filtered AS
+    SELECT *
+    FROM sales_data
+    WHERE region = current_user();
+
 Example Use Case: Only users belonging to a region can see their own data.
-✅ 2. Implementing Column-Level Security (CLS)
+
+#### ✅ 2. Implementing Column-Level Security (CLS)
 
 Uses Dynamic Views to hide/mask sensitive columns.
 
-CREATE VIEW masked_customers AS
-SELECT 
-  customer_id, 
-  name, 
-  CASE WHEN current_user() IN ('admin', 'finance') THEN ssn ELSE 'XXX-XX-XXXX' END AS masked_ssn
-FROM customers;
+    CREATE VIEW masked_customers AS
+    SELECT 
+      customer_id, 
+      name, 
+      CASE WHEN current_user() IN ('admin', 'finance') THEN ssn ELSE 'XXX-XX-XXXX' END AS masked_ssn
+    FROM customers;
+  
 Example Use Case: Only admins and finance teams can see SSNs.
-✅ 3. Combining RLS & CLS
 
+#### ✅ 3. Combining RLS & CLS
 
-CREATE VIEW sales_secured AS
-SELECT 
-  order_id, 
-  amount, 
-  CASE 
-    WHEN current_user() = 'finance_manager' THEN customer_name 
-    ELSE 'Hidden' 
-  END AS customer_name
-FROM sales_data
-WHERE region = current_user();
-Example Use Case:
-Finance Managers can see customer names.
-Regular users only see their region's data.
-✅ 4. Using Attribute-Based Access Control (ABAC)
+    CREATE VIEW sales_secured AS
+    SELECT 
+      order_id, 
+      amount, 
+      CASE 
+        WHEN current_user() = 'finance_manager' THEN customer_name 
+        ELSE 'Hidden' 
+      END AS customer_name
+    FROM sales_data
+    WHERE region = current_user();
+**Example Use Case:**
++ Finance Managers can see customer names.
++ Regular users only see their region's data.
+
+#### ✅ 4. Using Attribute-Based Access Control (ABAC)
 
 ABAC allows fine-grained control based on user attributes (e.g., job title, department).
 
-GRANT SELECT ON TABLE sales_data TO user WHERE department = 'finance';
-Final Summary:
-Security Feature	Description
-RBAC (Role-Based Access Control)	Controls access to notebooks, clusters, and jobs
-Unity Catalog	Centralized governance for data security
-Table, Row & Column-Level Security	Restricts access at table, row, and column levels
-Data Encryption	Uses AES-256 for data at rest and TLS for data in transit
-Secrets Management	Stores API keys, passwords securely
-Data Masking & Dynamic Views	Masks PII data based on user roles
-Would you like a hands-on implementation guide for Unity Catalog governance? 🚀
+    GRANT SELECT ON TABLE sales_data TO user WHERE department = 'finance';
+
 
 
 ## Integrations & Connectivity
