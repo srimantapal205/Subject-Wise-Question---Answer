@@ -839,25 +839,35 @@ Would you like a step-by-step guide on setting up a data pipeline using Databric
 Debugging performance issues in Databricks involves identifying bottlenecks in data processing, execution plans, cluster configuration, and memory usage.
 
 ✅ Step 1: Check Spark UI for Job Execution Details
-Databricks Spark UI provides job, stage, and task breakdowns.
-Look at shuffle read/write, task duration, and DAG visualization.
-Identify skewed partitions, excessive shuffling, and slow stages.
+
++ Databricks Spark UI provides job, stage, and task breakdowns.
++ Look at shuffle read/write, task duration, and DAG visualization.
++ Identify skewed partitions, excessive shuffling, and slow stages.
+
+
 ✅ Step 2: Use Query Execution Plan (explain() & explain(True))
 
-df.explain(True)  # Shows physical and logical execution plan
+    df.explain(True)  # Shows physical and logical execution plan
+
 Look for "Exchange" (Shuffle) and "SortMergeJoin" (Expensive Joins).
+
 Convert SortMergeJoin to Broadcast Join if one dataset is small.
 
-df_large.join(broadcast(df_small), "id", "inner")
+    df_large.join(broadcast(df_small), "id", "inner")
+
 ✅ Step 3: Optimize Spark Configurations
 
-spark.conf.set("spark.sql.shuffle.partitions", "200")  # Adjust partitions dynamically
-spark.conf.set("spark.sql.autoBroadcastJoinThreshold", "10MB")  # Optimize broadcast joins
+    spark.conf.set("spark.sql.shuffle.partitions", "200")  # Adjust partitions dynamically
+    spark.conf.set("spark.sql.autoBroadcastJoinThreshold", "10MB")  # Optimize broadcast joins
+
 ✅ Step 4: Monitor Cluster Metrics
+
 Use Ganglia Metrics UI (/driver-profiles/) to check CPU, memory, and garbage collection.
+
 Enable adaptive query execution (AQE) to optimize partitions dynamically.
 
-spark.conf.set("spark.sql.adaptive.enabled", "true")
+
+    spark.conf.set("spark.sql.adaptive.enabled", "true")
 
 ✅ Step 5: Cache Intermediate DataFrames
 
