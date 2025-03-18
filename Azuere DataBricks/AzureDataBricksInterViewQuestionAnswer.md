@@ -859,42 +859,48 @@ Enable adaptive query execution (AQE) to optimize partitions dynamically.
 
 spark.conf.set("spark.sql.adaptive.enabled", "true")
 ✅ Step 5: Cache Intermediate DataFrames
-Recompute cost can be high; use cache() or persist() for reused DataFrames.
 
-df.persist()  # Default: StorageLevel.MEMORY_AND_DISK
-Drop cache after use to free memory:
++ Recompute cost can be high; use cache() or persist() for reused DataFrames.
+    df.persist()  # Default: StorageLevel.MEMORY_AND_DISK
 
-df.unpersist()
++ Drop cache after use to free memory:
+    df.unpersist()
 ✅ Step 6: Use Delta Lake for Faster Queries
-Convert CSV/Parquet to Delta for better performance.
 
-df.write.format("delta").mode("overwrite").save("/mnt/delta/sales")
-Enable Delta Caching
++ Convert CSV/Parquet to Delta for better performance.
 
-spark.conf.set("spark.databricks.io.cache.enabled", "true")
+    df.write.format("delta").mode("overwrite").save("/mnt/delta/sales")
+
++ Enable Delta Caching
+
+    spark.conf.set("spark.databricks.io.cache.enabled", "true")
+
 ### 30. What are some common errors in Spark and their resolutions?
 **Answer:**
 
-Error	Cause	Resolution
-OutOfMemoryError (OOM) in Driver	Large data collected using .collect()	Use .show(), .limit(), or .take() instead of .collect()
-Job Aborted due to Stage Failure	Skewed partitions, too many shuffles	Enable Adaptive Query Execution (AQE), repartition skewed data
-GC Overhead Limit Exceeded	Too many small partitions causing excessive garbage collection	Increase executor memory, optimize shuffle partitions
-Task Not Serializable Exception	UDF or lambda function is not serializable	Avoid passing class objects in UDFs, use built-in functions
-FileNotFoundException (for Delta tables)	Delta transaction log corrupted	Run VACUUM and FSCK commands to clean up Delta files
+##### Error	Cause	Resolution:
+* OutOfMemoryError (OOM) in Driver	Large data collected using .collect()	Use .show(), .limit(), or .take() instead of .collect()
+* Job Aborted due to Stage Failure	Skewed partitions, too many shuffles	Enable Adaptive Query Execution (AQE), repartition skewed data
+* GC Overhead Limit Exceeded	Too many small partitions causing excessive garbage collection	Increase executor memory, optimize shuffle partitions
+* Task Not Serializable Exception	UDF or lambda function is not serializable	Avoid passing class objects in UDFs, use built-in functions
+* FileNotFoundException (for Delta tables)	Delta transaction log corrupted	Run VACUUM and FSCK commands to clean up Delta files
+
 ✅ Example: Avoiding OOM with DataFrame Operations
+
 ❌ Bad Practice: Collecting large DataFrame into driver memory
 
 
-data = df.collect()  # Might cause OutOfMemoryError
+    data = df.collect()  # Might cause OutOfMemoryError
+
 ✅ Best Practice: Using .show() or .take()
+    df.show(10)
+    small_data = df.limit(100).collect()
 
-
-df.show(10)
-small_data = df.limit(100).collect()
 ✅ Example: Fixing "Job Aborted due to Stage Failure"
 
-spark.conf.set("spark.sql.adaptive.enabled", "true")  # Enable AQE
-df = df.repartition(100)  # Reduce shuffle partitions
+    spark.conf.set("spark.sql.adaptive.enabled", "true")  # Enable AQE
+    df = df.repartition(100)  # Reduce shuffle partitions
+
 ### 31. How do you monitor Databricks jobs and logs?
 **Answer:**
 Databricks provides multiple ways to monitor jobs and logs.
