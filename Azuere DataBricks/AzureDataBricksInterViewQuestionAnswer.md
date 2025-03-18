@@ -42,7 +42,7 @@ Databricks has several key components that enable efficient big data processing:
 | Streaming Support	| Yes, via Structured Streaming	| Limited|
 | ML & AI Support	| Strong MLflow integration| 	Basic ML capabilities|
 
-4. What is the role of Databricks Workflows (formerly Jobs) in automation?|
+### 4. What is the role of Databricks Workflows (formerly Jobs) in automation?|
 **Answer:**
 
 Databricks Workflows (previously known as Jobs) enable automation and scheduling of ETL pipelines, data transformations, machine learning training, and batch processing.
@@ -67,7 +67,7 @@ Example: Running a Databricks Job using the CLI
 
 databricks jobs run-now --job-id 1234
 
-5. How does Databricks handle cluster management and auto-scaling?
+### 5. How does Databricks handle cluster management and auto-scaling?
 **Answer:**
 
 Databricks offers intelligent cluster management and auto-scaling to optimize costs and performance.
@@ -80,7 +80,7 @@ Databricks offers intelligent cluster management and auto-scaling to optimize co
 - **High Concurrency Mode:** Supports multiple users running jobs simultaneously.
 - **Auto-Scaling Example:** When processing high volumes of data, Databricks automatically adds more nodes to improve performance. Once the job is completed, it removes excess nodes to save costs.
 
-1. How do you read and write data in Databricks using different formats (CSV, Parquet, Delta Lake)?
+### 6. How do you read and write data in Databricks using different formats (CSV, Parquet, Delta Lake)?
 **Answer:**
 
 Databricks supports multiple file formats for reading and writing data, including CSV, Parquet, and Delta Lake.
@@ -108,7 +108,7 @@ df.write.format("parquet").save("/mnt/output/sample.parquet")
 ### Write as Delta Lake
 df.write.format("delta").mode("overwrite").save("/mnt/output/sample-delta")
 
-2. What is Delta Lake, and how does it enhance data reliability in Databricks?
+### 7. What is Delta Lake, and how does it enhance data reliability in Databricks?
 **Answer:**
 Delta Lake is an open-source storage layer that enhances data lakes by adding ACID transactions, schema enforcement, and time travel.
 
@@ -133,7 +133,7 @@ Data Compaction	✅ Yes	❌ No
 
 Performance	🚀 Faster (Optimized reads/writes)	⚡ Slower
 
-3. Explain ACID transactions in Delta Lake.
+### 8. Explain ACID transactions in Delta Lake.
 
 **Answer:**
 Delta Lake ensures data reliability with ACID transactions (Atomicity, Consistency, Isolation, Durability).
@@ -161,7 +161,7 @@ delta_table.alias("old") \
   .whenMatchedUpdate(set={"old.value": "new.value"}) \
   .whenNotMatchedInsert(values={"id": "new.id", "value": "new.value"}) \
   .execute()
-4. How does Databricks handle schema evolution in Delta Lake?
+### 9. How does Databricks handle schema evolution in Delta Lake?
 **Answer:**
 Delta Lake supports schema evolution, allowing changes in table structure without breaking existing data.
 
@@ -175,7 +175,7 @@ The mergeSchema option ensures new columns in incoming data are added to the exi
 
 
 ALTER TABLE delta.`/mnt/output/sample-delta` ADD COLUMNS (new_column STRING);
-5. What are the different ways to perform ETL in Databricks?
+### 10. What are the different ways to perform ETL in Databricks?
 **Answer:**
 Databricks provides multiple approaches to extract, transform, and load (ETL) data.
 
@@ -200,7 +200,7 @@ Databricks SQL	Perform ETL transformations using SQL queries.
       .option("checkpointLocation", "/mnt/checkpoints") \
       .start("/mnt/processed-data")
 
-### How do you optimize Spark jobs in Databricks?
+### 11. How do you optimize Spark jobs in Databricks?
 **Answer:**
 Optimizing Spark jobs in Databricks involves multiple techniques to reduce execution time and improve resource utilization.
 
@@ -231,7 +231,7 @@ Optimize Garbage Collection (GC) – Use Executor Memory Tuning (spark.memory.fr
 
 spark.conf.set("spark.sql.adaptive.enabled", "true")
 
-### 2. Explain caching and persist operations in Spark.
+### 12. Explain caching and persist operations in Spark.
 **Answer:**
 
 Caching and persistence store frequently accessed RDDs or DataFrames in memory/disk to speed up computations.
@@ -271,7 +271,7 @@ MEMORY_AND_DISK_SER	Serialized storage, saves memory but increases CPU usage.
   from pyspark import StorageLevel
   df.persist(StorageLevel.MEMORY_AND_DISK)  # Stores in both memory and disk
 
-### 3. What is Adaptive Query Execution (AQE) in Spark, and how does it help?
+### 13. What is Adaptive Query Execution (AQE) in Spark, and how does it help?
 **Answer:**
 Adaptive Query Execution (AQE) dynamically optimizes query plans at runtime based on data characteristics.
 
@@ -299,7 +299,7 @@ Coalescing Shuffle Partitions – Reduces shuffle overhead for better performanc
 
 AQE automatically prunes unnecessary partitions, reducing the amount of data scanned.
 
-### 4. How can you improve the performance of joins in Spark?
+### 14. How can you improve the performance of joins in Spark?
 **Answer:**
 
 Joins can be expensive in Spark due to shuffle operations. The following techniques help optimize joins:
@@ -335,7 +335,7 @@ df_large.join(df_small, ["id", "salt"])
 spark.conf.set("spark.sql.shuffle.partitions", "200")
 (Default is 200, can be adjusted based on dataset size.)
 
-5. What are some best practices for partitioning data in Databricks?
+### 15. What are some best practices for partitioning data in Databricks?
 **Answer:**
 Partitioning helps improve query performance by allowing Spark to scan only relevant partitions.
 
@@ -375,7 +375,7 @@ Would you like a real-world case study on performance tuning in Databricks? 🚀
 
  ## Databricks Notebooks and Workflows
 
-1. How do you schedule a Databricks notebook as a job?
+### 16. How do you schedule a Databricks notebook as a job?
 **Answer:**
 You can schedule a Databricks notebook as a job using Databricks Workflows (formerly Jobs).
 
@@ -417,7 +417,7 @@ curl -X POST https://<databricks-instance>/api/2.1/jobs/create \
     "new_cluster": { "num_workers": 2, "spark_version": "12.2.x-scala2.12" }
   }]
 }'
-2. What are widgets in Databricks, and how can they be used?
+### 17. What are widgets in Databricks, and how can they be used?
 **Answer:**
 Widgets allow users to pass parameters dynamically into notebooks for interactive execution.
 
@@ -444,7 +444,7 @@ print(f"Input Parameter: {param_value}, Job Type: {job_type}")
 ✅ Use Case: Passing Parameters in Scheduled Jobs
 
 Widgets allow passing dynamic values from Azure Data Factory or REST API when running notebooks.
-3. How do you integrate Databricks with Azure Data Factory (ADF)?
+### 18. How do you integrate Databricks with Azure Data Factory (ADF)?
 **Answer:**
 Azure Data Factory (ADF) can orchestrate Databricks by executing notebooks, JARs, or Python scripts.
 
@@ -478,7 +478,7 @@ curl -X POST https://<databricks-instance>/api/2.1/jobs/run-now \
   "job_id": 123,
   "notebook_params": { "input_file": "data.csv", "table_name": "sales" }
 }'
-4. What are the different cluster types in Databricks?
+### 19. What are the different cluster types in Databricks?
 **Answer:**
 Databricks provides four main cluster types depending on workload needs.
 
@@ -503,7 +503,7 @@ curl -X POST https://<databricks-instance>/api/2.0/clusters/create \
 Use High Concurrency Clusters for SQL analytics to reduce startup times.
 Use Job Clusters for ETL workflows to minimize costs.
 Enable Auto-Termination to prevent idle clusters from incurring charges.
-5. How do you handle dependencies in a Databricks workflow?
+### 20. How do you handle dependencies in a Databricks workflow?
 **Answer:**
 In Databricks Workflows, dependencies can be managed using:
 
@@ -550,7 +550,7 @@ Example: Load data before running transformations.
 
 ## Security & Access Control
 
-1. What are the different ways to manage access control in Databricks?
+### 21. What are the different ways to manage access control in Databricks?
 **Answer:**
 Databricks provides multiple access control mechanisms to secure data, notebooks, and clusters.
 
@@ -582,7 +582,7 @@ Enforces resource limits (number of nodes, instance types).
 
 Uses Dynamic Views in Unity Catalog to mask sensitive data.
 Supports tokenization to replace PII with pseudonyms.
-2. How does Databricks handle data encryption and security?
+### 22. How does Databricks handle data encryption and security?
 **Answer:**
 Databricks encrypts data at rest and in transit using industry-standard security.
 
@@ -621,7 +621,7 @@ SELECT
   user_id, 
   CASE WHEN current_user() = 'admin' THEN ssn ELSE 'XXX-XX-XXXX' END AS masked_ssn
 FROM customers;
-3. What is Unity Catalog and its benefits in Databricks?
+### 23. What is Unity Catalog and its benefits in Databricks?
 **Answer:**
 Unity Catalog is Databricks' unified governance layer for managing data access, security, and lineage.
 
@@ -654,7 +654,7 @@ GRANT SELECT ON TABLE catalog_name.schema_name.sales_data TO user1;
 
 CREATE VIEW sales_data_filtered AS
 SELECT * FROM sales_data WHERE region = current_user();
-4. How do you implement row-level and column-level security in Databricks?
+### 24. How do you implement row-level and column-level security in Databricks?
 **Answer:**
 Row-level and column-level security (RLS & CLS) can be implemented using Unity Catalog Dynamic Views.
 
@@ -712,7 +712,7 @@ Would you like a hands-on implementation guide for Unity Catalog governance? �
 
 ## Integrations & Connectivity
 
-1. How do you connect Databricks to Azure Blob Storage?
+###  25. How do you connect Databricks to Azure Blob Storage?
 **Answer:**
 Databricks can connect to Azure Blob Storage using:
 
@@ -750,7 +750,7 @@ df = spark.read.csv("/mnt/myblob/<file-path>")
 df.show()
 Mounted storage is persistent across sessions but only accessible within the workspace.
 ABFS is preferred for higher performance and scalability.
-2. How can Databricks be integrated with external databases like Azure SQL Database?
+### 26. How can Databricks be integrated with external databases like Azure SQL Database?
 **Answer:**
 Databricks connects to Azure SQL Database using:
 
@@ -776,7 +776,7 @@ df.write \
 ✅ Method 3: Using Azure Data Factory (ADF)
 ADF orchestrates ETL pipelines from Databricks to Azure SQL.
 Uses Copy Activity or Databricks Notebook Activity.
-3. What is the difference between mounting storage in Databricks and using direct access?
+### 27. What is the difference between mounting storage in Databricks and using direct access?
 **Answer:**
 
 Feature	Mounting Storage (DBFS)	Direct Access (ABFS, WASBS)
@@ -786,7 +786,7 @@ Persistence	Persistent across sessions	Requires authentication every session
 Use Case	Good for interactive analysis	Best for big data processing
 ✅ Recommendation: Use ABFS for production and DBFS mount for ad-hoc analysis.
 
-4. How can you use Databricks connectors for Snowflake, AWS Redshift, or Google BigQuery?
+### 28. How can you use Databricks connectors for Snowflake, AWS Redshift, or Google BigQuery?
 **Answer:**
 Databricks provides built-in connectors for cloud data warehouses.
 
@@ -834,7 +834,7 @@ Would you like a step-by-step guide on setting up a data pipeline using Databric
 
 ## Troubleshooting & Debugging
 
-1. How do you debug performance issues in Databricks?
+### 29. How do you debug performance issues in Databricks?
 **Answer:**
 Debugging performance issues in Databricks involves identifying bottlenecks in data processing, execution plans, cluster configuration, and memory usage.
 
@@ -872,7 +872,7 @@ df.write.format("delta").mode("overwrite").save("/mnt/delta/sales")
 Enable Delta Caching
 
 spark.conf.set("spark.databricks.io.cache.enabled", "true")
-2. What are some common errors in Spark and their resolutions?
+### 30. What are some common errors in Spark and their resolutions?
 **Answer:**
 
 Error	Cause	Resolution
@@ -895,7 +895,7 @@ small_data = df.limit(100).collect()
 
 spark.conf.set("spark.sql.adaptive.enabled", "true")  # Enable AQE
 df = df.repartition(100)  # Reduce shuffle partitions
-3. How do you monitor Databricks jobs and logs?
+### 31. How do you monitor Databricks jobs and logs?
 **Answer:**
 Databricks provides multiple ways to monitor jobs and logs.
 
@@ -931,10 +931,13 @@ print(response.json())
 ✅ 6. Use Databricks Metrics for Auto-Scaling Monitoring
 
 spark.conf.set("spark.databricks.cluster.metrics.enabled", "true")
+
 Monitors CPU, Memory, and Disk Usage dynamically.
-Final Summary
-Troubleshooting Area	Key Techniques
-Performance Optimization	Use Spark UI, AQE, Broadcast Joins, and Caching
-Common Errors	Fix OOM, Stage Failures, GC issues, Serialization Errors
-Monitoring	Check Databricks Job UI, Spark UI, Logs, and REST API
-Would you like a hands-on example notebook for performance debugging and monitoring? 🚀
+
++ Final Summary:
+
+* Troubleshooting Area	Key Techniques
+* Performance Optimization	Use Spark UI, AQE, Broadcast Joins, and Caching
+* Common Errors	Fix OOM, Stage Failures, GC issues, Serialization Errors
+* Monitoring	Check Databricks Job UI, Spark UI, Logs, and REST API
+* Would you like a hands-on example notebook for performance debugging and monitoring? 🚀
