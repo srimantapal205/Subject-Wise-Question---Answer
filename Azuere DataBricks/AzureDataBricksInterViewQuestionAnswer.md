@@ -87,26 +87,26 @@ Databricks supports multiple file formats for reading and writing data, includin
 
 ✅ Reading Data
 
-### Read CSV file
-df_csv = spark.read.format("csv").option("header", "true").load("/mnt/data/sample.csv")
+    # Read CSV file
+    df_csv = spark.read.format("csv").option("header", "true").load("/mnt/data/sample.csv")
 
-### Read Parquet file
-df_parquet = spark.read.format("parquet").load("/mnt/data/sample.parquet")
+    # Read Parquet file
+    df_parquet = spark.read.format("parquet").load("/mnt/data/sample.parquet")
 
-### Read Delta Lake table
-df_delta = spark.read.format("delta").load("/mnt/data/sample-delta")
+    # Read Delta Lake table
+    df_delta = spark.read.format("delta").load("/mnt/data/sample-delta")
 
 ✅ Writing Data
 
 
-### Write as CSV
-df.write.format("csv").option("header", "true").save("/mnt/output/sample.csv")
+    # Write as CSV
+    df.write.format("csv").option("header", "true").save("/mnt/output/sample.csv")
 
-### Write as Parquet
-df.write.format("parquet").save("/mnt/output/sample.parquet")
+    # Write as Parquet
+    df.write.format("parquet").save("/mnt/output/sample.parquet")
 
-### Write as Delta Lake
-df.write.format("delta").mode("overwrite").save("/mnt/output/sample-delta")
+    # Write as Delta Lake
+    df.write.format("delta").mode("overwrite").save("/mnt/output/sample-delta")
 
 ### 7. What is Delta Lake, and how does it enhance data reliability in Databricks?
 **Answer:**
@@ -114,67 +114,61 @@ Delta Lake is an open-source storage layer that enhances data lakes by adding AC
 
 ✅ Key Features of Delta Lake:
 
-ACID Transactions – Ensures data consistency even with concurrent writes.
-Schema Enforcement & Evolution – Prevents corrupt data from being inserted.
-Time Travel – Allows rollback to previous versions of data.
-Data Compaction – Merges small files to improve read performance.
-Scalability – Works on cloud storage (Azure, AWS, GCP).
+* ACID Transactions – Ensures data consistency even with concurrent writes.
+* Schema Enforcement & Evolution – Prevents corrupt data from being inserted.
+* Time Travel – Allows rollback to previous versions of data.
+* Data Compaction – Merges small files to improve read performance.
+* Scalability – Works on cloud storage (Azure, AWS, GCP).
+
 ✅ Delta Lake vs. Parquet Comparison:
 
-Feature	Delta Lake	Parquet
-
-ACID Transactions	✅ Yes	❌ No
-
-Schema Evolution	✅ Yes	❌ No
-
-Time Travel	✅ Yes	❌ No
-
-Data Compaction	✅ Yes	❌ No
-
-Performance	🚀 Faster (Optimized reads/writes)	⚡ Slower
+* Feature	Delta Lake	Parquet
+* ACID Transactions	✅ Yes	❌ No
+* Schema Evolution	✅ Yes	❌ No
+* Time Travel	✅ Yes	❌ No
+* Data Compaction	✅ Yes	❌ No
+* Performance	🚀 Faster (Optimized reads/writes)	⚡ Slower
 
 ### 8. Explain ACID transactions in Delta Lake.
 
 **Answer:**
 Delta Lake ensures data reliability with ACID transactions (Atomicity, Consistency, Isolation, Durability).
 
-🔹 Atomicity – A transaction is either fully completed or fully rolled back.
-
-🔹 Consistency – Ensures that data adheres to predefined constraints.
-
-🔹 Isolation – Concurrent transactions do not interfere with each other.
-
-🔹 Durability – Once committed, the changes are permanent.
+**🔹 Atomicity** – A transaction is either fully completed or fully rolled back.
+**🔹 Consistency** – Ensures that data adheres to predefined constraints.
+**🔹 Isolation** – Concurrent transactions do not interfere with each other.
+**🔹 Durability** – Once committed, the changes are permanent.
 
 
 ✅ Example: Writing data with ACID transactions in Delta Lake
 
 
-from delta.tables import DeltaTable
-from pyspark.sql.functions import *
+      from pyspark.sql.functions import *
+      from delta.tables import DeltaTable
 
-delta_table = DeltaTable.forPath(spark, "/mnt/output/sample-delta")
+      delta_table = DeltaTable.forPath(spark, "/mnt/output/sample-delta")
 
-# Upsert new records (Merge Operation)
-delta_table.alias("old") \
-  .merge(df_new.alias("new"), "old.id = new.id") \
-  .whenMatchedUpdate(set={"old.value": "new.value"}) \
-  .whenNotMatchedInsert(values={"id": "new.id", "value": "new.value"}) \
-  .execute()
+      # Upsert new records (Merge Operation)
+      delta_table.alias("old") \
+        .merge(df_new.alias("new"), "old.id = new.id") \
+        .whenMatchedUpdate(set={"old.value": "new.value"}) \
+        .whenNotMatchedInsert(values={"id": "new.id", "value": "new.value"}) \
+        .execute()
+
 ### 9. How does Databricks handle schema evolution in Delta Lake?
 **Answer:**
 Delta Lake supports schema evolution, allowing changes in table structure without breaking existing data.
 
 ✅ Handling Schema Evolution Automatically:
 
+    df_new.write.format("delta").mode("append").option("mergeSchema", "true").save("/mnt/output/sample-delta")
 
-df_new.write.format("delta").mode("append").option("mergeSchema", "true").save("/mnt/output/sample-delta")
 The mergeSchema option ensures new columns in incoming data are added to the existing schema.
 
 ✅ Example: Schema Evolution with ALTER TABLE:
+    
+    ALTER TABLE delta.`/mnt/output/sample-delta` ADD COLUMNS (new_column STRING);
 
-
-ALTER TABLE delta.`/mnt/output/sample-delta` ADD COLUMNS (new_column STRING);
 ### 10. What are the different ways to perform ETL in Databricks?
 **Answer:**
 Databricks provides multiple approaches to extract, transform, and load (ETL) data.
