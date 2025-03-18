@@ -913,26 +913,26 @@ Shows Shuffle Read/Write, Task execution time, and failed tasks.
 
 ✅ 3. Logging in Notebooks (stdout and stderr)
 
-  import logging
-  logging.basicConfig(level=logging.INFO)
-  logger = logging.getLogger(__name__)
-  logger.info("Processing started...")
+    import logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    logger.info("Processing started...")
 
 ✅ 4. Enable Cluster Event Logs
 
 Databricks logs cluster events under "Event Log" (includes auto-scaling, node failures).
 
 + Logs can be accessed using dbutils.fs:
-  dbutils.fs.head("dbfs:/cluster-logs/<cluster-id>/driver.log", 100)
+    dbutils.fs.head("dbfs:/cluster-logs/<cluster-id>/driver.log", 100)
 
 ✅ 5. Monitor Jobs via REST API
 
-  import requests
-  token = "<databricks-token>"
-  workspace_url = "https://<databricks-instance>"
-  headers = {"Authorization": f"Bearer {token}"}
-  response = requests.get(f"{workspace_url}/api/2.0/jobs/runs/list", headers=headers)
-  print(response.json())
+    import requests
+    token = "<databricks-token>"
+    workspace_url = "https://<databricks-instance>"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get(f"{workspace_url}/api/2.0/jobs/runs/list", headers=headers)
+    print(response.json())
 
 
 ✅ 6. Use Databricks Metrics for Auto-Scaling Monitoring
