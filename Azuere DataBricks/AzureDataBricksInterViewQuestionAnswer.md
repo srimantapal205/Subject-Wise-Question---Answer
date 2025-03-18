@@ -900,37 +900,44 @@ df = df.repartition(100)  # Reduce shuffle partitions
 Databricks provides multiple ways to monitor jobs and logs.
 
 ✅ 1. Databricks Job UI (Jobs > Run Output)
+
 Shows Job execution history, logs, and error messages.
+
 Provides timing details for each stage and task.
+
 ✅ 2. Spark UI (Clusters > Spark UI)
+
 Provides execution plan visualization (DAG).
+
 Shows Shuffle Read/Write, Task execution time, and failed tasks.
+
 ✅ 3. Logging in Notebooks (stdout and stderr)
 
-import logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+  import logging
+  logging.basicConfig(level=logging.INFO)
+  logger = logging.getLogger(__name__)
+  logger.info("Processing started...")
 
-logger.info("Processing started...")
 ✅ 4. Enable Cluster Event Logs
-Databricks logs cluster events under "Event Log" (includes auto-scaling, node failures).
-Logs can be accessed using dbutils.fs:
 
-dbutils.fs.head("dbfs:/cluster-logs/<cluster-id>/driver.log", 100)
+Databricks logs cluster events under "Event Log" (includes auto-scaling, node failures).
+
++ Logs can be accessed using dbutils.fs:
+  dbutils.fs.head("dbfs:/cluster-logs/<cluster-id>/driver.log", 100)
+
 ✅ 5. Monitor Jobs via REST API
 
-import requests
+  import requests
+  token = "<databricks-token>"
+  workspace_url = "https://<databricks-instance>"
+  headers = {"Authorization": f"Bearer {token}"}
+  response = requests.get(f"{workspace_url}/api/2.0/jobs/runs/list", headers=headers)
+  print(response.json())
 
-token = "<databricks-token>"
-workspace_url = "https://<databricks-instance>"
 
-headers = {"Authorization": f"Bearer {token}"}
-response = requests.get(f"{workspace_url}/api/2.0/jobs/runs/list", headers=headers)
-
-print(response.json())
 ✅ 6. Use Databricks Metrics for Auto-Scaling Monitoring
 
-spark.conf.set("spark.databricks.cluster.metrics.enabled", "true")
+  spark.conf.set("spark.databricks.cluster.metrics.enabled", "true")
 
 Monitors CPU, Memory, and Disk Usage dynamically.
 
