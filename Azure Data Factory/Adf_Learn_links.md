@@ -136,3 +136,118 @@ Lecture: Triggers
 
 
 https://docs.microsoft.com/en-us/azure/data-factory/concepts-pipeline-execution-triggers
+
+
+Frequently Asked Questions - Please Read
+FAQ-1 - Wrong content being copied
+
+There are a handful of students who had difficultly copying data from https://github.com. The copy activity sometimes pulled the HTML page rather than the CSV file being requested to be copied across.
+
+This was resolved by using sourceBaseURL as https://raw.githubusercontent.com rather than https://github.com. So, please use the URL https://raw.githubusercontent.com if you come across this issue. Also ensure that the RelativeUrl is also changed to remove "raw" as below
+
+BaseUrl - https://raw.githubusercontent.com
+
+
+Useful Links & Resources
+Section: Data Flow – Cases & Deaths Data Transformation
+Lecture: Introduction to Data Flows
+
+
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/concepts-data-flow-overview
+
+
+
+Available Regions - https://docs.microsoft.com/en-us/azure/data-factory/concepts-data-flow-overview
+
+
+
+Lecture: Source Transformation
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-source
+
+
+
+Supported Source Type - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-source#supported-sources
+
+
+
+Inline Datasets - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-source#supported-sources
+
+
+
+Lecture: Filter Transformation
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-filter
+
+
+
+Expression Builder - https://docs.microsoft.com/en-us/azure/data-factory/concepts-data-flow-expression-builder
+
+
+
+Expression Language - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-expression-functions
+
+
+
+Lecture – Select Transformation
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-select
+
+
+
+Lecture - Pivot Transformation
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-pivot
+
+
+
+Lecture - Lookup Transformation
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-lookup
+
+
+
+Lecture – Sink Transformation
+
+
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-sink
+
+Supported Sink Types - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-sink
+
+
+
+Lecture – Create ADF Pipeline
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/control-flow-execute-data-flow-activity
+
+
+Useful Links & Resources
+Section: Data Flow - Hospital Admissions Data Transformation
+
+
+Lecture: Conditional Split Transformation
+
+
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-conditional-split
+
+
+
+Lecture: Derived Column Transformation
+
+
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-derived-column
+
+
+
+Lecture: Aggregate Transformation
+
+
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-aggregate
+
+
+
+Lecture: Join Transformation
+
+
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-join
+
+
+
+Lecture: Sort Transformation
+
+
+Overview - https://docs.microsoft.com/en-us/azure/data-factory/data-flow-sort
