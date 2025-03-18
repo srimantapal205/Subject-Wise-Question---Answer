@@ -2,7 +2,9 @@
 
 ### Question 1: What is Azure storage?
 
-**Answer:** Azure storage is a cloud-based storage solution provided by Microsoft. It allows users to store different types of data such as images, files, audio, video, and binary data on the cloud. This data can be accessed in various ways, including through a browser, programmatically, or using protocols like HTTPS and REST APIs. Azure storage supports access via PowerShell scripts and is designed for flexible and secure data handling.
+**Answer:** 
+
+Azure storage is a cloud-based storage solution provided by Microsoft. It allows users to store different types of data such as images, files, audio, video, and binary data on the cloud. This data can be accessed in various ways, including through a browser, programmatically, or using protocols like HTTPS and REST APIs. Azure storage supports access via PowerShell scripts and is designed for flexible and secure data handling.
  
 ### Question 2: What are the benefits of Azure storage?
 **Answer:** The benefits of Azure storage include:
