@@ -716,74 +716,88 @@ Would you like a hands-on implementation guide for Unity Catalog governance? �
 **Answer:**
 Databricks can connect to Azure Blob Storage using:
 
-ABFS (Azure Blob File System) via Azure Data Lake Storage Gen2
-SAS tokens, Access Keys, or Service Principal Authentication
-Mounting Blob Storage as a DBFS volume
++ ABFS (Azure Blob File System) via Azure Data Lake Storage Gen2
++ SAS tokens, Access Keys, or Service Principal Authentication
++ Mounting Blob Storage as a DBFS volume
+
 ✅ Method 1: Using ABFS (Recommended for ADLS Gen2)
 
-spark.conf.set(
-    "fs.azure.account.key.<storage-account-name>.dfs.core.windows.net",
-    "<your-storage-access-key>"
-)
+    spark.conf.set(
+        "fs.azure.account.key.<storage-account-name>.dfs.core.windows.net",
+        "<your-storage-access-key>"
+    )
 
-df = spark.read.csv("abfss://<container-name>@<storage-account-name>.dfs.core.windows.net/<file-path>")
-df.show()
+    df = spark.read.csv("abfss://<container-name>@<storage-account-name>.dfs.core.windows.net/<file-path>")
+    df.show()
+
 ✅ Method 2: Using SAS Token
 
-spark.conf.set(
-    "fs.azure.sas.<container-name>.<storage-account-name>.blob.core.windows.net",
-    "<sas-token>"
-)
+    spark.conf.set(
+        "fs.azure.sas.<container-name>.<storage-account-name>.blob.core.windows.net",
+        "<sas-token>"
+    )
 
-df = spark.read.parquet("wasbs://<container-name>@<storage-account-name>.blob.core.windows.net/<file-path>")
-df.show()
+    df = spark.read.parquet("wasbs://<container-name>@<storage-account-name>.blob.core.windows.net/<file-path>")
+    df.show()
+
 ✅ Method 3: Mounting Blob Storage to DBFS
 
-dbutils.fs.mount(
-    source="wasbs://<container-name>@<storage-account-name>.blob.core.windows.net/",
-    mount_point="/mnt/myblob",
-    extra_configs={"fs.azure.account.key.<storage-account-name>.blob.core.windows.net": "<your-storage-access-key>"}
-)
+    dbutils.fs.mount(
+        source="wasbs://<container-name>@<storage-account-name>.blob.core.windows.net/",
+        mount_point="/mnt/myblob",
+        extra_configs={"fs.azure.account.key.<storage-account-name>.blob.core.windows.net": "<your-storage-access-key>"}
+    )
 
-# Read a file from the mounted storage
-df = spark.read.csv("/mnt/myblob/<file-path>")
-df.show()
+**Read a file from the mounted storage:**
+
+    df = spark.read.csv("/mnt/myblob/<file-path>")
+    df.show()
+
 Mounted storage is persistent across sessions but only accessible within the workspace.
+
 ABFS is preferred for higher performance and scalability.
+
 ### 26. How can Databricks be integrated with external databases like Azure SQL Database?
 **Answer:**
 Databricks connects to Azure SQL Database using:
 
-JDBC Driver
-Azure Data Factory (ADF) for ETL
-Databricks Autoloader with Azure Event Grid
+* JDBC Driver
+* Azure Data Factory (ADF) for ETL
+* Databricks Autoloader with Azure Event Grid
+
 ✅ Method 1: Connecting via JDBC (Recommended)
 
-jdbc_url = "jdbc:sqlserver://<server-name>.database.windows.net:1433;database=<database-name>;user=<username>@<server-name>;password=<password>;encrypt=true;trustServerCertificate=false"
+    jdbc_url = "jdbc:sqlserver://<server-name>.database.windows.net:1433;database=<database-name>;user=<username>@<server-name>;password=<password>;encrypt=true;trustServerCertificate=false"
 
-df = spark.read.format("jdbc").option("url", jdbc_url).option("dbtable", "dbo.customers").load()
-df.show()
+    df = spark.read.format("jdbc").option("url", jdbc_url).option("dbtable", "dbo.customers").load()
+    df.show()
+
 ✅ Method 2: Writing Data to Azure SQL Database
 
-df.write \
-    .format("jdbc") \
-    .option("url", jdbc_url) \
-    .option("dbtable", "dbo.sales_data") \
-    .option("user", "<username>") \
-    .option("password", "<password>") \
-    .mode("append") \
-    .save()
+    df.write \
+        .format("jdbc") \
+        .option("url", jdbc_url) \
+        .option("dbtable", "dbo.sales_data") \
+        .option("user", "<username>") \
+        .option("password", "<password>") \
+        .mode("append") \
+        .save()
+
 ✅ Method 3: Using Azure Data Factory (ADF)
+
 ADF orchestrates ETL pipelines from Databricks to Azure SQL.
+
 Uses Copy Activity or Databricks Notebook Activity.
+
 ### 27. What is the difference between mounting storage in Databricks and using direct access?
 **Answer:**
 
-Feature	Mounting Storage (DBFS)	Direct Access (ABFS, WASBS)
-Performance	Slower (involves DBFS layer)	Faster (direct connection)
-Security	Not recommended for sensitive data	More secure (uses service principal/SAS)
-Persistence	Persistent across sessions	Requires authentication every session
-Use Case	Good for interactive analysis	Best for big data processing
++ Feature	Mounting Storage (DBFS)	Direct Access (ABFS, WASBS)
++ Performance	Slower (involves DBFS layer)	Faster (direct connection)
++ Security	Not recommended for sensitive data	More secure (uses service principal/SAS)
++ Persistence	Persistent across sessions	Requires authentication every session
++ Use Case	Good for interactive analysis	Best for big data processing
+
 ✅ Recommendation: Use ABFS for production and DBFS mount for ad-hoc analysis.
 
 ### 28. How can you use Databricks connectors for Snowflake, AWS Redshift, or Google BigQuery?
@@ -791,45 +805,48 @@ Use Case	Good for interactive analysis	Best for big data processing
 Databricks provides built-in connectors for cloud data warehouses.
 
 ✅ Connecting Databricks to Snowflake
+
 Requires the Databricks-Snowflake Connector.
 
-options = {
-    "sfURL": "https://<account>.snowflakecomputing.com",
-    "sfDatabase": "<database>",
-    "sfSchema": "<schema>",
-    "sfWarehouse": "<warehouse>",
-    "sfRole": "<role>",
-    "user": "<username>",
-    "password": "<password>"
-}
+    options = {
+        "sfURL": "https://<account>.snowflakecomputing.com",
+        "sfDatabase": "<database>",
+        "sfSchema": "<schema>",
+        "sfWarehouse": "<warehouse>",
+        "sfRole": "<role>",
+        "user": "<username>",
+        "password": "<password>"
+    }
 
-df = spark.read.format("snowflake").options(**options).option("dbtable", "orders").load()
-df.show()
+    df = spark.read.format("snowflake").options(**options).option("dbtable", "orders").load()
+    df.show()
+
 Uses Snowflake's pushdown query execution for efficiency.
+
 ✅ Connecting Databricks to AWS Redshift
+
 Uses the JDBC Redshift Connector.
 
-jdbc_url = "jdbc:redshift://<redshift-cluster>.redshift.amazonaws.com:5439/<database>?user=<username>&password=<password>"
 
-df = spark.read.format("jdbc").option("url", jdbc_url).option("dbtable", "public.sales").load()
-df.show()
+    jdbc_url = "jdbc:redshift://<redshift-cluster>.redshift.amazonaws.com:5439/<database>?user=<username>&password=<password>"
+
+    df = spark.read.format("jdbc").option("url", jdbc_url).option("dbtable", "public.sales").load()
+    df.show()
 ✅ Connecting Databricks to Google BigQuery
+
 Uses the Databricks BigQuery Connector.
 
-df = spark.read.format("bigquery").option("project", "<gcp-project-id>").option("dataset", "<dataset-name>").option("table", "<table-name>").load()
-df.show()
+
+    df = spark.read.format("bigquery").option("project", "<gcp-project-id>").option("dataset", "<dataset-name>").option("table", "<table-name>").load()
+    df.show()
+
 ✅ Key Takeaways:
 
 Snowflake Connector supports query pushdown, making it highly optimized.
+
 Redshift & BigQuery use JDBC, requiring manual optimizations.
-Final Summary
-Integration	Best Connection Method
-Azure Blob Storage	ABFS (Azure Data Lake Gen2)
-Azure SQL Database	JDBC Connector
-AWS Redshift	JDBC Connector
-Google BigQuery	BigQuery Connector
-Snowflake	Databricks-Snowflake Connector
-Would you like a step-by-step guide on setting up a data pipeline using Databricks and Azure Data Factory? 🚀
+
+
 
 
 ## Troubleshooting & Debugging
