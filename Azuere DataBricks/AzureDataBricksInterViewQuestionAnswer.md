@@ -858,13 +858,17 @@ Use Ganglia Metrics UI (/driver-profiles/) to check CPU, memory, and garbage col
 Enable adaptive query execution (AQE) to optimize partitions dynamically.
 
 spark.conf.set("spark.sql.adaptive.enabled", "true")
+
 ✅ Step 5: Cache Intermediate DataFrames
 
 + Recompute cost can be high; use cache() or persist() for reused DataFrames.
+
     df.persist()  # Default: StorageLevel.MEMORY_AND_DISK
 
 + Drop cache after use to free memory:
+
     df.unpersist()
+
 ✅ Step 6: Use Delta Lake for Faster Queries
 
 + Convert CSV/Parquet to Delta for better performance.
