@@ -189,15 +189,15 @@ Databricks provides multiple approaches to extract, transform, and load (ETL) da
 ✅ Example: Using Auto Loader for Streaming ETL
 
 
-  df = spark.readStream \
-      .format("cloudFiles") \
-      .option("cloudFiles.format", "csv") \
-      .load("/mnt/raw-data")
+    df = spark.readStream \
+        .format("cloudFiles") \
+        .option("cloudFiles.format", "csv") \
+        .load("/mnt/raw-data")
 
-  df.writeStream \
-      .format("delta") \
-      .option("checkpointLocation", "/mnt/checkpoints") \
-      .start("/mnt/processed-data")
+    df.writeStream \
+        .format("delta") \
+        .option("checkpointLocation", "/mnt/checkpoints") \
+        .start("/mnt/processed-data")
 
 ### 11. How do you optimize Spark jobs in Databricks?
 **Answer:**
