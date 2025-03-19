@@ -136,8 +136,11 @@ Delta Lake is an open-source storage layer that enhances data lakes by adding AC
 Delta Lake ensures data reliability with ACID transactions (Atomicity, Consistency, Isolation, Durability).
 
 **🔹 Atomicity** – A transaction is either fully completed or fully rolled back.
+
 **🔹 Consistency** – Ensures that data adheres to predefined constraints.
+
 **🔹 Isolation** – Concurrent transactions do not interfere with each other.
+
 **🔹 Durability** – Once committed, the changes are permanent.
 
 
