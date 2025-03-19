@@ -200,16 +200,16 @@ Optimizing Spark jobs in Databricks involves multiple techniques to reduce execu
 
 ✅ Best Practices for Spark Job Optimization:
 
-* Use Delta Lake – Faster reads/writes compared to Parquet/CSV.
-* Enable Adaptive Query Execution (AQE) – Dynamically optimizes queries at runtime.
-* Broadcast Smaller Tables in Joins – Avoids expensive shuffle joins.
-* Optimize Data Partitioning – Ensures balanced workload distribution.
-* Use Caching & Persistence – Avoids recomputation of expensive transformations.
-* Optimize File Size – Aim for 100–250 MB file sizes for efficient reads.
-* Use Columnar Formats – Parquet and Delta improve compression and read speed.
-* Use Photon Engine (Databricks-specific) – Vectorized execution engine for faster performance.
-* Reduce Shuffle Operations – Minimize groupBy(), distinct(), and repartition().
-* Optimize Garbage Collection (GC) – Use Executor Memory Tuning (spark.memory.fraction).
+* **Use Delta Lake** – Faster reads/writes compared to Parquet/CSV.
+* **Enable Adaptive Query Execution (AQE)** – Dynamically optimizes queries at runtime.
+* **Broadcast Smaller Tables in Joins** – Avoids expensive shuffle joins.
+* **Optimize Data Partitioning** – Ensures balanced workload distribution.
+* **Use Caching & Persistence** – Avoids recomputation of expensive transformations.
+* **Optimize File Size** – Aim for 100–250 MB file sizes for efficient reads.
+* **Use Columnar Formats** – Parquet and Delta improve compression and read speed.
+* **Use Photon Engine (Databricks-specific)** – Vectorized execution engine for faster performance.
+* **Reduce Shuffle Operations** – Minimize groupBy(), distinct(), and repartition().
+* **Optimize Garbage Collection (GC)** – Use Executor Memory Tuning (spark.memory.fraction).
 
 ✅ Example: Enabling AQE for Auto-Optimization
 
@@ -254,10 +254,10 @@ Adaptive Query Execution (AQE) dynamically optimizes query plans at runtime base
 
 ✅ Key Features of AQE:
 
-* Dynamic Partition Pruning – Reduces unnecessary data scans.
-* Optimized Join Strategies – Converts shuffle joins into broadcast joins when possible.
-* Skew Join Handling – Reduces data skew by splitting large partitions.
-* Coalescing Shuffle Partitions – Reduces shuffle overhead for better performance.
+* **Dynamic Partition Pruning** – Reduces unnecessary data scans.
+* **Optimized Join Strategies** – Converts shuffle joins into broadcast joins when possible.
+* **Skew Join Handling** – Reduces data skew by splitting large partitions.
+* **Coalescing Shuffle Partitions** – Reduces shuffle overhead for better performance.
 
 ✅ Example: Enabling AQE
 
