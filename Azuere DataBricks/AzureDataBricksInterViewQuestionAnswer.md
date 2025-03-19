@@ -10,7 +10,7 @@ Differences from traditional big data frameworks:
 |Cluster Management|	Fully managed, auto-scaling	|Manual setup and scaling|
 |Performance|	Optimized with Photon Engine and Delta Lake|	Performance tuning required|
 |Ease of Use|	Interactive Notebooks, SQL, Python, R	|Complex configuration|
-|Cost Efficiency	Optimized cluster utilization|	Fixed infrastructure costs|
+|Cost Efficiency	|Optimized cluster utilization|	Fixed infrastructure costs|
 |Security & Governance |	Built-in RBAC, Unity Catalog	|Requires additional security tools|
 |Integration|	Native integrations with cloud storage & services	|Needs manual integration|
 
