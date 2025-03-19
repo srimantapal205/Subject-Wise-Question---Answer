@@ -18,14 +18,14 @@ Differences from traditional big data frameworks:
 **Answer:**
 Databricks has several key components that enable efficient big data processing:
 
-1. Workspace – A collaborative environment for data engineers, analysts, and scientists.
-2. Clusters – Managed Apache Spark clusters that auto-scale based on workload.
-3. Notebooks – Interactive notebooks supporting Python, Scala, SQL, and R.
-4. Databricks SQL – Optimized SQL engine for running BI queries.
-5. Jobs (Workflows) – Automates and schedules pipelines.
-6. Delta Lake – A storage layer with ACID transactions for reliability.
-7. MLflow – Machine learning lifecycle management.
-8. Unity Catalog – Centralized data governance and access control.
+1. **Workspace** – A collaborative environment for data engineers, analysts, and scientists.
+2. **Clusters** – Managed Apache Spark clusters that auto-scale based on workload.
+3. **Notebooks** – Interactive notebooks supporting Python, Scala, SQL, and R.
+4. **Databricks SQL** – Optimized SQL engine for running BI queries.
+5. **Jobs (Workflows)** – Automates and schedules pipelines.
+6. **Delta Lake** – A storage layer with ACID transactions for reliability.
+7. **MLflow** – Machine learning lifecycle management.
+8. **Unity Catalog** – Centralized data governance and access control.
 
 ### 3. Explain the differences between Databricks and Azure Synapse Analytics.
 **Answer:**
@@ -35,7 +35,7 @@ Databricks has several key components that enable efficient big data processing:
 | Core Technology|	Apache Spark	| SQL-based MPP (Massively Parallel Processing)|
 | Best Use Case|	Data engineering, ML, real-time processing |	Data warehousing, BI reporting |
 | Performance | Optimized for large-scale transformations	Optimized for analytical queries|
-| Storage Format	| Delta Lake	Parquet, CSV, JSON|
+| Storage Format	| Delta Lake |	Parquet, CSV, JSON|
 | Scalability	| Dynamic auto-scaling clusters	| Dedicated or serverless pools|
 | Cost Model	| Pay-as-you-go, optimized clusters	| Serverless and provisioned pricing|
 | SQL Support	| Databricks SQL (Spark SQL)	| T-SQL (Synapse SQL)|
@@ -49,17 +49,17 @@ Databricks Workflows (previously known as Jobs) enable automation and scheduling
 
 **Key features:**
 
-  ✅ Schedule Tasks – Automate notebooks, JAR files, and Python scripts.
+  ✅ **Schedule Tasks** – Automate notebooks, JAR files, and Python scripts.
 
-  ✅ Task Dependencies – Define execution order and dependencies.
+  ✅ **Task Dependencies** – Define execution order and dependencies.
 
-  ✅ Multi-Task Workflows – Run multiple tasks in a single job.
+  ✅ **Multi-Task Workflows** – Run multiple tasks in a single job.
 
-  ✅ Parameterized Execution – Pass runtime parameters dynamically.
+  ✅ **Parameterized Execution** – Pass runtime parameters dynamically.
 
-  ✅ Error Handling & Alerts – Send alerts on failures.
+  ✅ **Error Handling & Alerts** – Send alerts on failures.
 
-  ✅ Integration with CI/CD – Connect with Azure DevOps, GitHub, and Jenkins.
+  ✅ **Integration with CI/CD** – Connect with Azure DevOps, GitHub, and Jenkins.
 
 
 Example: Running a Databricks Job using the CLI
@@ -85,7 +85,7 @@ Databricks offers intelligent cluster management and auto-scaling to optimize co
 
 Databricks supports multiple file formats for reading and writing data, including CSV, Parquet, and Delta Lake.
 
-✅ Reading Data
+✅ **Reading Data:**
 
     # Read CSV file
     df_csv = spark.read.format("csv").option("header", "true").load("/mnt/data/sample.csv")
@@ -96,7 +96,7 @@ Databricks supports multiple file formats for reading and writing data, includin
     # Read Delta Lake table
     df_delta = spark.read.format("delta").load("/mnt/data/sample-delta")
 
-✅ Writing Data
+✅ **Writing Data:**
 
 
     # Write as CSV
