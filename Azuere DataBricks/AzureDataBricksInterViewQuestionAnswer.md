@@ -122,12 +122,13 @@ Delta Lake is an open-source storage layer that enhances data lakes by adding AC
 
 ✅ Delta Lake vs. Parquet Comparison:
 
-* Feature	Delta Lake	Parquet
-* ACID Transactions	✅ Yes	❌ No
-* Schema Evolution	✅ Yes	❌ No
-* Time Travel	✅ Yes	❌ No
-* Data Compaction	✅ Yes	❌ No
-* Performance	🚀 Faster (Optimized reads/writes)	⚡ Slower
+| Feature	|Delta Lake	|Parquet|
+|----------|-------------|--------|
+| ACID Transactions|	✅ Yes	|❌ No|
+| Schema Evolution|	✅ Yes	❌ No|
+| Time Travel|	✅ Yes|	❌ No|
+| Data Compaction|	✅ Yes|	❌ No|
+| Performance	|🚀 Faster (Optimized reads/writes)|	⚡ Slower|
 
 ### 8. Explain ACID transactions in Delta Lake.
 
@@ -173,13 +174,14 @@ The mergeSchema option ensures new columns in incoming data are added to the exi
 **Answer:**
 Databricks provides multiple approaches to extract, transform, and load (ETL) data.
 
-* ETL Method	Description
-* Databricks Notebooks	Interactive development using Python, SQL, Scala.
-* Databricks Workflows (Jobs)	Schedule and automate ETL pipelines.
-* Delta Live Tables (DLT)	Declarative ETL framework that ensures reliability.
-* Apache Spark Structured Streaming	Real-time data processing from Kafka, Event Hubs, etc.
-* Auto Loader	Efficient ingestion of new files from cloud storage.
-* Databricks SQL	Perform ETL transformations using SQL queries.
+| ETL Method|	Description|
+|-----------|---------------|
+| Databricks Notebooks|	Interactive development using Python, SQL, Scala.|
+| Databricks Workflows (Jobs)|	Schedule and automate ETL pipelines.|
+| Delta Live Tables (DLT)|	Declarative ETL framework that ensures reliability.|
+| Apache Spark Structured Streaming|	Real-time data processing from Kafka, Event Hubs, etc.|
+| Auto Loader|	Efficient ingestion of new files from cloud storage.|
+| Databricks SQL|	Perform ETL transformations using SQL queries.|
 
 ✅ Example: Using Auto Loader for Streaming ETL
 
