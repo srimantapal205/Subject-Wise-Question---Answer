@@ -125,7 +125,7 @@ Delta Lake is an open-source storage layer that enhances data lakes by adding AC
 | Feature	|Delta Lake	|Parquet|
 |----------|-------------|--------|
 | ACID Transactions|	✅ Yes	|❌ No|
-| Schema Evolution|	✅ Yes	❌ No|
+| Schema Evolution|	✅ Yes|	❌ No|
 | Time Travel|	✅ Yes|	❌ No|
 | Data Compaction|	✅ Yes|	❌ No|
 | Performance	|🚀 Faster (Optimized reads/writes)|	⚡ Slower|
