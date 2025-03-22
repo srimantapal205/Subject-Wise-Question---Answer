@@ -1,7 +1,7 @@
 # Spark and PySpark Inter View Question & Answer
 
 ### 1. What is spark? Explain Architecture
-
+**Answer:**
 Apache Spark is an open-source distributed computing framework for big data processing, known for its speed and ease of use. It consists of:
 
 + Spark Core: The foundation of Spark that includes memory management, fault recovery, and task scheduling.
@@ -13,11 +13,11 @@ Apache Spark is an open-source distributed computing framework for big data proc
         spark = SparkSession.builder.appName("SparkExample").getOrCreate()
 
 ### 2. Explain where did you use spark in your project?
-
+**Answer:**
 
 
 ### 3. What all optimization techniques have you used in spark?
-
+**Answer:**
 + Broadcast Joins to reduce shuffle
 + Caching and Persistence for iterative operations
 + Columnar Storage (Parquet Format) for efficient read/write
@@ -26,14 +26,16 @@ Apache Spark is an open-source distributed computing framework for big data proc
 
 
 ### 4. Explain transformations and actions have you used?
-
+**Answer:**
 + Transformations: map(), filter(), groupBy(), join(), reduceByKey()
-
 + Actions: count(), collect(), show(), saveAsTextFile()
 
-     
-### 5. What happens when you use shuffle in spark?
+        rdd = spark.sparkContext.parallelize([1, 2, 3, 4, 5])
+        filtered_rdd = rdd.filter(lambda x: x % 2 == 0) # Transformation
+        print(filtered_rdd.collect()) # Action
 
+### 5. What happens when you use shuffle in spark?
+**Answer:**
 Shuffle occurs when data is redistributed across partitions, causing increased network I/O and execution time.
 
 ### 6. Difference between ReduceByKey Vs GroupByKey?
