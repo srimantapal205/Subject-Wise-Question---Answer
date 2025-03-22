@@ -777,16 +777,20 @@ Horizontal Partitioning:
 Divides the rows of a table into multiple partitions based on values in a specific column.
 
 Example: Splitting a customer table into separate partitions by geographic region or by year.
+
 Use Case: When dealing with large datasets, horizontal partitioning can improve performance by limiting the number of rows scanned for a query.
 
 Vertical Partitioning:
 Divides the columns of a table into multiple partitions.
 
 Example: Storing infrequently accessed columns (e.g., large text or binary fields) in a separate table or partition.
+
 Use Case: Helps in optimizing storage and query performance by separating commonly used columns from less frequently accessed data.
+
 Key Difference:
 
 Horizontal partitioning is row-based, focusing on distributing the dataset’s rows across partitions.
+
 Vertical partitioning is column-based, aiming to separate less-used columns into different partitions or tables.
 
 ## 71. What are the considerations for indexing very large tables?
@@ -1034,7 +1038,8 @@ Supports range-based queries efficiently.
 Bitmap indexes excel with low-cardinality data and complex boolean conditions.
 B-tree indexes are better for unique or high-cardinality data and range queries.
 Query Based SQL Interview Questions
-This section is dedicated to questions that focus on writing and understanding SQL queries. By practicing these examples, we’ll learn how to retrieve, manipulate, and analyze data effectively, building the problem-solving skills needed for real-world scenarios.
+
+#### This section is dedicated to questions that focus on writing and understanding SQL queries. 
 
 ## 81. Write a query to find the second-highest salary of an employee in a table.
 
