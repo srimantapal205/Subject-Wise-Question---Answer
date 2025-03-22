@@ -460,7 +460,7 @@ Example:
         INSERT INTO #TempResults VALUES (1, 'Test');
         SELECT * FROM #TempResults;
 
-52. What is a materialized view, and how does it differ from a standard view?
+## 52. What is a materialized view, and how does it differ from a standard view?
 Standard View:
 
 A virtual table defined by a query.
