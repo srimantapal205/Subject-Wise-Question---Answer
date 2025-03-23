@@ -143,13 +143,13 @@ The AZCopy tool is an efficient way to handle large-scale data transfers program
     - Blob Storage: Uses a flat namespace. While folders can be mimicked through naming conventions, no actual directory structure is created under the hood.
 2. Purpose and Performance:
     - ADLS: Optimized for big data workloads. Designed specifically for analytics frameworks like Hadoop and Apache Spark, offering better performance for such use cases.
-        -Blob Storage: General-purpose storage used for storing unstructured data, such as images, videos, and documents. Suitable for less complex storage needs.
+    - Blob Storage: General-purpose storage used for storing unstructured data, such as images, videos, and documents. Suitable for less complex storage needs.
 3. When to Use:
     - Use ADLS for scenarios involving big data analytics or applications requiring hierarchical namespace management.
     - Use Blob Storage for simpler use cases involving unstructured data without complex processing needs.
 4. Configuration:
-    - ADLS can be enabled by selecting the "Enable hierarchical namespace" option when creating a storage account in Azure. By default, this option is unchecked, creating a standard Blob Storage account.
-These differences make ADLS the preferred choice for big data applications, while Blob Storage is suited for more straightforward storage requirements
+    - ADLS can be enabled by selecting the "Enable hierarchical namespace" option when creating a storage account in Azure. By default, this option is unchecked, creating a standard Blob Storage account. These differences make ADLS the preferred choice for big data applications. 
+    - Blob Storage is suited for more straightforward storage requirements
 
 ### Question 20: Why does an Azure Storage account have two access keys, Key 1 and Key 2?
 **Answer:**: Azure Storage accounts have two access keys (Key 1 and Key 2) to facilitate key rotation while maintaining uninterrupted access to the storage account. Here's why they are needed:
