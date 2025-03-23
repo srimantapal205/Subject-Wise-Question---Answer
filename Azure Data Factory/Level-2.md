@@ -26,8 +26,11 @@
 - Usage:
     - Variables are used to temporarily store and manage values during pipeline execution.
     - The values of variables can be dynamically set or updated using the Set Variable activity in the pipeline.
-- How to Set Variables: 1. Create a variable in the Variables section of a pipeline. 2. Use the Set Variable activity to assign or update the value of the variable.
-    - You can assign values directly or use dynamic content for more complex assignments.
+- How to Set Variables: 
+1. Create a variable in the Variables section of a pipeline. 
+2. Use the Set Variable activity to assign or update the value of the variable.
+
+- You can assign values directly or use dynamic content for more complex assignments.
 - Example:
     - Create a variable named myDate in pipeline1.
     - Use the Set Variable activity to assign a value (e.g., a specific date) or derive the value dynamically during execution.
@@ -38,17 +41,22 @@ This functionality enables flexibility and control over temporary data during pi
 - Definition:
     - Pipeline parameters are properties defined at the pipeline level that allow users to provide dynamic values during pipeline execution.
     - Similar to runtime arguments in programming, they enable externalizing pipeline properties for greater flexibility.
-- Key Features: 1. Runtime Assignment:
-    - Parameter values can be set each time the pipeline is executed, allowing for dynamic behavior. 2. Externalization:
-    - Parameters decouple pipeline properties from hardcoding, enabling different values to be passed in at runtime.
+- Key Features: 
+    1. Runtime Assignment:
+        - Parameter values can be set each time the pipeline is executed, allowing for dynamic behavior. 
+    2. Externalization:
+        - Parameters decouple pipeline properties from hardcoding, enabling different values to be passed in at runtime.
 - Usage Example:
     - Define a parameter named tableName in a pipeline.
     - Set a default value (e.g., customer) or allow a value to be provided at execution.
     - Use the parameter in pipeline activities via dynamic content (e.g., pipeline.parameters.tableName).
-- Practical Workflow: 1. Define Parameter:
-    - At the pipeline level, click "Parameters" and create a new parameter (e.g., tableName). 2. Use in Activities:
-    - Reference the parameter dynamically within pipeline activities. 3. Provide Value at Execution:
-    - During execution (e.g., via Debug or Trigger), supply the desired value for the parameter.
+- Practical Workflow: 
+    1. Define Parameter:
+        - At the pipeline level, click "Parameters" and create a new parameter (e.g., tableName). 
+    2. Use in Activities:
+        - Reference the parameter dynamically within pipeline activities. 
+    3. Provide Value at Execution:
+        - During execution (e.g., via Debug or Trigger), supply the desired value for the parameter.
 - Advantages:
     - Enables flexible, reusable pipelines.
     - Supports dynamic configurations and user-specific executions without modifying the pipeline definition.
@@ -82,16 +90,18 @@ Understanding this distinction helps to use these features effectively based on 
     - They are not owned by individual pipelines and cannot be changed from within a pipeline.
 - Key Features: 
 - Scope:
-    -Global parameters are available to all pipelines within the Data Factory. 2. Immutable in Pipelines:
-    -The value of a global parameter can only be changed at the account level. Pipelines can use but cannot modify these parameters. 3. Ease of Updates:
-    -If a global parameter is updated, the change automatically reflects wherever the parameter is used, eliminating the need to manually update it across pipelines.
+    1. Global parameters are available to all pipelines within the Data Factory. 
+    2. Immutable in Pipelines: The value of a global parameter can only be changed at the account level. Pipelines can use but cannot modify these parameters. 
+    3. Ease of Updates: If a global parameter is updated, the change automatically reflects wherever the parameter is used, eliminating the need to manually update it across pipelines.
 - Use Case:
     - Define properties that are shared and consistent across multiple pipelines, such as database names, file paths, or any other value used globally in your workflows.
-- How to Create and Use Global Parameters: 1. Creation:
-    - Navigate to the Manage tab in Azure Data Factory Studio.
-    - Under Author, select Global Parameters and create a new parameter by specifying its name and type (e.g., string, float, etc.). 2. Usage:
-    - In a pipeline, use the Add Dynamic Content option to reference a global parameter.
-    - Global parameters will appear under the Global Parameters section in the dynamic content panel.
+- How to Create and Use Global Parameters: 
+    1. Creation:
+        - Navigate to the Manage tab in Azure Data Factory Studio.
+        - Under Author, select Global Parameters and create a new parameter by specifying its name and type (e.g., string, float, etc.). 
+    2. Usage:
+        - In a pipeline, use the Add Dynamic Content option to reference a global parameter.
+        - Global parameters will appear under the Global Parameters section in the dynamic content panel.
 - Example:
     - Define a global parameter named databaseName with the value Mission100DB.
     - Use this parameter across pipelines where the database name is needed. If the database name changes, update it in the global parameter, and the change propagates to all pipelines automatically.
@@ -204,14 +214,16 @@ Annotations can also be used as a filtering criterion to display only resources 
 
 **Azure Integration Runtime (Auto-Resolve Integration Runtime):**
 
-- This is the default IR provided by Azure Data Factory.
+### 1. This is the default IR provided by Azure Data Factory.
 - Used for data movement and transformation within Azure regions or between public endpoints.
 - Automatically resolves to the nearest Azure region unless specified otherwise.
-- Ideal for cloud-based operations where no specific configuration is required. 2. Self-Hosted Integration Runtime:
+- Ideal for cloud-based operations where no specific configuration is required. 
+### 2. Self-Hosted Integration Runtime:
 - Installed on a local machine, virtual machine, or on-premises server.
 - Used for data movement between on-premises systems and Azure or between private networks.
 - Supports connecting to private networks and on-premises data sources securely.
-- Requires installation of IR software on the machine where it is hosted. 3. Azure-SSIS Integration Runtime:
+- Requires installation of IR software on the machine where it is hosted. 
+### 3. Azure-SSIS Integration Runtime:
 - Specialized IR for running SQL Server Integration Services (SSIS) packages in the cloud.
 - Supports lift-and-shift scenarios for migrating on-premises SSIS packages to Azure.
 - Allows running SSIS packages natively in a managed Azure environment.
