@@ -3,7 +3,10 @@
 
 Common use cases include: 
 1. Data Migration: Moving data between sources using activities like the Copy Activity. 
-2. On-Premises to Cloud Data Transfer: For example, transferring data from an on-premises SQL Server to Azure SQL Cloud incrementally or on a schedule. 
+2. On-Premises to Cloud Data Transfer: 
+
+For example, transferring data from an on-premises SQL Server to Azure SQL Cloud incrementally or on a schedule. 
+
 3. ETL Operations: Extracting, transforming, and loading data, even unstructured or semi-structured data, using features like Data Flow.
 
 ### Question 2: What is a pipeline in Azure Data Factory?
