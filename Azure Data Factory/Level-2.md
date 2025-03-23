@@ -227,7 +227,9 @@ Annotations can also be used as a filtering criterion to display only resources 
 - Specialized IR for running SQL Server Integration Services (SSIS) packages in the cloud.
 - Supports lift-and-shift scenarios for migrating on-premises SSIS packages to Azure.
 - Allows running SSIS packages natively in a managed Azure environment.
+
 **Default Configuration:** If no IR is explicitly created, the Auto-Resolve Integration Runtime (a type of Azure IR) is used by default for executing activities in Data Factory.
+
 **Use Cases:**
 - Azure Integration Runtime: For standard cloud-based data operations.
 - Self-Hosted Integration Runtime: For hybrid scenarios requiring access to on-premises or private network data.
