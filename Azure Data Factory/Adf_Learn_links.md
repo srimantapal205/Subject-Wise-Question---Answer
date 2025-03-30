@@ -329,3 +329,13 @@ Lecture: Create ADF Pipeline Databricks Notebook Activity
 
 
 https://docs.microsoft.com/en-us/azure/data-factory/transform-data-using-databricks-notebook
+
+Section: Copy Data to Azure SQL
+
+
+Copy Activity - https://docs.microsoft.com/en-us/azure/data-factory/copy-activity-overview
+
+
+
+Azure Data Studio download - https://docs.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio?view=sql-server-ver15
+
