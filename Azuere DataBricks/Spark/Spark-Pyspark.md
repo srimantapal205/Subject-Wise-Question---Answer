@@ -1,5 +1,8 @@
 # Spark and PySpark Inter View Question & Answer
 
+https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/index.html
+
+
 ### 1. What is spark? Explain Architecture
 **Answer:**
 Apache Spark is an open-source distributed computing framework for big data processing, known for its speed and ease of use. It consists of:
