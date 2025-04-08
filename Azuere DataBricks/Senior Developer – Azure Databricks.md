@@ -1,18 +1,18 @@
 ## Section 1: Azure Databricks & Data Engineering
 
-What is your approach to designing scalable and efficient data pipelines in Azure Databricks?
+### 1. What is your approach to designing scalable and efficient data pipelines in Azure Databricks?
 
-How would you handle ingestion from multiple structured and unstructured data sources into Databricks?
+### 1. How would you handle ingestion from multiple structured and unstructured data sources into Databricks?
 
-Explain how you have implemented reusable frameworks for data ingestion in your past projects.
+### 1. Explain how you have implemented reusable frameworks for data ingestion in your past projects.
 
-What techniques do you use to ensure data quality and integrity in a data pipeline?
+### 1. What techniques do you use to ensure data quality and integrity in a data pipeline?
 
-How would you implement data validation and cleansing in a Databricks notebook or pipeline?
+### 1. How would you implement data validation and cleansing in a Databricks notebook or pipeline?
 
-Can you describe the architecture of a modern data lake solution you’ve built using Azure technologies?
+### 1. Can you describe the architecture of a modern data lake solution you’ve built using Azure technologies?
 
-What are Delta Lakes, and how do they enhance data reliability and performance in Azure Databricks?
+### 1. What are Delta Lakes, and how do they enhance data reliability and performance in Azure Databricks?
 
 ## Section 2: Azure Data Factory (ADF) & Orchestration
 
