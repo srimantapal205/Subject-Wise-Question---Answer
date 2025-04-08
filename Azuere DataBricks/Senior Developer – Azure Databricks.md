@@ -2,7 +2,54 @@
 
 ### 1. What is your approach to designing scalable and efficient data pipelines in Azure Databricks?
 
-**Answer:**
+**Answer:** Designing scalable and efficient data pipelines in Azure Databricks requires careful consideration of data volume, processing patterns, architecture, and optimization techniques
+
+1. Understand Requirements and Data Characteristics.
+    * Data sources: Streaming or batch? Structured, semi-structured (JSON/CSV), or unstructured (images)?
+    * Volume & Velocity: How much data? How fast does it arrive?
+    * Latency requirements: Real-time vs near-real-time vs batch.
+    *Data quality: Validate completeness, consistency, and schema.
+2. Choose the Right Architecture
+    * Batch processing: Use Databricks jobs with Delta Lake for historical loads.
+    * Streaming processing: Use Structured Streaming with Event Hub/Kafka as sources.
+    * Lambda/Kappa architectures: Depending on need for unified vs separate streaming/batch layers
+3. Use Delta Lake as the Foundation
+    * Delta Lake provides ACID transactions, schema enforcement, time travel, and scalable metadata handling.
+    * Partitioning
+    * Z-Ordering (for efficient reads)
+    * OPTIMIZE and VACUUM commands
+4. Optimize Spark Performance
+    * Cluster Sizing: Right-size based on workload – use autoscaling for flexibility.
+    * Caching: Use .cache() or .persist() wisely for intermediate transformations.
+    * Broadcast joins: For small lookup datasets, reduce shuffle by broadcasting.
+    * Avoid wide transformations: Use narrow transformations where possible.
+    * Data Skew: Monitor skewed keys and use techniques like salting or custom partitioning.
+5. Modular and Parameterized Notebooks/Jobs
+    * Ingestion
+    * Transformation
+    * Validation
+    * Load
+    * Use widgets or job parameters to make notebooks reusable and testable.
+6. Monitoring and Logging
+    * Integrate with Azure Monitor and Databricks' Ganglia metrics.
+    * Use log4j or MLflow for custom logging/metrics.
+    * Track input/output record counts, job duration, error rates, etc.
+7. Security and Compliance
+    * Use Unity Catalog or legacy Access Control Lists (ACLs).
+    * Enforce row-level and column-level access where needed.
+    * Encrypt data at rest and in transit using Azure Key Vault.
+8. Automation & CI/CD
+    * Use Databricks Repos with Git for version control.
+    * Deploy using Azure DevOps, GitHub Actions, or Terraform (Databricks Provider).
+    * Parameterize jobs via Job API 2.1 or dbutils.widgets.
+9. Scheduling & Orchestration
+    * Use Databricks Workflows for job orchestration.
+    * Or use Azure Data Factory/Azure Synapse Pipelines to schedule and monitor external dependencies.
+10. Scalability Considerations
+    * Use Auto Loader for incremental ingestion of files.
+    * Use multicluster jobs for concurrent processing.
+    * Implement idempotent operations to avoid duplicate writes (especially in streaming).
+
 
 ### 2. How would you handle ingestion from multiple structured and unstructured data sources into Databricks?
 
