@@ -8,7 +8,7 @@ Differences from traditional big data frameworks:
 |Feature|	Databricks	|Traditional Big Data Frameworks (e.g., Hadoop, On-Prem Spark)|
 |-------|--------------|------------------------------------------------------------|
 |Cluster Management|	Fully managed, auto-scaling	|Manual setup and scaling|
-|Performance|	Optimized with Photon Engine and Delta Lake|	Performance tuning required|
+|Performance|	Optimized with Photon Engine and Delta Lake |	Performance tuning required|
 |Ease of Use|	Interactive Notebooks, SQL, Python, R	|Complex configuration|
 |Cost Efficiency	|Optimized cluster utilization|	Fixed infrastructure costs|
 |Security & Governance |	Built-in RBAC, Unity Catalog	|Requires additional security tools|
@@ -34,7 +34,7 @@ Databricks has several key components that enable efficient big data processing:
 |----------------|--------------|----------------------------|
 | Core Technology|	Apache Spark	| SQL-based MPP (Massively Parallel Processing)|
 | Best Use Case|	Data engineering, ML, real-time processing |	Data warehousing, BI reporting |
-| Performance | Optimized for large-scale transformations	Optimized for analytical queries|
+| Performance | Optimized for large-scale transformations |	Optimized for analytical queries|
 | Storage Format	| Delta Lake |	Parquet, CSV, JSON|
 | Scalability	| Dynamic auto-scaling clusters	| Dedicated or serverless pools|
 | Cost Model	| Pay-as-you-go, optimized clusters	| Serverless and provisioned pricing|
