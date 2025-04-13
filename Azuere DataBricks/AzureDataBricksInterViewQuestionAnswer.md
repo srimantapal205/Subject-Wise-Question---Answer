@@ -623,16 +623,22 @@ Uses Dynamic Views to enforce masking on sensitive data.
     FROM customers;
 
 ### 23. What is Unity Catalog and its benefits in Databricks?
+
 **Answer:**
 Unity Catalog is Databricks' unified governance layer for managing data access, security, and lineage.
 
 #### ✅ Key Benefits of Unity Catalog:
 
 **1. Centralized Access Control:** Manages permissions across workspaces, tables, schemas, and catalogs.
+
 **1. Fine-Grained Permissions:** Supports row-level & column-level security with Attribute-Based Access Control (ABAC).
+
 **1. Data Lineage Tracking:** Tracks how data is created, transformed, and consumed across Databricks.
+
 **1. Secure Data Sharing (Delta Sharing):** Allows cross-account sharing of Delta tables without copying data.
+
 **1. Multi-Cloud Support:** Works across Azure, AWS, and GCP, providing unified governance.
+
 
 ✅ Example: Creating a Table in Unity Catalog
 
@@ -641,6 +647,7 @@ Unity Catalog is Databricks' unified governance layer for managing data access, 
       customer_name STRING,
       amount DECIMAL(10,2)
     );
+
 
 ✅ Example: Granting Table-Level Permissions in Unity Catalog
 
