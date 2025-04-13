@@ -631,13 +631,13 @@ Unity Catalog is Databricks' unified governance layer for managing data access, 
 
 **1. Centralized Access Control:** Manages permissions across workspaces, tables, schemas, and catalogs.
 
-**1. Fine-Grained Permissions:** Supports row-level & column-level security with Attribute-Based Access Control (ABAC).
+**2. Fine-Grained Permissions:** Supports row-level & column-level security with Attribute-Based Access Control (ABAC).
 
-**1. Data Lineage Tracking:** Tracks how data is created, transformed, and consumed across Databricks.
+**3. Data Lineage Tracking:** Tracks how data is created, transformed, and consumed across Databricks.
 
-**1. Secure Data Sharing (Delta Sharing):** Allows cross-account sharing of Delta tables without copying data.
+**4. Secure Data Sharing (Delta Sharing):** Allows cross-account sharing of Delta tables without copying data.
 
-**1. Multi-Cloud Support:** Works across Azure, AWS, and GCP, providing unified governance.
+**5. Multi-Cloud Support:** Works across Azure, AWS, and GCP, providing unified governance.
 
 
 ✅ Example: Creating a Table in Unity Catalog
