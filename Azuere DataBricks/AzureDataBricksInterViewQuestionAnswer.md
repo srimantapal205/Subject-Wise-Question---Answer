@@ -471,7 +471,7 @@ Azure Data Factory (ADF) can orchestrate Databricks by executing notebooks, JARs
 **Answer:**
 Databricks provides four main cluster types depending on workload needs.
 
-* Cluster Type	Description	Use Case
+#### Cluster Type	Description	Use Case
 * Single Node	Runs on one machine (no workers)	ML models, small ETL jobs
 * Standard	Supports multiple workers, auto-scaling	General-purpose workloads
 * High Concurrency	Optimized for multi-user shared workloads	BI dashboards, SQL queries
