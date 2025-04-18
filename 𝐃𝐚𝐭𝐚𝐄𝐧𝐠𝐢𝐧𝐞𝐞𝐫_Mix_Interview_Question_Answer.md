@@ -39,8 +39,8 @@ This avoids 10 separate activities and makes it scalable.
 - Use a watermark column (like `LastModifiedDate` or `ID`).
 - Store the last loaded value in **ADF pipeline parameters** or **Azure Table Storage**.
 - In SQL source query:  
-  sql
-  SELECT * FROM Table WHERE LastModifiedDate > '@{pipeline().parameters.LastLoadedDate}'
+  
+    SELECT * FROM Table WHERE LastModifiedDate > '@{pipeline().parameters.LastLoadedDate}'
   
 
 ---
@@ -51,11 +51,13 @@ This avoids 10 separate activities and makes it scalable.
 - Maintain a **watermark value** (e.g., last updated timestamp or max ID).
 - Query source for data greater than this watermark.
 - Use `merge` or `upsert` logic to load into Delta table:
+
   python
-  deltaTable.alias("target").merge(
-      sourceDF.alias("source"),
-      "target.id = source.id"
-  ).whenMatchedUpdateAll().whenNotMatchedInsertAll().execute()
+
+    deltaTable.alias("target").merge(
+        sourceDF.alias("source"),
+        "target.id = source.id"
+    ).whenMatchedUpdateAll().whenNotMatchedInsertAll().execute()
   
 
 ---
@@ -63,13 +65,17 @@ This avoids 10 separate activities and makes it scalable.
 ### 5. **There is a dataset in Databricks, how will you convert it to a list?**
 
 If it's a single column:
+
 python
-my_list = df.select("column_name").rdd.flatMap(lambda x: x).collect()
+
+  my_list = df.select("column_name").rdd.flatMap(lambda x: x).collect()
 
 
 If it’s a row:
+
 python
-my_list = df.collect()[0].asDict().values()
+
+  my_list = df.collect()[0].asDict().values()
 
 
 ---
@@ -81,12 +87,16 @@ my_list = df.collect()[0].asDict().values()
 
 **Use Case:**
 - After filtering/joining to reduce partitions before writing:
+
   python
-  df.coalesce(1).write.mode("overwrite").parquet("path")
+
+    df.coalesce(1).write.mode("overwrite").parquet("path")
   
 - Or to improve parallelism:
+
   python
-  df.repartition(10)
+
+    df.repartition(10)
   
 
 ---
@@ -104,12 +114,15 @@ my_list = df.collect()[0].asDict().values()
 ### 8. **In the Delta table how will you check previous version data?**
 
 Use **Delta Lake time travel**:
+
 sql
-SELECT * FROM delta.`/path/to/table` VERSION AS OF 3
+
+  SELECT * FROM delta.`/path/to/table` VERSION AS OF 3
 
 or
-sql
-SELECT * FROM delta.`/path/to/table` TIMESTAMP AS OF '2025-04-10T00:00:00Z'
+
+
+  SELECT * FROM delta.`/path/to/table` TIMESTAMP AS OF '2025-04-10T00:00:00Z'
 
 
 ---
@@ -117,12 +130,16 @@ SELECT * FROM delta.`/path/to/table` TIMESTAMP AS OF '2025-04-10T00:00:00Z'
 ### 9. **What approach will you take to do schema evolution?**
 
 If using **merge** or **overwrite**:
+
 python
-df.write.format("delta").option("mergeSchema", "true").mode("overwrite").save(path)
+
+  df.write.format("delta").option("mergeSchema", "true").mode("overwrite").save(path)
 
 
 To enable auto schema evolution:
+
 python
-spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
+
+  spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
 
 
