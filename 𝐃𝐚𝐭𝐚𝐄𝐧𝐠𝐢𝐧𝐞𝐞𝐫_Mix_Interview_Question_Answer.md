@@ -54,11 +54,9 @@ This avoids 10 separate activities and makes it scalable.
 
   python
 
-    deltaTable.alias("target").merge(
-        sourceDF.alias("source"),
-        "target.id = source.id"
-    ).whenMatchedUpdateAll().whenNotMatchedInsertAll().execute()
-  
+      deltaTable.alias("target").merge(sourceDF.alias("source"),
+      "target.id = source.id").whenMatchedUpdateAll().whenNotMatchedInsertAll().execute()
+        
 
 ---
 
