@@ -370,4 +370,41 @@ def count_alpha(s):
 
 ---
 
-If you'd like, I can also create a cheat sheet or mock Q&A for rapid revision. Want that?
+#### In ADF, what is the other way to get the incremental load without Watermark Columns:
+
+In **Azure Data Factory (ADF)**, if you want to implement **incremental load** without using **watermark columns** (like `LastModifiedDate` or `UpdatedDate`), there are **several alternative strategies**, depending on the data source and structure:
+
+### 🔁 1. **Change Data Capture (CDC)**
+- **Applicable to**: Azure SQL DB, SQL Server, Synapse, Oracle (with log-based CDC), etc.
+- ADF now **supports CDC natively**, enabling you to load **only the changed data** by tracking changes at the database engine level.
+- Setup involves:
+  - Enabling CDC on the source table.
+  - Using the **"Change Data Capture" connector** in ADF.
+- No need for watermark columns.
+
+### 🗃️ 2. **Delta Files / Partitioned Files in Blob/Data Lake**
+- **Applicable to**: File-based sources like Azure Blob Storage, Data Lake, S3.
+- If incoming files are **partitioned by date/time** (e.g., folder names like `/year=2025/month=04/day=23/`), you can use ADF to:
+  - Read **only the new folders/files**.
+  - Track previously processed partitions via **metadata table** or pipeline variables.
+- This avoids scanning the entire dataset every time.
+
+### 🧾 3. **Using File Name/Metadata Tracking**
+- **Track the file name** or **file properties** (e.g., creation timestamp) in a **lookup table**.
+- Before each load:
+  - Compare incoming files to the tracked ones.
+  - Only ingest **new or updated** files.
+- Update the tracking table after processing.
+
+### 🔄 4. **Hash Comparison or Checksum**
+- Compute a **hash or checksum** (e.g., MD5) of each row or record.
+- Compare current hash with stored hash (in staging or target).
+- Only insert/update rows that have changed.
+- Used when no timestamp is available and data volume is manageable.
+
+### 🧠 5. **Source-System Triggers or Flags**
+- Some systems add a **status flag** (e.g., `IsProcessed`, `IsNew`, `SyncFlag`) to identify rows ready for load.
+- ADF filters for `IsProcessed = false`, then updates the flag after successful load.
+
+
+Would you like to go deeper into one of these options or apply it to a specific source (e.g., SQL, Blob, S3)?
