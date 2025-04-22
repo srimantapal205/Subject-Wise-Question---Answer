@@ -212,6 +212,10 @@ df = spark.read.option("header", "false").csv("path.csv")
 #### **9. Find 3rd Highest Salary**
 ```sql
 SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 3
+
+--OR
+
+SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC OFFSET 2 ROWS FETCH NEXT 1 ROW ONLY;
 ```
 Or with SQL:
 ```sql
