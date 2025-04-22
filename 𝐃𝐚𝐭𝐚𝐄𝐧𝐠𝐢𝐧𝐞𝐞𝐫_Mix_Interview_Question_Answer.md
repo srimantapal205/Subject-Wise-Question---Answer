@@ -143,3 +143,236 @@ python
       spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
 
 
+---
+
+### ✅ **Round 1 – Technical**
+
+---
+
+#### **1. Project Explanation and Technologies Used**
+
+**Example Answer:**
+> I worked on a real-time log processing pipeline using Azure Data Factory for orchestration, Azure Event Hub for ingestion, Azure Databricks for transformation, and Power BI for visualization. Spark was used in Databricks for large-scale ETL and streaming (Structured Streaming). For batch ETL, I used ADF and Airflow (for non-Azure projects). Kafka was used in another project for ingesting data from web apps and IoT devices.
+
+---
+
+#### **2. Performance Tuning Techniques in Spark**
+- **Optimize shuffles**: Use `repartition()` wisely; minimize wide transformations.
+- **Persist()/cache()**: Use when reusing intermediate results.
+- **Broadcast joins**: Broadcast small dimension tables to avoid shuffle joins.
+- **Explain plan**: Use `.explain()` to analyze the physical execution plan.
+
+---
+
+#### **3. Accumulator vs Broadcast Variables**
+- **Accumulator**: Used for counters, sum, etc. Write-only from executors.
+- **Broadcast**: Share small lookup datasets across nodes efficiently.
+
+---
+
+#### **4. SparkSession vs SparkContext**
+| Feature        | SparkSession                         | SparkContext                     |
+|----------------|--------------------------------------|----------------------------------|
+| Purpose        | Unified entry point (DF, SQL, etc.)  | RDD-based operations             |
+| Introduced in  | Spark 2.0                            | Spark 1.x                        |
+| Example        | `SparkSession.builder.appName()`     | `SparkContext(conf)`            |
+
+---
+
+#### **5. Dataset vs DataFrame**
+- **Dataset** (Scala/Java): Type-safe, compile-time checks.
+- **DataFrame**: Untyped, row-based with schema.
+
+---
+
+#### **6. Spark Session Command**
+```python
+from pyspark.sql import SparkSession
+spark = SparkSession.builder \
+    .appName("MyApp") \
+    .getOrCreate()
+```
+
+---
+
+#### **7. Command to Read JSON Data**
+```python
+df = spark.read.option("multiline", "true").json("path/to/file.json")
+```
+
+---
+
+#### **8. CSV Without Column Names/Schema**
+```python
+df = spark.read.option("header", "false").csv("path.csv")
+```
+
+---
+
+#### **9. Find 3rd Highest Salary**
+```sql
+SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 3
+```
+Or with SQL:
+```sql
+SELECT MIN(salary) FROM (
+  SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 3
+)
+```
+
+---
+
+#### **10. Employees Earning More Than Manager**
+```sql
+SELECT e.name 
+FROM employee e
+JOIN employee m ON e.manager_id = m.id
+WHERE e.salary > m.salary
+```
+
+---
+
+#### **11. Palindrome Check (PySpark UDF Example)**
+```python
+from pyspark.sql.functions import udf
+from pyspark.sql.types import BooleanType
+
+def is_palindrome(s):
+    return s == s[::-1]
+
+is_palindrome_udf = udf(is_palindrome, BooleanType())
+df = df.withColumn("is_palindrome", is_palindrome_udf(df["column"]))
+```
+
+---
+
+#### **12. Spark Submit Command**
+```bash
+spark-submit --class com.example.Main --master yarn /path/to/app.jar
+```
+
+---
+
+#### **13. Memory Tuning**
+- `--executor-memory 4G`
+- Use `StorageLevel.MEMORY_AND_DISK`
+- Tune GC with `spark.executor.extraJavaOptions`
+
+---
+
+#### **14. Created JARs**
+> I created JARs using Maven for my Scala Spark jobs. Used `pom.xml` to manage dependencies and `spark-submit` to deploy.
+
+---
+
+#### **15. Worked with UDFs**
+> Yes, I used UDFs in Python for data transformation like converting date formats, validating emails, or checking for palindromes.
+
+---
+
+#### **16. Dynamic Resource Allocation**
+```bash
+--conf spark.dynamicAllocation.enabled=true
+--conf spark.dynamicAllocation.minExecutors=2
+--conf spark.dynamicAllocation.maxExecutors=10
+```
+
+---
+
+#### **17. Daily Data Volume**
+> We processed ~1TB/day from various sources including system logs, e-commerce transactions, and IoT device data.
+
+---
+
+#### **18. Production Experience**
+> I’ve deployed Spark jobs via Airflow and monitored them using Azure Monitor, Spark UI, and logs stored in Azure Log Analytics or S3.
+
+---
+
+### ✅ **Round 2 – Technical**
+
+---
+
+#### **1. DataFrame vs Dataset**
+Covered above.  
+> DataFrame is untyped (runtime schema checks), Dataset is typed (compile-time checks, only in Scala/Java).
+
+---
+
+#### **2 & 3. Load CSV from HDFS**
+```python
+df = spark.read.csv("hdfs://namenode/path/file.csv", header=True, inferSchema=True)
+```
+
+---
+
+#### **4. What is Multiline?**
+> The `multiline` option is used when JSON records span multiple lines.
+
+```python
+spark.read.option("multiline", "true").json("path")
+```
+
+---
+
+#### **5. No Column Names in CSV**
+```python
+df = spark.read.option("header", "false").csv("path.csv")
+```
+
+---
+
+#### **6. Case Class and StructType Syntax**
+**Scala:**
+```scala
+case class Person(name: String, age: Int)
+val df = spark.read.as[Person]
+```
+
+**Python:**
+```python
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+
+schema = StructType([
+    StructField("name", StringType(), True),
+    StructField("age", IntegerType(), True)
+])
+df = spark.read.schema(schema).csv("path")
+```
+
+---
+
+#### **7. Partitioning vs Bucketing**
+| Technique    | Partitioning                      | Bucketing                            |
+|--------------|-----------------------------------|--------------------------------------|
+| Based on     | Directory structure               | Hashing function                     |
+| Performance  | Good for filtering                | Good for join optimization           |
+| Use case     | Date-based queries                | Joining large datasets efficiently   |
+
+---
+
+#### **8. Closure Function**
+> A closure captures variables from its outer scope. Spark sends the closure to executors, so variables must be serializable.
+
+---
+
+#### **9. Count of Alphabets in String (Python)**
+```python
+from collections import Counter
+
+def count_alpha(s):
+    return dict(Counter(filter(str.isalpha, s)))
+```
+
+---
+
+#### **10. List vs Tuple**
+| Feature      | List                          | Tuple                        |
+|--------------|-------------------------------|------------------------------|
+| Mutability   | Mutable                        | Immutable                    |
+| Performance  | Slightly slower                | Faster                       |
+| Syntax       | `[1, 2, 3]`                    | `(1, 2, 3)`                  |
+
+---
+
+If you'd like, I can also create a cheat sheet or mock Q&A for rapid revision. Want that?
