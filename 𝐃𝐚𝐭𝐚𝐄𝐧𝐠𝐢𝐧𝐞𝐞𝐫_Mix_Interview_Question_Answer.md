@@ -370,7 +370,7 @@ def count_alpha(s):
 
 ---
 
-#### In ADF, what is the other way to get the incremental load without Watermark Columns:
+## In ADF, what is the other way to get the incremental load without Watermark Columns:
 
 In **Azure Data Factory (ADF)**, if you want to implement **incremental load** without using **watermark columns** (like `LastModifiedDate` or `UpdatedDate`), there are **several alternative strategies**, depending on the data source and structure:
 
