@@ -268,12 +268,6 @@ spark-submit --class com.example.Main --master yarn /path/to/app.jar
 
 ---
 
-### **18. Production Experience**
-> I’ve deployed Spark jobs via Airflow and monitored them using Azure Monitor, Spark UI, and logs stored in Azure Log Analytics or S3.
-
----
-
-
 ### **18. DataFrame vs Dataset**
 Covered above.  
 > DataFrame is untyped (runtime schema checks), Dataset is typed (compile-time checks, only in Scala/Java).
