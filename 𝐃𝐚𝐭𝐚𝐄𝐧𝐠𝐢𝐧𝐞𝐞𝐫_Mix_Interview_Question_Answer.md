@@ -221,10 +221,8 @@ SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC OFFSET 2 ROWS FETCH NE
 
 #### **10. Employees Earning More Than Manager**
 ```sql
-SELECT e.name 
-FROM employee e
-JOIN employee m ON e.manager_id = m.id
-WHERE e.salary > m.salary
+SELECT e.name FROM employee e JOIN employee m ON e.manager_id = m.id WHERE e.salary > m.salary
+
 ```
 
 ---
