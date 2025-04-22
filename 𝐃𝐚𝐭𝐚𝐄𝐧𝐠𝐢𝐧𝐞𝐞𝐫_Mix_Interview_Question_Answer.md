@@ -217,13 +217,6 @@ SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 3
 
 SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC OFFSET 2 ROWS FETCH NEXT 1 ROW ONLY;
 ```
-Or with SQL:
-```sql
-SELECT MIN(salary) FROM (
-  SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 3
-)
-```
-
 ---
 
 #### **10. Employees Earning More Than Manager**
