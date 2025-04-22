@@ -145,18 +145,7 @@ python
 
 ---
 
-### ✅ **Round 1 – Technical**
-
----
-
-#### **1. Project Explanation and Technologies Used**
-
-**Example Answer:**
-> I worked on a real-time log processing pipeline using Azure Data Factory for orchestration, Azure Event Hub for ingestion, Azure Databricks for transformation, and Power BI for visualization. Spark was used in Databricks for large-scale ETL and streaming (Structured Streaming). For batch ETL, I used ADF and Airflow (for non-Azure projects). Kafka was used in another project for ingesting data from web apps and IoT devices.
-
----
-
-#### **2. Performance Tuning Techniques in Spark**
+### **2. Performance Tuning Techniques in Spark**
 - **Optimize shuffles**: Use `repartition()` wisely; minimize wide transformations.
 - **Persist()/cache()**: Use when reusing intermediate results.
 - **Broadcast joins**: Broadcast small dimension tables to avoid shuffle joins.
@@ -164,13 +153,13 @@ python
 
 ---
 
-#### **3. Accumulator vs Broadcast Variables**
+### **3. Accumulator vs Broadcast Variables**
 - **Accumulator**: Used for counters, sum, etc. Write-only from executors.
 - **Broadcast**: Share small lookup datasets across nodes efficiently.
 
 ---
 
-#### **4. SparkSession vs SparkContext**
+### **4. SparkSession vs SparkContext**
 | Feature        | SparkSession                         | SparkContext                     |
 |----------------|--------------------------------------|----------------------------------|
 | Purpose        | Unified entry point (DF, SQL, etc.)  | RDD-based operations             |
@@ -179,13 +168,13 @@ python
 
 ---
 
-#### **5. Dataset vs DataFrame**
+### **5. Dataset vs DataFrame**
 - **Dataset** (Scala/Java): Type-safe, compile-time checks.
 - **DataFrame**: Untyped, row-based with schema.
 
 ---
 
-#### **6. Spark Session Command**
+### **6. Spark Session Command**
 ```python
 from pyspark.sql import SparkSession
 spark = SparkSession.builder \
@@ -195,21 +184,21 @@ spark = SparkSession.builder \
 
 ---
 
-#### **7. Command to Read JSON Data**
+### **7. Command to Read JSON Data**
 ```python
 df = spark.read.option("multiline", "true").json("path/to/file.json")
 ```
 
 ---
 
-#### **8. CSV Without Column Names/Schema**
+### **8. CSV Without Column Names/Schema**
 ```python
 df = spark.read.option("header", "false").csv("path.csv")
 ```
 
 ---
 
-#### **9. Find 3rd Highest Salary**
+### **9. Find 3rd Highest Salary**
 ```sql
 SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 3
 
@@ -219,7 +208,7 @@ SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC OFFSET 2 ROWS FETCH NE
 ```
 ---
 
-#### **10. Employees Earning More Than Manager**
+### **10. Employees Earning More Than Manager**
 ```sql
 SELECT e.name FROM employee e JOIN employee m ON e.manager_id = m.id WHERE e.salary > m.salary
 
@@ -227,7 +216,7 @@ SELECT e.name FROM employee e JOIN employee m ON e.manager_id = m.id WHERE e.sal
 
 ---
 
-#### **11. Palindrome Check (PySpark UDF Example)**
+### **11. Palindrome Check (PySpark UDF Example)**
 ```python
 from pyspark.sql.functions import udf
 from pyspark.sql.types import BooleanType
@@ -241,31 +230,31 @@ df = df.withColumn("is_palindrome", is_palindrome_udf(df["column"]))
 
 ---
 
-#### **12. Spark Submit Command**
+### **12. Spark Submit Command**
 ```bash
 spark-submit --class com.example.Main --master yarn /path/to/app.jar
 ```
 
 ---
 
-#### **13. Memory Tuning**
+### **13. Memory Tuning**
 - `--executor-memory 4G`
 - Use `StorageLevel.MEMORY_AND_DISK`
 - Tune GC with `spark.executor.extraJavaOptions`
 
 ---
 
-#### **14. Created JARs**
+### **14. Created JARs**
 > I created JARs using Maven for my Scala Spark jobs. Used `pom.xml` to manage dependencies and `spark-submit` to deploy.
 
 ---
 
-#### **15. Worked with UDFs**
+### **15. Worked with UDFs**
 > Yes, I used UDFs in Python for data transformation like converting date formats, validating emails, or checking for palindromes.
 
 ---
 
-#### **16. Dynamic Resource Allocation**
+### **16. Dynamic Resource Allocation**
 ```bash
 --conf spark.dynamicAllocation.enabled=true
 --conf spark.dynamicAllocation.minExecutors=2
@@ -274,34 +263,31 @@ spark-submit --class com.example.Main --master yarn /path/to/app.jar
 
 ---
 
-#### **17. Daily Data Volume**
+### **17. Daily Data Volume**
 > We processed ~1TB/day from various sources including system logs, e-commerce transactions, and IoT device data.
 
 ---
 
-#### **18. Production Experience**
+### **18. Production Experience**
 > I’ve deployed Spark jobs via Airflow and monitored them using Azure Monitor, Spark UI, and logs stored in Azure Log Analytics or S3.
 
 ---
 
-### ✅ **Round 2 – Technical**
 
----
-
-#### **1. DataFrame vs Dataset**
+### **18. DataFrame vs Dataset**
 Covered above.  
 > DataFrame is untyped (runtime schema checks), Dataset is typed (compile-time checks, only in Scala/Java).
 
 ---
 
-#### **2 & 3. Load CSV from HDFS**
+### **19. Load CSV from HDFS**
 ```python
 df = spark.read.csv("hdfs://namenode/path/file.csv", header=True, inferSchema=True)
 ```
 
 ---
 
-#### **4. What is Multiline?**
+### **20. What is Multiline?**
 > The `multiline` option is used when JSON records span multiple lines.
 
 ```python
@@ -310,14 +296,14 @@ spark.read.option("multiline", "true").json("path")
 
 ---
 
-#### **5. No Column Names in CSV**
+### **21. No Column Names in CSV**
 ```python
 df = spark.read.option("header", "false").csv("path.csv")
 ```
 
 ---
 
-#### **6. Case Class and StructType Syntax**
+#### **22. Case Class and StructType Syntax**
 **Scala:**
 ```scala
 case class Person(name: String, age: Int)
@@ -337,7 +323,7 @@ df = spark.read.schema(schema).csv("path")
 
 ---
 
-#### **7. Partitioning vs Bucketing**
+### **23. Partitioning vs Bucketing**
 | Technique    | Partitioning                      | Bucketing                            |
 |--------------|-----------------------------------|--------------------------------------|
 | Based on     | Directory structure               | Hashing function                     |
@@ -346,12 +332,12 @@ df = spark.read.schema(schema).csv("path")
 
 ---
 
-#### **8. Closure Function**
+### **24. Closure Function**
 > A closure captures variables from its outer scope. Spark sends the closure to executors, so variables must be serializable.
 
 ---
 
-#### **9. Count of Alphabets in String (Python)**
+### **25. Count of Alphabets in String (Python)**
 ```python
 from collections import Counter
 
@@ -361,7 +347,7 @@ def count_alpha(s):
 
 ---
 
-#### **10. List vs Tuple**
+### **26. List vs Tuple**
 | Feature      | List                          | Tuple                        |
 |--------------|-------------------------------|------------------------------|
 | Mutability   | Mutable                        | Immutable                    |
@@ -370,11 +356,11 @@ def count_alpha(s):
 
 ---
 
-## In ADF, what is the other way to get the incremental load without Watermark Columns:
+### **27 In ADF, what is the other way to get the incremental load without Watermark Columns:
 
 In **Azure Data Factory (ADF)**, if you want to implement **incremental load** without using **watermark columns** (like `LastModifiedDate` or `UpdatedDate`), there are **several alternative strategies**, depending on the data source and structure:
 
-### 🔁 1. **Change Data Capture (CDC)**
+#### 🔁 1. **Change Data Capture (CDC)**
 - **Applicable to**: Azure SQL DB, SQL Server, Synapse, Oracle (with log-based CDC), etc.
 - ADF now **supports CDC natively**, enabling you to load **only the changed data** by tracking changes at the database engine level.
 - Setup involves:
@@ -382,29 +368,26 @@ In **Azure Data Factory (ADF)**, if you want to implement **incremental load** w
   - Using the **"Change Data Capture" connector** in ADF.
 - No need for watermark columns.
 
-### 🗃️ 2. **Delta Files / Partitioned Files in Blob/Data Lake**
+#### 🗃️ 2. **Delta Files / Partitioned Files in Blob/Data Lake**
 - **Applicable to**: File-based sources like Azure Blob Storage, Data Lake, S3.
 - If incoming files are **partitioned by date/time** (e.g., folder names like `/year=2025/month=04/day=23/`), you can use ADF to:
   - Read **only the new folders/files**.
   - Track previously processed partitions via **metadata table** or pipeline variables.
 - This avoids scanning the entire dataset every time.
 
-### 🧾 3. **Using File Name/Metadata Tracking**
+#### 🧾 3. **Using File Name/Metadata Tracking**
 - **Track the file name** or **file properties** (e.g., creation timestamp) in a **lookup table**.
 - Before each load:
   - Compare incoming files to the tracked ones.
   - Only ingest **new or updated** files.
 - Update the tracking table after processing.
 
-### 🔄 4. **Hash Comparison or Checksum**
+#### 🔄 4. **Hash Comparison or Checksum**
 - Compute a **hash or checksum** (e.g., MD5) of each row or record.
 - Compare current hash with stored hash (in staging or target).
 - Only insert/update rows that have changed.
 - Used when no timestamp is available and data volume is manageable.
 
-### 🧠 5. **Source-System Triggers or Flags**
+#### 🧠 5. **Source-System Triggers or Flags**
 - Some systems add a **status flag** (e.g., `IsProcessed`, `IsNew`, `SyncFlag`) to identify rows ready for load.
 - ADF filters for `IsProcessed = false`, then updates the flag after successful load.
-
-
-Would you like to go deeper into one of these options or apply it to a specific source (e.g., SQL, Blob, S3)?
