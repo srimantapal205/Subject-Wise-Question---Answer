@@ -1393,6 +1393,9 @@ o Analyze the query execution plan to identify bottlenecks.
 
 <details open>
 <summary><h2>Azure HDInsight</h2></summary>
+--- 
 
------------------------------------
+#  Comming Soon
+
+---
 </details>
