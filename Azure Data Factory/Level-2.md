@@ -196,18 +196,28 @@ For example, in a shared ADF environment used by multiple teams, annotations can
 Annotations can also be used as a filtering criterion to display only resources with specific tags, improving clarity and manageability. You can add annotations through the properties section of a pipeline, linked service, or dataset in ADF Studio. When filtering, annotations help narrow down the view to only those components associated with a particular tag or group.
 
 ### Question 18: What is the difference between Azure Data Factory user properties and annotations?
-**Answer:** Level of Application:
+**Answer:**
+1. Level of Application:
 - Annotations are defined at the pipeline, linked service, dataset, or trigger levels.
-- User Properties are defined only at the activity level (e.g., Copy Activity). 2. Purpose:
+- User Properties are defined only at the activity level (e.g., Copy Activity). 
+
+2. Purpose:
 - Annotations are static values or tags used to organize, group, or segregate resources. For example, tagging a pipeline with "Team1" or "Team2" for identification and filtering.
-- User Properties can store dynamic values during execution, often used for tracking performance metrics or custom metrics for specific activities. 3. Dynamic vs. Static Values:
+- User Properties can store dynamic values during execution, often used for tracking performance metrics or custom metrics for specific activities. 
+
+3. Dynamic vs. Static Values:
 - Annotations generally hold static values that do not change during execution.
-- User Properties can have dynamic values that can vary during runtime. 4. Filtering and Organization:
+- User Properties can have dynamic values that can vary during runtime. 
+
+4. Filtering and Organization:
 - Annotations help in resource organization and filtering at various levels in ADF.
-- User Properties do not support filtering but help in monitoring and evaluating activity-level metrics. 5. Use Cases:
+- User Properties do not support filtering but help in monitoring and evaluating activity-level metrics. 
+
+5. Use Cases:
 - Use annotations when you need to group resources (e.g., pipelines, datasets, triggers) and enable better organization or filtering in a shared environment.
 - Use user properties to capture execution-specific details or custom metrics for activities.
-    These distinctions clarify when to use annotations or user properties in Azure Data Factory projects, enabling better resource management and execution tracking.
+
+These distinctions clarify when to use annotations or user properties in Azure Data Factory projects, enabling better resource management and execution tracking.
 
 ### Question 19: What are the different types of Integration Runtimes in Azure Data Factory?
 **Answer:** Integration Runtime (IR) in Azure Data Factory is the core component that provides the computational power to execute activities in a pipeline. There are three types of Integration Runtimes:
