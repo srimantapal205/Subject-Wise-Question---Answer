@@ -18,9 +18,12 @@ A basic pipeline could include just a single activity, such as moving data from 
 
 ### Question 3: What do you mean by a data source in Azure Data Factory?
 **Answer :** A data source in Azure Data Factory represents the input or output system involved in data movement or transformation processes. It can be:
+
 - Source System: Where data is read from.
 - Destination System: Where data is written to.
+
 **Key Points about Data Sources:**
+
 - Data sources are integral to ADF operations like reading, writing, or transforming data.
 - Examples include SQL Server, Azure Blob Storage, Snowflake, MySQL, Postgres, etc.
 - Supported data formats include text, binary, JSON, CSV, and even multimedia formats like audio, video, or images.
@@ -29,13 +32,17 @@ A basic pipeline could include just a single activity, such as moving data from 
 In essence, a data source is a system or storage used to interact with data during ADF operations.
 
 ### Question 4: What is a linked service in Azure Data Factory?
+
 **Answer :** A linked service in Azure Data Factory is a connection object that defines how ADF connects to external data sources or systems.
-Key Points about Linked Services:
+
+**Key Points about Linked Services:**
+
 - Acts as a bridge to connect external systems like Azure Blob Storage, SQL databases, or other supported services.
 - Similar to a connection string in programming, it contains the necessary authentication details like server name, address, port, username, and password.
 - Required whenever ADF interacts with systems outside its environment.
 
-Example: When moving data from an SQL database to Azure Blob Storage:
+**Example: When moving data from an SQL database to Azure Blob Storage:**
+
 - A linked service is created for the SQL database (source).
 - Another linked service is created for Azure Blob Storage (destination).
 
