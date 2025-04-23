@@ -385,3 +385,74 @@ In **Azure Data Factory (ADF)**, if you want to implement **incremental load** w
 #### 🧠 5. **Source-System Triggers or Flags**
 - Some systems add a **status flag** (e.g., `IsProcessed`, `IsNew`, `SyncFlag`) to identify rows ready for load.
 - ADF filters for `IsProcessed = false`, then updates the flag after successful load.
+
+### **27 How to run more than 100 pipeline at a time with sequentially and pipeline all are dependency run one by one 
+
+Great question! If you have **more than 100 pipelines** that need to be executed **sequentially** (i.e., one after another, in a specific order, with dependencies), you can **orchestrate them efficiently in Azure Data Factory** (ADF) using the following methods:
+
+---
+
+### ✅ **Recommended Approach: Use Master Pipeline with Execute Pipeline Activities**
+
+You can create a **Master Pipeline** that calls other pipelines in sequence using the **"Execute Pipeline"** activity. Here's how to manage more than 100:
+
+
+
+### 🛠️ **Step-by-Step Strategy**
+
+#### 🔁 1. **Group Pipelines into Batches**
+- Since ADF has a UI performance limit of ~40–50 activities per pipeline, **don’t put all 100+ pipelines in one single pipeline.**
+- Group them into **batches of 20–30 pipelines per group**.
+- Create **Batch Pipelines** like:
+  - `BatchPipeline1` (calls `Pipeline001` to `Pipeline030`)
+  - `BatchPipeline2` (calls `Pipeline031` to `Pipeline060`)
+  - ... and so on.
+
+#### 🧠 2. **Create a Master Orchestration Pipeline**
+- This pipeline calls each **Batch Pipeline** one after another using **Execute Pipeline** activities.
+- Ensure each `Execute Pipeline` activity is **chained via success dependency** (green arrow).
+
+```plaintext
+MasterPipeline
+  └── ExecutePipeline (BatchPipeline1)
+        └── ExecutePipeline (BatchPipeline2)
+              └── ExecutePipeline (BatchPipeline3)
+                    ...
+```
+
+#### ⛓️ 3. **Control Flow with Dependency Conditions**
+- Each `Execute Pipeline` can be followed by success/failure paths if needed.
+- You can also add error handling using **Try-Catch logic** with `If Condition` and `Until` activities for retries.
+
+
+
+### ⚙️ Alternative Approaches
+
+#### 🧾 1. **Use Metadata-Driven Execution**
+- Store pipeline names in a **SQL Table** or **JSON config file**.
+- Use a `ForEach` activity to loop through and call each pipeline one by one using a dynamic `Execute Pipeline` activity.
+
+```json
+[
+  {"PipelineName": "Pipeline001"},
+  {"PipelineName": "Pipeline002"},
+  ...
+]
+```
+
+- Inside `ForEach`, set **batch count = 1** to ensure **sequential execution**.
+
+
+### 🧩 2. **Use Azure Data Factory REST API or Azure Functions**
+- If you want external control, create an orchestration logic using **Azure Functions**, **PowerShell**, or **Logic Apps** to:
+  - Call each pipeline using ADF REST API.
+  - Wait for one pipeline to finish before calling the next.
+
+
+### ✅ Best Practices
+
+- **Limit pipeline nesting** to reduce complexity.
+- Use **logging** and **error-handling pipelines** for production reliability.
+- **Monitor** via ADF monitoring tab or **Log Analytics** if connected.
+
+---
