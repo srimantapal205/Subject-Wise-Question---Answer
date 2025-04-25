@@ -456,3 +456,233 @@ MasterPipeline
 - **Monitor** via ADF monitoring tab or **Log Analytics** if connected.
 
 ---
+
+Great questions! Here's a comprehensive breakdown of each one:
+
+---
+
+### **1. Explain the differences between RDDs, DataFrames, and Datasets in PySpark. When would you use each?**
+
+| Feature         | RDD                            | DataFrame                            | Dataset (Scala/Java only)        |
+|----------------|---------------------------------|--------------------------------------|----------------------------------|
+| Abstraction     | Low-level                      | High-level (structured)              | High-level + Strongly typed      |
+| Compile-time type safety | Yes                     | No                                   | Yes                              |
+| Optimization   | No (manual optimization)        | Yes (Catalyst & Tungsten)            | Yes                              |
+| Ease of use    | Less (more boilerplate)         | More (SQL-like API)                  | Medium (better than RDDs)        |
+| Language Support | Python, Scala, Java           | Python, Scala, Java, R               | Scala and Java only              |
+
+**Use cases:**
+- **RDD**: Complex transformations, unstructured data.
+- **DataFrame**: Structured data, ETL pipelines, SQL queries.
+- **Dataset**: Strong typing + compile-time safety (Scala/Java only).
+
+---
+
+### **2. How does PySpark handle lazy evaluation? Can you provide an example demonstrating this concept?**
+
+PySpark transformations are lazy, meaning they’re not executed until an action is called.
+
+**Example:**
+```python
+rdd = sc.textFile("data.txt")
+words = rdd.flatMap(lambda x: x.split(" "))
+wordPairs = words.map(lambda x: (x, 1))  # Lazy
+counts = wordPairs.reduceByKey(lambda a, b: a + b)  # Still lazy
+counts.collect()  # Triggers execution
+```
+
+Only when `collect()` is called does Spark build and execute the DAG.
+
+---
+
+### **3. Describe the role of the Catalyst optimizer in PySpark. How does it enhance query execution?**
+
+Catalyst is Spark SQL’s query optimizer. It improves performance by:
+- Analyzing and optimizing logical and physical query plans.
+- Applying rule-based transformations (e.g., constant folding, predicate pushdown).
+- Reordering operations for optimal execution.
+
+**Benefit:** Makes DataFrame and SQL operations significantly faster than RDDs.
+
+---
+
+### **4. What are the various types of joins supported in PySpark? How do they differ in terms of performance and use cases?**
+
+- **Inner Join**: Only matching keys.
+- **Left/Right Outer Join**: Keeps all rows from one side, nulls for no matches.
+- **Full Outer Join**: All records from both sides.
+- **Left Semi Join**: Rows from left where matches exist on right.
+- **Left Anti Join**: Rows from left where no match on right.
+- **Cross Join**: Cartesian product (use with caution).
+
+**Performance Tips**:
+- Broadcast small tables for faster joins.
+- Avoid shuffles when possible.
+
+---
+
+### **5. How can you handle missing or null values in a PySpark DataFrame? What strategies are available?**
+
+Common strategies:
+```python
+    df.dropna()                   # Drop rows with nulls
+    df.fillna(0)                  # Replace nulls
+    df.na.replace(...)            # Replace specific values
+```
+
+Approach depends on context—sometimes mean/median imputation is better than dropping.
+
+---
+
+### **6. Explain the significance of partitioning in PySpark. How does it impact performance, and how do you implement it?**
+
+Partitioning affects **parallelism** and **shuffling**.
+
+**Benefits:**
+- Reduces data movement.
+- Improves task scheduling.
+
+**Implementation:**
+```python
+df.repartition(10, "column")
+df.coalesce(5)
+```
+
+Use `repartition()` when increasing partitions; `coalesce()` to reduce them efficiently.
+
+---
+
+### **7. What is the difference between the `cache()` and `persist()` methods in PySpark? When would you use each?**
+
+- `cache()` = shorthand for `persist(StorageLevel.MEMORY_AND_DISK)`
+- `persist()` = allows other storage levels (e.g., disk-only)
+
+Use `cache()` for small-to-medium datasets accessed repeatedly. Use `persist()` for large datasets or specific storage needs.
+
+---
+
+### **8.How do you create and register a user-defined function (UDF) in PySpark? What are the performance considerations?**
+
+```python
+    from pyspark.sql.functions import udf
+    from pyspark.sql.types import StringType
+
+    def upper_case(name):
+        return name.upper()
+
+    upper_udf = udf(upper_case, StringType())
+    df.withColumn("upper_name", upper_udf(df["name"]))
+```
+
+**Performance Warning**: UDFs are black-box to Catalyst—avoid if possible. Use built-in functions or Pandas UDFs.
+
+---
+
+### **9. Discuss the concept of shuffling in PySpark. How does it affect performance, and how can it be minimized?**
+
+Shuffling = redistributing data across partitions, triggered by:
+- Wide transformations (`groupByKey`, `reduceByKey`, `join`)
+- Repartitioning
+
+**Impact**: Slows down performance, increases network I/O.
+
+**Minimize by**:
+- Using `reduceByKey` instead of `groupByKey`
+- Broadcasting smaller datasets
+- Pre-partitioning data
+
+---
+
+### **10. Describe a scenario where you had to optimize a PySpark job for performance. What steps did you take?**
+
+**Example**: Job was slow due to large shuffle in join.
+
+**Steps Taken**:
+1. Used `broadcast()` for small dimension table.
+2. Repartitioned large table by join key.
+3. Cached intermediate result reused in multiple stages.
+4. Used DataFrames instead of RDDs for Catalyst optimization.
+
+Result: Reduced execution time by 70%.
+
+---
+
+### **11. How do you read data from and write data to various file formats (e.g., CSV, Parquet, JSON) in PySpark?**
+
+```python
+    # CSV
+    df = spark.read.csv("file.csv", header=True, inferSchema=True)
+    df.write.csv("out.csv")
+
+    # Parquet
+    df = spark.read.parquet("file.parquet")
+    df.write.parquet("out.parquet")
+
+    # JSON
+    df = spark.read.json("file.json")
+    df.write.json("out.json")
+    ```
+
+Parquet is preferred for performance (columnar, compressed).
+
+---
+
+### **12. Explain how you would perform aggregations in PySpark. What functions and methods are commonly used?**
+
+```python
+    from pyspark.sql.functions import count, avg, sum
+
+    df.groupBy("category").agg(
+        count("*").alias("cnt"),
+        avg("price").alias("avg_price"),
+        sum("sales").alias("total_sales")
+    )
+```
+
+Also use `window()` for time-based aggregations.
+
+---
+
+### **13. What are broadcast variables in PySpark? How do they help in improving the performance of join operations?**
+
+Used to cache small lookup tables on all worker nodes to avoid data shuffling during joins.
+
+```python
+    from pyspark.sql.functions import broadcast
+    df.join(broadcast(dim_table), "id")
+```
+
+Greatly improves performance for joins with small datasets.
+
+---
+
+### **14. Describe the process of handling schema evolution in PySpark when dealing with changing data structures.**
+
+For evolving schemas:
+- Use Parquet/Avro—they support schema evolution.
+- Enable schema merge:
+```python
+    spark.read.option("mergeSchema", "true").parquet("path")
+```
+- Plan schema carefully and use versioning for backward compatibility.
+
+---
+
+### **15. Can you provide an example of a complex PySpark transformation pipeline you've implemented? What challenges did you face, and how did you overcome them?**
+
+**Scenario**:
+- Merged IoT device data from multiple sources
+- Cleaned, joined with metadata, and aggregated for daily metrics
+- Stored in Delta Lake with partitioning
+
+**Challenges**:
+- Handling out-of-order data
+- Optimizing joins
+- Schema evolution over time
+
+**Solutions**:
+- Used watermarking and window functions
+- Applied broadcast joins
+- Enabled merge schema in Delta writes
+
+---
