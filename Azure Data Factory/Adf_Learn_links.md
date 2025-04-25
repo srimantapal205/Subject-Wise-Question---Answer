@@ -419,3 +419,14 @@ Lecture: Azure data factory analytics
 
 
 https://docs.microsoft.com/en-us/azure/data-factory/monitor-using-azure-monitor#install-azure-data-factory-analytics-solution-from-azure-marketplace
+
+
+https://www.projectpro.io/article/azure-data-factory-interview-questions-and-answers/601
+
+https://k21academy.com/microsoft-azure/dp-203/adf-interview-questions/
+
+https://intellipaat.com/blog/interview-question/azure-data-factory-interview-questions/
+
+https://www.interviewbit.com/azure-data-factory-interview-questions/
+
+https://azuretrainings.in/azure-data-factory-interview-questions/
