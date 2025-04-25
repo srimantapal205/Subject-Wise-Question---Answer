@@ -52,7 +52,7 @@ Here’s a commonly asked **Azure Data Factory (ADF)** interview question on act
 
 ---
 
-### **What are the different types of activities in Azure Data Factory (ADF), and how are they used?**
+### 2. **What are the different types of activities in Azure Data Factory (ADF), and how are they used?**
 
 ---
 
