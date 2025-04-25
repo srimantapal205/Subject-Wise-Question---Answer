@@ -461,7 +461,7 @@ Great questions! Here's a comprehensive breakdown of each one:
 
 ---
 
-### **1. Explain the differences between RDDs, DataFrames, and Datasets in PySpark. When would you use each?**
+### **27. Explain the differences between RDDs, DataFrames, and Datasets in PySpark. When would you use each?**
 
 | Feature         | RDD                            | DataFrame                            | Dataset (Scala/Java only)        |
 |----------------|---------------------------------|--------------------------------------|----------------------------------|
@@ -478,7 +478,7 @@ Great questions! Here's a comprehensive breakdown of each one:
 
 ---
 
-### **2. How does PySpark handle lazy evaluation? Can you provide an example demonstrating this concept?**
+### **29. How does PySpark handle lazy evaluation? Can you provide an example demonstrating this concept?**
 
 PySpark transformations are lazy, meaning they’re not executed until an action is called.
 
@@ -495,7 +495,7 @@ Only when `collect()` is called does Spark build and execute the DAG.
 
 ---
 
-### **3. Describe the role of the Catalyst optimizer in PySpark. How does it enhance query execution?**
+### **30. Describe the role of the Catalyst optimizer in PySpark. How does it enhance query execution?**
 
 Catalyst is Spark SQL’s query optimizer. It improves performance by:
 - Analyzing and optimizing logical and physical query plans.
@@ -506,7 +506,7 @@ Catalyst is Spark SQL’s query optimizer. It improves performance by:
 
 ---
 
-### **4. What are the various types of joins supported in PySpark? How do they differ in terms of performance and use cases?**
+### **31. What are the various types of joins supported in PySpark? How do they differ in terms of performance and use cases?**
 
 - **Inner Join**: Only matching keys.
 - **Left/Right Outer Join**: Keeps all rows from one side, nulls for no matches.
@@ -521,7 +521,7 @@ Catalyst is Spark SQL’s query optimizer. It improves performance by:
 
 ---
 
-### **5. How can you handle missing or null values in a PySpark DataFrame? What strategies are available?**
+### **32. How can you handle missing or null values in a PySpark DataFrame? What strategies are available?**
 
 Common strategies:
 ```python
@@ -534,7 +534,7 @@ Approach depends on context—sometimes mean/median imputation is better than dr
 
 ---
 
-### **6. Explain the significance of partitioning in PySpark. How does it impact performance, and how do you implement it?**
+### **33. Explain the significance of partitioning in PySpark. How does it impact performance, and how do you implement it?**
 
 Partitioning affects **parallelism** and **shuffling**.
 
@@ -552,7 +552,7 @@ Use `repartition()` when increasing partitions; `coalesce()` to reduce them effi
 
 ---
 
-### **7. What is the difference between the `cache()` and `persist()` methods in PySpark? When would you use each?**
+### **34. What is the difference between the `cache()` and `persist()` methods in PySpark? When would you use each?**
 
 - `cache()` = shorthand for `persist(StorageLevel.MEMORY_AND_DISK)`
 - `persist()` = allows other storage levels (e.g., disk-only)
@@ -561,7 +561,7 @@ Use `cache()` for small-to-medium datasets accessed repeatedly. Use `persist()` 
 
 ---
 
-### **8.How do you create and register a user-defined function (UDF) in PySpark? What are the performance considerations?**
+### **35.How do you create and register a user-defined function (UDF) in PySpark? What are the performance considerations?**
 
 ```python
     from pyspark.sql.functions import udf
@@ -578,7 +578,7 @@ Use `cache()` for small-to-medium datasets accessed repeatedly. Use `persist()` 
 
 ---
 
-### **9. Discuss the concept of shuffling in PySpark. How does it affect performance, and how can it be minimized?**
+### **36. Discuss the concept of shuffling in PySpark. How does it affect performance, and how can it be minimized?**
 
 Shuffling = redistributing data across partitions, triggered by:
 - Wide transformations (`groupByKey`, `reduceByKey`, `join`)
@@ -593,7 +593,7 @@ Shuffling = redistributing data across partitions, triggered by:
 
 ---
 
-### **10. Describe a scenario where you had to optimize a PySpark job for performance. What steps did you take?**
+### **37. Describe a scenario where you had to optimize a PySpark job for performance. What steps did you take?**
 
 **Example**: Job was slow due to large shuffle in join.
 
@@ -607,7 +607,7 @@ Result: Reduced execution time by 70%.
 
 ---
 
-### **11. How do you read data from and write data to various file formats (e.g., CSV, Parquet, JSON) in PySpark?**
+### **38. How do you read data from and write data to various file formats (e.g., CSV, Parquet, JSON) in PySpark?**
 
 ```python
     # CSV
@@ -621,13 +621,12 @@ Result: Reduced execution time by 70%.
     # JSON
     df = spark.read.json("file.json")
     df.write.json("out.json")
-    ```
+```
 
 Parquet is preferred for performance (columnar, compressed).
 
 ---
-
-### **12. Explain how you would perform aggregations in PySpark. What functions and methods are commonly used?**
+### **39. Explain how you would perform aggregations in PySpark. What functions and methods are commonly used?**
 
 ```python
     from pyspark.sql.functions import count, avg, sum
@@ -643,7 +642,7 @@ Also use `window()` for time-based aggregations.
 
 ---
 
-### **13. What are broadcast variables in PySpark? How do they help in improving the performance of join operations?**
+### **40. What are broadcast variables in PySpark? How do they help in improving the performance of join operations?**
 
 Used to cache small lookup tables on all worker nodes to avoid data shuffling during joins.
 
@@ -656,7 +655,7 @@ Greatly improves performance for joins with small datasets.
 
 ---
 
-### **14. Describe the process of handling schema evolution in PySpark when dealing with changing data structures.**
+### **41 Describe the process of handling schema evolution in PySpark when dealing with changing data structures.**
 
 For evolving schemas:
 - Use Parquet/Avro—they support schema evolution.
@@ -668,7 +667,7 @@ For evolving schemas:
 
 ---
 
-### **15. Can you provide an example of a complex PySpark transformation pipeline you've implemented? What challenges did you face, and how did you overcome them?**
+### **42. Can you provide an example of a complex PySpark transformation pipeline you've implemented? What challenges did you face, and how did you overcome them?**
 
 **Scenario**:
 - Merged IoT device data from multiple sources
