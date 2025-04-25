@@ -46,3 +46,88 @@ If you want to automatically kick off one pipeline after another based on succes
 
 But managing 200 trigger dependencies in this UI may be tedious and not scalable.
 
+
+
+Here’s a commonly asked **Azure Data Factory (ADF)** interview question on activities, along with a detailed answer:
+
+---
+
+### **What are the different types of activities in Azure Data Factory (ADF), and how are they used?**
+
+---
+
+### ✅ **Answer:**
+
+In **Azure Data Factory**, **activities** define the **actions** or **operations** to be performed within a pipeline. ADF supports **different types of activities**, broadly categorized into the following:
+
+---
+
+### 🔹 1. **Data Movement Activities**
+These activities are used to move data from a source to a destination.
+
+- **Copy Activity**:  
+  - Most commonly used activity.  
+  - Transfers data between supported data stores.  
+  - Supports transformations like column mapping and format conversion.  
+  - Example: Copy data from Amazon S3 to Azure Blob Storage or from Blob to Azure SQL Database.
+
+---
+
+### 🔹 2. **Data Transformation Activities**
+Used to transform or process data.
+
+- **Data Flow Activity**:  
+  - Executes mapping data flows (visually designed transformations).  
+  - Allows schema mapping, joins, filters, aggregations, etc.  
+
+- **Azure Databricks Notebook/Activity**:  
+  - Triggers Databricks jobs for large-scale data transformations using Spark.
+
+- **HDInsight Activity**:  
+  - Executes Hive, Pig, or custom scripts on HDInsight clusters.
+
+- **Stored Procedure Activity**:  
+  - Executes stored procedures in SQL-based systems like Azure SQL Database or Synapse.
+
+- **U-SQL, Hadoop, or ML Activities**:  
+  - Executes specific processing logic using those technologies.
+
+---
+
+### 🔹 3. **Control Activities**
+Used to control the pipeline flow, logic, and execution order.
+
+- **Execute Pipeline Activity**:  
+  - Runs a child pipeline from a parent pipeline.  
+  - Useful for modular and reusable pipeline designs.
+
+- **If Condition Activity**:  
+  - Evaluates an expression and runs different activities based on true/false.
+
+- **ForEach Activity**:  
+  - Iterates over a collection of items and executes inner activities for each item.
+
+- **Until Activity**:  
+  - Repeats inner activities until a condition is met.
+
+- **Wait Activity**:  
+  - Introduces a delay before the next activity executes.
+
+---
+
+### 🔹 4. **External Activities**
+Used to trigger external services or compute.
+
+- **Web Activity**:  
+  - Calls REST APIs to trigger external processes or send messages.  
+  - Example: Call a webhook or trigger a Logic App.
+
+- **Azure Function Activity**:  
+  - Executes a serverless Azure Function.  
+  - Example: Run custom logic like file renaming or data formatting.
+
+- **Custom Activity**:  
+  - Allows running custom .NET code on an Azure Batch service.
+
+---
+
