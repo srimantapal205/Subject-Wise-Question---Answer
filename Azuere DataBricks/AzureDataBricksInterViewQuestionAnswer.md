@@ -14,6 +14,9 @@ Differences from traditional big data frameworks:
 |Security & Governance |	Built-in RBAC, Unity Catalog	|Requires additional security tools|
 |Integration|	Native integrations with cloud storage & services	|Needs manual integration|
 
+
+---
+
 ### 2. What are the key components of the Databricks architecture?
 **Answer:**
 Databricks has several key components that enable efficient big data processing:
@@ -26,6 +29,9 @@ Databricks has several key components that enable efficient big data processing:
 6. **Delta Lake** – A storage layer with ACID transactions for reliability.
 7. **MLflow** – Machine learning lifecycle management.
 8. **Unity Catalog** – Centralized data governance and access control.
+
+
+---
 
 ### 3. Explain the differences between Databricks and Azure Synapse Analytics.
 **Answer:**
@@ -41,6 +47,9 @@ Databricks has several key components that enable efficient big data processing:
 | SQL Support	| Databricks SQL (Spark SQL)	| T-SQL (Synapse SQL)|
 | Streaming Support	| Yes, via Structured Streaming	| Limited|
 | ML & AI Support	| Strong MLflow integration| 	Basic ML capabilities|
+
+
+---
 
 ### 4. What is the role of Databricks Workflows (formerly Jobs) in automation?|
 **Answer:**
@@ -67,6 +76,9 @@ Example: Running a Databricks Job using the CLI
 
 databricks jobs run-now --job-id 1234
 
+
+---
+
 ### 5. How does Databricks handle cluster management and auto-scaling?
 **Answer:**
 
@@ -79,6 +91,9 @@ Databricks offers intelligent cluster management and auto-scaling to optimize co
 - **Spot Instances (AWS) / Low-priority VMs (Azure):** Reduces costs by using preemptible instances.
 - **High Concurrency Mode:** Supports multiple users running jobs simultaneously.
 - **Auto-Scaling Example:** When processing high volumes of data, Databricks automatically adds more nodes to improve performance. Once the job is completed, it removes excess nodes to save costs.
+
+
+---
 
 ### 6. How do you read and write data in Databricks using different formats (CSV, Parquet, Delta Lake)?
 **Answer:**
@@ -108,6 +123,8 @@ Databricks supports multiple file formats for reading and writing data, includin
     # Write as Delta Lake
     df.write.format("delta").mode("overwrite").save("/mnt/output/sample-delta")
 
+---
+
 ### 7. What is Delta Lake, and how does it enhance data reliability in Databricks?
 **Answer:**
 Delta Lake is an open-source storage layer that enhances data lakes by adding ACID transactions, schema enforcement, and time travel.
@@ -129,6 +146,8 @@ Delta Lake is an open-source storage layer that enhances data lakes by adding AC
 | Time Travel|	✅ Yes|	❌ No|
 | Data Compaction|	✅ Yes|	❌ No|
 | Performance	|🚀 Faster (Optimized reads/writes)|	⚡ Slower|
+
+---
 
 ### 8. Explain ACID transactions in Delta Lake.
 
@@ -159,6 +178,8 @@ Delta Lake ensures data reliability with ACID transactions (Atomicity, Consisten
         .whenNotMatchedInsert(values={"id": "new.id", "value": "new.value"}) \
         .execute()
 
+---
+
 ### 9. How does Databricks handle schema evolution in Delta Lake?
 **Answer:**
 Delta Lake supports schema evolution, allowing changes in table structure without breaking existing data.
@@ -172,6 +193,8 @@ The mergeSchema option ensures new columns in incoming data are added to the exi
 ✅ Example: Schema Evolution with ALTER TABLE:
     
     ALTER TABLE delta.`/mnt/output/sample-delta` ADD COLUMNS (new_column STRING);
+
+---
 
 ### 10. What are the different ways to perform ETL in Databricks?
 **Answer:**
@@ -199,6 +222,8 @@ Databricks provides multiple approaches to extract, transform, and load (ETL) da
         .option("checkpointLocation", "/mnt/checkpoints") \
         .start("/mnt/processed-data")
 
+---
+
 ### 11. How do you optimize Spark jobs in Databricks?
 **Answer:**
 Optimizing Spark jobs in Databricks involves multiple techniques to reduce execution time and improve resource utilization.
@@ -220,6 +245,8 @@ Optimizing Spark jobs in Databricks involves multiple techniques to reduce execu
 
 
     spark.conf.set("spark.sql.adaptive.enabled", "true")
+
+---
 
 ### 12. Explain caching and persist operations in Spark.
 **Answer:**
@@ -278,6 +305,9 @@ Adaptive Query Execution (AQE) dynamically optimizes query plans at runtime base
 
 AQE automatically prunes unnecessary partitions, reducing the amount of data scanned.
 
+
+---
+
 ### 14. How can you improve the performance of joins in Spark?
 **Answer:**
 
@@ -317,6 +347,9 @@ Pre-partition and sort tables before joining to reduce shuffle.
     spark.conf.set("spark.sql.shuffle.partitions", "200")
     (Default is 200, can be adjusted based on dataset size.)
 
+
+---
+
 ### 15. What are some best practices for partitioning data in Databricks?
 **Answer:**
 Partitioning helps improve query performance by allowing Spark to scan only relevant partitions.
@@ -355,6 +388,8 @@ This query automatically prunes unnecessary partitions.
 
 
  ## Databricks Notebooks and Workflows
+
+---
 
 ### 16. How do you schedule a Databricks notebook as a job?
 **Answer:**
@@ -404,6 +439,8 @@ You can schedule a Databricks notebook as a job using Databricks Workflows (form
     }'
 
 
+---
+
 ### 17. What are widgets in Databricks, and how can they be used?
 **Answer:**
 Widgets allow users to pass parameters dynamically into notebooks for interactive execution.
@@ -431,6 +468,8 @@ Widgets allow users to pass parameters dynamically into notebooks for interactiv
 ✅ Use Case: Passing Parameters in Scheduled Jobs
 
 Widgets allow passing dynamic values from Azure Data Factory or REST API when running notebooks.
+
+---
 
 ### 18. How do you integrate Databricks with Azure Data Factory (ADF)?
 **Answer:**
@@ -467,6 +506,8 @@ Azure Data Factory (ADF) can orchestrate Databricks by executing notebooks, JARs
       "notebook_params": { "input_file": "data.csv", "table_name": "sales" }
     }'
 
+---
+
 ### 19. What are the different cluster types in Databricks?
 **Answer:**
 Databricks provides four main cluster types depending on workload needs.
@@ -493,6 +534,8 @@ Databricks provides four main cluster types depending on workload needs.
 * Use High Concurrency Clusters for SQL analytics to reduce startup times.
 * Use Job Clusters for ETL workflows to minimize costs.
 * Enable Auto-Termination to prevent idle clusters from incurring charges.
+
+---
 
 ### 20. How do you handle dependencies in a Databricks workflow?
 **Answer:**
@@ -543,8 +586,11 @@ Example: Load data before running transformations.
 ✅ 4. Uploading External JARs for Scala/PySpark Dependencies
 
 
+---
 
 ## Security & Access Control
+
+---
 
 ### 21. What are the different ways to manage access control in Databricks?
 **Answer:**
@@ -582,6 +628,8 @@ Databricks provides multiple access control mechanisms to secure data, notebooks
 
 + Uses Dynamic Views in Unity Catalog to mask sensitive data.
 + Supports tokenization to replace PII with pseudonyms.
+
+---
 
 ### 22. How does Databricks handle data encryption and security?
 **Answer:**
@@ -622,6 +670,8 @@ Uses Dynamic Views to enforce masking on sensitive data.
       CASE WHEN current_user() = 'admin' THEN ssn ELSE 'XXX-XX-XXXX' END AS masked_ssn
     FROM customers;
 
+---
+
 ### 23. What is Unity Catalog and its benefits in Databricks?
 
 **Answer:**
@@ -658,6 +708,7 @@ Unity Catalog is Databricks' unified governance layer for managing data access, 
     CREATE VIEW sales_data_filtered AS
     SELECT * FROM sales_data WHERE region = current_user();
 
+---
 
 ### 24. How do you implement row-level and column-level security in Databricks?
 **Answer:**
@@ -709,9 +760,12 @@ ABAC allows fine-grained control based on user attributes (e.g., job title, depa
 
     GRANT SELECT ON TABLE sales_data TO user WHERE department = 'finance';
 
+---
 
 
 ## Integrations & Connectivity
+
+---
 
 ###  25. How do you connect Databricks to Azure Blob Storage?
 **Answer:**
@@ -758,7 +812,10 @@ Mounted storage is persistent across sessions but only accessible within the wor
 
 ABFS is preferred for higher performance and scalability.
 
+---
+
 ### 26. How can Databricks be integrated with external databases like Azure SQL Database?
+
 **Answer:**
 Databricks connects to Azure SQL Database using:
 
@@ -790,6 +847,8 @@ ADF orchestrates ETL pipelines from Databricks to Azure SQL.
 
 Uses Copy Activity or Databricks Notebook Activity.
 
+---
+
 ### 27. What is the difference between mounting storage in Databricks and using direct access?
 **Answer:**
 
@@ -800,6 +859,8 @@ Uses Copy Activity or Databricks Notebook Activity.
 + Use Case	Good for interactive analysis	Best for big data processing
 
 ✅ Recommendation: Use ABFS for production and DBFS mount for ad-hoc analysis.
+
+---
 
 ### 28. How can you use Databricks connectors for Snowflake, AWS Redshift, or Google BigQuery?
 **Answer:**
@@ -851,6 +912,8 @@ Redshift & BigQuery use JDBC, requiring manual optimizations.
 
 
 ## Troubleshooting & Debugging
+
+---
 
 ### 29. How do you debug performance issues in Databricks?
 **Answer:**
@@ -907,6 +970,8 @@ Enable adaptive query execution (AQE) to optimize partitions dynamically.
 
     spark.conf.set("spark.databricks.io.cache.enabled", "true")
 
+---
+
 ### 30. What are some common errors in Spark and their resolutions?
 **Answer:**
 
@@ -932,6 +997,8 @@ Enable adaptive query execution (AQE) to optimize partitions dynamically.
 
     spark.conf.set("spark.sql.adaptive.enabled", "true")  # Enable AQE
     df = df.repartition(100)  # Reduce shuffle partitions
+
+---
 
 ### 31. How do you monitor Databricks jobs and logs?
 **Answer:**
@@ -979,16 +1046,15 @@ Databricks logs cluster events under "Event Log" (includes auto-scaling, node fa
 
 Monitors CPU, Memory, and Disk Usage dynamically.
 
+---
+
 ### 32. Explain What is the different read mode in spark?
 **Answer:**
-
-
 
 In **Spark**, when you **read files** (like CSV, JSON, etc.), you can specify a **mode** to tell Spark how to handle **corrupt** or **bad records**.  
 
 Here are the main **modes** you can use during reading:
 
----
 
 ### 🔥 Different Modes in Spark Read
 
@@ -998,35 +1064,33 @@ Here are the main **modes** you can use during reading:
 | **DROPMALFORMED**        | Drops any records that are corrupted or don’t match the schema.                        |
 | **FAILFAST**             | Immediately throws an error if any malformed record is found.                          |
 
----
 
 ### 🛠️ How to Set Mode in Code
 
 ```python
-# Example for reading a CSV with different modes
-df = spark.read.option("mode", "PERMISSIVE").csv("path/to/data.csv", schema=schema)
+        # Example for reading a CSV with different modes
+        df = spark.read.option("mode", "PERMISSIVE").csv("path/to/data.csv", schema=schema)
 
-df = spark.read.option("mode", "DROPMALFORMED").csv("path/to/data.csv", schema=schema)
+        df = spark.read.option("mode", "DROPMALFORMED").csv("path/to/data.csv", schema=schema)
 
-df = spark.read.option("mode", "FAILFAST").csv("path/to/data.csv", schema=schema)
+        df = spark.read.option("mode", "FAILFAST").csv("path/to/data.csv", schema=schema)
 ```
 
----
+
 
 ### 🔎 Short Summary:
 - **PERMISSIVE** = Save bad records separately.
 - **DROPMALFORMED** = Ignore bad records.
 - **FAILFAST** = Crash immediately on bad records.
 
----
 
-### 31. Explain What is the different Write mode in spark?
+### 33. Explain What is the different Write mode in spark?
 
 When you **write** data (save DataFrames) in Spark, you can control **what happens if the target location already exists** by using different **write modes**.
 
 Here’s the full breakdown:
 
----
+
 
 ### 🔥 Different Write Modes in Spark
 
@@ -1037,22 +1101,22 @@ Here’s the full breakdown:
 | **ignore**   | If data already exists at the path, Spark does nothing (no error, no overwrite). |
 | **error** (or **errorifexists**) | Default. If data already exists at the path, Spark throws an error and stops writing. |
 
----
+
 
 ### 🛠️ How to Set Write Mode in Code
 
 ```python
-# Example of different write modes
-df.write.mode("append").csv("path/to/folder")
+        # Example of different write modes
+        df.write.mode("append").csv("path/to/folder")
 
-df.write.mode("overwrite").parquet("path/to/folder")
+        df.write.mode("overwrite").parquet("path/to/folder")
 
-df.write.mode("ignore").json("path/to/folder")
+        df.write.mode("ignore").json("path/to/folder")
 
-df.write.mode("error").saveAsTable("table_name")
+        df.write.mode("error").saveAsTable("table_name")
 ```
 
----
+
 
 ### ✨ Quick Behavior Summary:
 
@@ -1061,7 +1125,7 @@ df.write.mode("error").saveAsTable("table_name")
 - **ignore** ➔ If exists, skip writing.
 - **error** ➔ If exists, throw an error.
 
----
+
 
 **Important Note:**  
 - In **overwrite**, if you're writing to a table (not just files), you can control **how partition overwrite** happens using extra options like:
