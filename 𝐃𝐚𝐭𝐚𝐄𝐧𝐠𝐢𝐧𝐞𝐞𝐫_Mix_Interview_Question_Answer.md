@@ -388,7 +388,7 @@ In **Azure Data Factory (ADF)**, if you want to implement **incremental load** w
 
 ### **27 How to run more than 100 pipeline at a time with sequentially and pipeline all are dependency run one by one 
 
-Great question! If you have **more than 100 pipelines** that need to be executed **sequentially** (i.e., one after another, in a specific order, with dependencies), you can **orchestrate them efficiently in Azure Data Factory** (ADF) using the following methods:
+If you have **more than 100 pipelines** that need to be executed **sequentially** (i.e., one after another, in a specific order, with dependencies), you can **orchestrate them efficiently in Azure Data Factory** (ADF) using the following methods:
 
 ---
 
