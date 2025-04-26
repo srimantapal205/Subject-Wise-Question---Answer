@@ -685,3 +685,231 @@ For evolving schemas:
 - Enabled merge schema in Delta writes
 
 ---
+
+### 43. Explain the difference between RDD, DataFrame, and Dataset in PySpark.
+
+| Aspect        | RDD                                  | DataFrame                          | Dataset (not in PySpark)           |
+|---------------|--------------------------------------|------------------------------------|------------------------------------|
+| Level         | Low-level API                        | High-level API (with schema)       | Typed high-level API (Scala/Java only) |
+| Optimization  | No automatic optimization            | Catalyst & Tungsten optimization  | Catalyst & Tungsten optimization  |
+| Ease of use   | Complex, verbose                     | Easy, SQL-like operations         | Type-safe but verbose (not in PySpark) |
+| Schema        | No schema                            | Has schema (columns & types)      | Strongly typed schema             |
+
+🔵 **Note**: Dataset API doesn’t exist in PySpark, only in Scala/Java. PySpark combines DataFrame and Dataset concept internally.
+
+---
+
+### 44. What is the difference between `cache()` and `persist()` in PySpark?
+
+| Aspect   | `cache()`                         | `persist()`                         |
+|----------|-----------------------------------|-------------------------------------|
+| Storage  | Stores in memory only             | Stores in memory or disk (user-defined) |
+| Default  | MEMORY_AND_DISK (memory first)    | You can specify storage levels     |
+| Usage    | Simpler when you need in-memory   | Flexible for different storage strategies |
+
+---
+
+### 45. How does Lazy Evaluation work in PySpark?
+
+- Transformations (like `map`, `filter`) are **lazy** — they are **not executed immediately**.
+- Actions (like `collect`, `count`) **trigger** the computation.
+- Benefits:
+  - Optimizes execution plans (via Catalyst Optimizer).
+  - Reduces unnecessary computations.
+
+---
+
+### 46. What are wide and narrow transformations in PySpark?
+
+| Type         | Narrow Transformation          | Wide Transformation               |
+|--------------|---------------------------------|------------------------------------|
+| Definition   | Data moved within a partition   | Data shuffled across partitions   |
+| Examples     | `map`, `filter`                 | `groupByKey`, `reduceByKey`, `join` |
+| Performance  | Faster (no shuffle)             | Slower (shuffle involved)          |
+
+---
+
+### 47. Explain shuffle operations in PySpark and their impact on performance.
+
+- **Shuffle** = data movement across nodes for operations like `groupBy`, `reduceByKey`, `join`.
+- Impact:
+  - Costly in terms of time and memory.
+  - Can cause network IO and disk spills.
+- PySpark tries to **minimize shuffles** during optimization.
+
+---
+
+### 48. What are the different persistence levels available in PySpark?
+
+- `MEMORY_ONLY`
+- `MEMORY_AND_DISK`
+- `MEMORY_ONLY_SER`
+- `MEMORY_AND_DISK_SER`
+- `DISK_ONLY`
+- `OFF_HEAP` (rare)
+  
+Each one balances memory vs. disk based on resource availability.
+
+---
+
+### 49.  How does PySpark handle schema evolution in DataFrames?
+
+- PySpark supports **schema merging** when reading Parquet/ORC formats.
+- For example, different files can have different schemas, and PySpark can merge them using:
+  ```python
+      spark.read.option("mergeSchema", "true").parquet("path")
+  ```
+- Not fully automatic with all formats; mostly works well with Parquet/Delta.
+
+---
+
+### 50. What is broadcast join, and when should we use it?
+
+- Used when **one dataset is small** enough to fit into memory.
+- PySpark broadcasts the small dataset to all nodes.
+- Avoids shuffle, making joins much faster.
+
+```python
+    from pyspark.sql.functions import broadcast
+    df_large.join(broadcast(df_small), "key")
+```
+
+---
+
+### 51. Explain the difference between `groupBy()` and `reduceByKey()` in PySpark.
+
+| Aspect        | groupBy()                         | reduceByKey()                     |
+|---------------|------------------------------------|-----------------------------------|
+| Input         | DataFrame / RDD                    | (key, value) RDD                  |
+| Shuffle       | Always shuffles                    | Does local aggregation before shuffling |
+| Efficiency    | Less efficient                     | More efficient for (key, value) aggregations |
+
+---
+
+### 52. What is the use of `explode()` function in PySpark?
+
+- Used to **flatten arrays or maps** into multiple rows.
+  
+Example:
+```python
+    from pyspark.sql.functions import explode
+    df.select("name", explode("hobbies"))
+```
+If a person has multiple hobbies, `explode()` will create one row per hobby.
+
+---
+
+## Coding Questions 🎯
+
+---
+
+### 53. Find the top 3 highest-paid employees from each department
+
+```python
+    from pyspark.sql import SparkSession
+    from pyspark.sql.window import Window
+    from pyspark.sql.functions import col, row_number
+
+    spark = SparkSession.builder.getOrCreate()
+
+    data = [
+        (1, "Amit", "IT", 90000),
+        (2, "Neha", "HR", 50000),
+        (3, "Raj", "IT", 85000),
+        (4, "Priya", "HR", 60000),
+        (5, "Suresh", "Finance", 75000),
+        (6, "Anjali", "Finance", 80000),
+        (7, "Vikas", "IT", 92000),
+        (8, "Rohan", "HR", 58000),
+        (9, "Meera", "Finance", 82000)
+    ]
+
+    columns = ["id", "name", "dept", "salary"]
+
+    df = spark.createDataFrame(data, columns)
+
+    windowSpec = Window.partitionBy("dept").orderBy(col("salary").desc())
+
+    top3 = df.withColumn("rank", row_number().over(windowSpec)).filter(col("rank") <= 3)
+    top3.show()
+```
+
+---
+
+### 54. Count the number of null values in each column
+
+```python
+    from pyspark.sql.functions import col, sum as _sum, when
+
+    null_counts = df.select([_sum(when(col(c).isNull(), 1).otherwise(0)).alias(c) for c in df.columns])
+    null_counts.show()
+```
+
+---
+
+### 56. Remove duplicate records based on a specific column
+
+(Say, remove based on `id`)
+
+```python
+    data = [
+        (101, "Mumbai", "Maharashtra"),
+        (102, "Delhi", "Delhi"),
+        (103, "Bangalore", "Karnataka"),
+        (101, "Mumbai", "Maharashtra"),
+        (104, "Pune", "Maharashtra")
+    ]
+
+    columns = ["id", "city", "state"]
+
+    df = spark.createDataFrame(data, columns)
+
+    df_unique = df.dropDuplicates(["id"])
+    df_unique.show()
+```
+
+---
+
+### 57. Replace null values with previous non-null value
+
+(Use **window function** with `last()`)
+
+```python
+    from pyspark.sql.window import Window
+    from pyspark.sql.functions import last
+
+    windowSpec = Window.orderBy("id").rowsBetween(Window.unboundedPreceding, 0)
+
+    df_filled = df.withColumn("city_filled", last("city", True).over(windowSpec))
+    df_filled.show()
+```
+
+---
+
+### 58. Moving average of sales over last 3 months
+
+Assuming we have data like:
+
+```python
+    sales_data = [
+        ("2024-01", 100),
+        ("2024-02", 150),
+        ("2024-03", 200),
+        ("2024-04", 300),
+        ("2024-05", 250)
+    ]
+
+    columns = ["month", "sales"]
+
+    df = spark.createDataFrame(sales_data, columns)
+
+    from pyspark.sql.functions import avg
+    from pyspark.sql.window import Window
+
+    windowSpec = Window.orderBy("month").rowsBetween(-2, 0)
+
+    df_moving_avg = df.withColumn("moving_avg", avg("sales").over(windowSpec))
+    df_moving_avg.show()
+```
+
+---
