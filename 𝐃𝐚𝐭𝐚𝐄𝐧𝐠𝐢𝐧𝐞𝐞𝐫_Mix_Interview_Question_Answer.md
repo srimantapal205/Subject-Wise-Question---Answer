@@ -972,6 +972,8 @@ Think of it like:
 | **Optimized Plan**   | "Let me reorganize to make it faster."             |
 
 
+
+
 +--------------------------+
 | Your PySpark Code        |
 +--------------------------+
@@ -999,6 +1001,7 @@ Think of it like:
 | - Execution strategy     |
 | - Which node does what   |
 +--------------------------+
+
 
 
 ---
