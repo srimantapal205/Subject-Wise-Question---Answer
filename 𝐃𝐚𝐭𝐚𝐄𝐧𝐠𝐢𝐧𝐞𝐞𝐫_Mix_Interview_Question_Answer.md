@@ -971,9 +971,7 @@ Think of it like:
 | **Analyzed Plan**    | "I checked — the columns exist, everything is fine." |
 | **Optimized Plan**   | "Let me reorganize to make it faster."             |
 
-
-
-
+`
 +--------------------------+
 | Your PySpark Code        |
 +--------------------------+
@@ -1001,7 +999,7 @@ Think of it like:
 | - Execution strategy     |
 | - Which node does what   |
 +--------------------------+
-
+`
 
 
 ---
@@ -1058,3 +1056,4 @@ Example:
 > `.collect()` = "Give me everything from the cluster to my Python program."
 
 ---
+
