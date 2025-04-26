@@ -979,10 +979,95 @@ Databricks logs cluster events under "Event Log" (includes auto-scaling, node fa
 
 Monitors CPU, Memory, and Disk Usage dynamically.
 
-+ Final Summary:
+### 32. Explain What is the different read mode in spark?
+**Answer:**
 
-* Troubleshooting Area	Key Techniques
-* Performance Optimization	Use Spark UI, AQE, Broadcast Joins, and Caching
-* Common Errors	Fix OOM, Stage Failures, GC issues, Serialization Errors
-* Monitoring	Check Databricks Job UI, Spark UI, Logs, and REST API
-* Would you like a hands-on example notebook for performance debugging and monitoring? 🚀
+
+
+In **Spark**, when you **read files** (like CSV, JSON, etc.), you can specify a **mode** to tell Spark how to handle **corrupt** or **bad records**.  
+
+Here are the main **modes** you can use during reading:
+
+---
+
+### 🔥 Different Modes in Spark Read
+
+| Mode          | Behavior                                                                                         |
+| ------------- | ------------------------------------------------------------------------------------------------ |
+| **PERMISSIVE** (default) | Puts corrupt records in a special column (e.g., `_corrupt_record`). Loads the rest normally. |
+| **DROPMALFORMED**        | Drops any records that are corrupted or don’t match the schema.                        |
+| **FAILFAST**             | Immediately throws an error if any malformed record is found.                          |
+
+---
+
+### 🛠️ How to Set Mode in Code
+
+```python
+# Example for reading a CSV with different modes
+df = spark.read.option("mode", "PERMISSIVE").csv("path/to/data.csv", schema=schema)
+
+df = spark.read.option("mode", "DROPMALFORMED").csv("path/to/data.csv", schema=schema)
+
+df = spark.read.option("mode", "FAILFAST").csv("path/to/data.csv", schema=schema)
+```
+
+---
+
+### 🔎 Short Summary:
+- **PERMISSIVE** = Save bad records separately.
+- **DROPMALFORMED** = Ignore bad records.
+- **FAILFAST** = Crash immediately on bad records.
+
+---
+
+### 31. Explain What is the different Write mode in spark?
+
+When you **write** data (save DataFrames) in Spark, you can control **what happens if the target location already exists** by using different **write modes**.
+
+Here’s the full breakdown:
+
+---
+
+### 🔥 Different Write Modes in Spark
+
+| Mode         | Behavior |
+| ------------ | -------- |
+| **append**   | Adds new data to the existing data (does not delete old data). |
+| **overwrite**| Deletes the existing data at the path and writes new data. |
+| **ignore**   | If data already exists at the path, Spark does nothing (no error, no overwrite). |
+| **error** (or **errorifexists**) | Default. If data already exists at the path, Spark throws an error and stops writing. |
+
+---
+
+### 🛠️ How to Set Write Mode in Code
+
+```python
+# Example of different write modes
+df.write.mode("append").csv("path/to/folder")
+
+df.write.mode("overwrite").parquet("path/to/folder")
+
+df.write.mode("ignore").json("path/to/folder")
+
+df.write.mode("error").saveAsTable("table_name")
+```
+
+---
+
+### ✨ Quick Behavior Summary:
+
+- **append** ➔ Keep old + Add new.
+- **overwrite** ➔ Delete old ➔ Write new.
+- **ignore** ➔ If exists, skip writing.
+- **error** ➔ If exists, throw an error.
+
+---
+
+**Important Note:**  
+- In **overwrite**, if you're writing to a table (not just files), you can control **how partition overwrite** happens using extra options like:
+  ```python
+  df.write.mode("overwrite").option("partitionOverwriteMode", "dynamic").saveAsTable("table_name")
+  ```
+  (This is super important for big tables!)
+
+---
