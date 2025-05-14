@@ -62,7 +62,7 @@ In **Azure Data Factory**, **activities** define the **actions** or **operations
 
 ---
 
-### 🔹 1. **Data Movement Activities**
+### 1. **Data Movement Activities**
 These activities are used to move data from a source to a destination.
 
 - **Copy Activity**:  
@@ -73,7 +73,7 @@ These activities are used to move data from a source to a destination.
 
 ---
 
-### 🔹 2. **Data Transformation Activities**
+### 2. **Data Transformation Activities**
 Used to transform or process data.
 
 - **Data Flow Activity**:  
@@ -94,7 +94,7 @@ Used to transform or process data.
 
 ---
 
-### 🔹 3. **Control Activities**
+###  3. **Control Activities**
 Used to control the pipeline flow, logic, and execution order.
 
 - **Execute Pipeline Activity**:  
@@ -115,7 +115,7 @@ Used to control the pipeline flow, logic, and execution order.
 
 ---
 
-### 🔹 4. **External Activities**
+###  4. **External Activities**
 Used to trigger external services or compute.
 
 - **Web Activity**:  
