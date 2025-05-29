@@ -48,8 +48,6 @@ But managing 200 trigger dependencies in this UI may be tedious and not scalable
 
 
 
-Here’s a commonly asked **Azure Data Factory (ADF)** interview question on activities, along with a detailed answer:
-
 ---
 
 ### 2. **What are the different types of activities in Azure Data Factory (ADF), and how are they used?**
