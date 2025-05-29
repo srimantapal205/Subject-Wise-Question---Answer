@@ -33,7 +33,7 @@ In essence, a data source is a system or storage used to interact with data duri
 
 ### Question 4: What is a linked service in Azure Data Factory?
 
-**Answer :** A linked service in Azure Data Factory is a connection object that defines how ADF connects to external data sources or systems.
+**Answer:** A linked service in Azure Data Factory is a connection object that defines how ADF connects to external data sources or systems.
 
 **Key Points about Linked Services:**
 
@@ -54,7 +54,7 @@ Key Points about Datasets:
 - A linked service is required to create a dataset, as it provides the connection to the data source.
 Example: For transferring data from a SQL database to a Blob Storage, you would: 
 1. Create a linked service for the SQL database and Blob Storage. 
-2. Definedatasets for each, specifying the schema or structure of the data.
+2. Defined datasets for each, specifying the schema or structure of the data.
 
 In summary, datasets provide a structured representation of data stored in external systems, facilitating data operations in ADF.
 
