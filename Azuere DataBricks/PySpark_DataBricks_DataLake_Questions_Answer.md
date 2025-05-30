@@ -298,4 +298,270 @@ This improved performance and enabled better query planning.
 
 ---
 
-Let me know if you want a hands-on notebook or sample project that illustrates the above UDF patterns in a realistic data pipeline.
+
+### **16. How do you manage and schedule jobs in Azure Databricks?**
+
+**Answer:**
+In Azure Databricks, I manage and schedule jobs using the **Databricks Jobs UI** or via **Jobs API** and **Terraform** for infrastructure-as-code. Each job consists of:
+
+* **Tasks**: Notebooks, JARs, Python scripts, or Delta Live Tables.
+* **Dependencies**: I use task dependencies to create multi-step workflows.
+* **Schedules**: Configured using **cron expressions** for time-based triggers or **event-driven** via the REST API or Azure Data Factory.
+
+**Best Practices I follow:**
+
+* Use **job clusters** for cost-efficiency.
+* Enable **retry policies** and **email/alert notifications**.
+* Use **parameterization** to pass dynamic values to notebooks.
+* Monitor job runs via **Job Run history** and **Azure Log Analytics**.
+
+---
+
+### **17. What is the difference between interactive clusters and job clusters in Databricks?**
+
+**Answer:**
+
+| Feature         | **Interactive Cluster**                | **Job Cluster**                                |
+| --------------- | -------------------------------------- | ---------------------------------------------- |
+| Purpose         | Used for development, ad hoc analysis  | Used for scheduled jobs or workflows           |
+| Lifecycle       | Manually started/stopped by users      | Auto-created for each job run, auto-terminates |
+| Sharing         | Shared by multiple users or notebooks  | Dedicated to a single job run                  |
+| Cost Efficiency | Can remain idle if not auto-terminated | More cost-effective due to ephemeral nature    |
+
+**When I use each:**
+
+* Interactive: During development or testing phases.
+* Job: For production jobs with **automated scheduling**, for better isolation and scalability.
+
+---
+
+### **18. Explain Unity Catalog and how it enhances security and governance in Databricks.**
+
+**Answer:**
+**Unity Catalog** is Databricks' unified data governance layer that provides **centralized access control**, **data lineage**, and **auditability** across workspaces.
+
+**Key Features:**
+
+* **Fine-grained access control**: Down to tables, columns, and rows using ANSI SQL `GRANT` syntax.
+* **Centralized metastore**: Replaces per-workspace Hive metastores.
+* **Data lineage**: Tracks where data comes from and how it is transformed.
+* **Integration with Azure AD**: Uses identity federation and supports service principals and groups.
+
+**Impact:**
+Unity Catalog simplifies **RBAC**, enables **secure data sharing** (e.g., Delta Sharing), and enforces **data ownership boundaries** across teams or departments.
+
+---
+
+### **19. How do you implement CI/CD in a Databricks environment using notebooks and Git integration?**
+
+**Answer:**
+My CI/CD approach in Databricks involves:
+
+1. **Git Integration**:
+
+   * Connect notebooks to **Git repos** (e.g., Azure DevOps, GitHub).
+   * Use Git branches for development, QA, and production environments.
+
+2. **CI/CD Tools**:
+
+   * Use **Azure DevOps Pipelines** or **GitHub Actions** to automate:
+
+     * Unit testing (e.g., with `pytest`)
+     * Linting (e.g., `flake8`)
+     * Deployment of notebooks/jobs using **Databricks CLI** or **Databricks Terraform provider**.
+
+3. **Deployment Strategy**:
+
+   * Use **notebook exports** (`.dbc` or `.py` files).
+   * Maintain **job definitions and cluster configs** as code (YAML/JSON).
+   * Separate **dev**, **test**, and **prod** workspaces or use **multi-branch** pipelines for environment-specific deployments.
+
+---
+
+### **20. Describe your approach to debugging a failing notebook in a Databricks job.**
+
+**Answer:**
+My debugging process typically includes:
+
+1. **Examine Job Run Output**:
+
+   * Check **stdout**, **stderr**, and **error tracebacks** in the job run UI.
+   * Identify the failing task and cell.
+
+2. **Reproduce the issue**:
+
+   * Run the notebook **interactively** with the same input parameters and cluster configuration.
+
+3. **Check dependencies**:
+
+   * Ensure **external libraries** are available (PyPI/JAR/whl).
+   * Validate file paths and table names, especially when accessing ADLS or Delta tables.
+
+4. **Use logging and assertions**:
+
+   * Add **`print()`**, **`display()`**, or **custom logs** to narrow down issues.
+   * Use **assertions** to validate inputs or preconditions early.
+
+5. **Version Control**:
+
+   * Compare with previous working versions via Git for regression issues.
+
+---
+
+### **21. How do you manage secrets and credentials securely within Databricks?**
+
+**Answer:**
+I use **Databricks Secrets** stored in **Secret Scopes** to manage sensitive data securely.
+
+**Practices I follow:**
+
+* Store credentials (e.g., Azure Storage keys, API tokens) in **secret scopes** (either backed by **Databricks** or **Azure Key Vault**).
+* Access secrets in notebooks using:
+
+  ```python
+  dbutils.secrets.get(scope="my-scope", key="my-key")
+  ```
+* Avoid hardcoding secrets in notebooks or configs.
+* Use **Key Vault-backed scopes** for centralized secret management.
+* Enforce **RBAC** for scope access using Unity Catalog and workspace permissions.
+
+---
+
+
+### **22. What are the key features that Delta Lake provides over traditional Parquet formats?**
+
+**Answer:**
+Delta Lake builds on top of Parquet and provides key **ACID transactional** features that are missing in traditional data lakes. The major improvements include:
+
+| Feature                        | Delta Lake                                  | Traditional Parquet          |
+| ------------------------------ | ------------------------------------------- | ---------------------------- |
+| ACID Transactions              | ✅ Yes (via transaction log)                 | ❌ No                         |
+| Schema Evolution & Enforcement | ✅ Yes                                       | ❌ Partial (only reader-side) |
+| Time Travel                    | ✅ Yes (`VERSION AS OF` / `TIMESTAMP AS OF`) | ❌ No                         |
+| Upserts & Deletes              | ✅ Yes (`MERGE`, `UPDATE`, `DELETE`)         | ❌ No                         |
+| File Compaction                | ✅ `OPTIMIZE` command                        | ❌ Manual                     |
+| Performance Tuning             | ✅ ZORDER, Data skipping, Caching            | ❌ Limited                    |
+
+**Summary:** Delta Lake brings data lake **reliability, governance, and performance** to open-format storage.
+
+---
+
+### **23. Explain the Delta Lake transaction log (`_delta_log`). How does it ensure ACID compliance?**
+
+**Answer:**
+The `_delta_log` is a **JSON-based transaction log** stored alongside Delta tables. It records every change (add, remove, metadata, commit) in a **serializable, append-only format**, ensuring **ACID properties**:
+
+* **Atomicity**: All operations in a transaction either succeed together or are rolled back.
+* **Consistency**: Each write produces a valid Delta state.
+* **Isolation**: Writes use optimistic concurrency; read operations see a consistent snapshot.
+* **Durability**: Once committed, logs are persisted on storage (like ADLS or S3).
+
+Each log file is named incrementally (`00000000000000000010.json`), and readers build a snapshot by reading the latest version.
+
+---
+
+### **24. How does time travel work in Delta Lake? Give a use case where you applied it.**
+
+**Answer:**
+Delta Lake supports **time travel** via `VERSION AS OF` or `TIMESTAMP AS OF`, allowing queries to access historical snapshots.
+
+**Example:**
+
+```sql
+SELECT * FROM my_table VERSION AS OF 15;
+-- or
+SELECT * FROM my_table TIMESTAMP AS OF '2024-06-15 00:00:00';
+```
+
+**Use Case (Real-world):**
+In a project involving daily ingested sales data, an accidental overwrite corrupted the data. We used:
+
+```sql
+CREATE OR REPLACE TABLE sales AS
+SELECT * FROM sales VERSION AS OF 120;
+```
+
+This helped **roll back** to a consistent state within seconds, avoiding downtime.
+
+---
+
+### **25. What is the difference between MERGE, UPDATE, and UPSERT operations in Delta Lake?**
+
+**Answer:**
+
+| Operation | Description                                            | Use Case                               |
+| --------- | ------------------------------------------------------ | -------------------------------------- |
+| `UPDATE`  | Modifies rows matching a condition                     | Fixing records with wrong status codes |
+| `MERGE`   | Conditional `INSERT`, `UPDATE`, and `DELETE` (Upsert)  | Change data capture (CDC) pipelines    |
+| `UPSERT`  | Informal term for a `MERGE` that handles insert/update | Same as MERGE (technically the same)   |
+
+**Example of `MERGE` (Upsert):**
+
+```sql
+MERGE INTO target_table t
+USING updates u
+ON t.id = u.id
+WHEN MATCHED THEN UPDATE SET t.name = u.name
+WHEN NOT MATCHED THEN INSERT (id, name) VALUES (u.id, u.name)
+```
+
+---
+
+### **26. How do you optimize Delta tables for read and write performance? (e.g., ZORDER, OPTIMIZE, VACUUM)**
+
+**Answer:**
+**Performance Tuning Techniques:**
+
+* **OPTIMIZE**: Compacts small files into larger ones for faster scans.
+
+  ```sql
+  OPTIMIZE sales;
+  ```
+
+* **ZORDER BY**: Co-locates related data for better skipping during reads (especially with filters).
+
+  ```sql
+  OPTIMIZE sales ZORDER BY (region, product_id);
+  ```
+
+* **VACUUM**: Removes old files no longer in the current snapshot (default retention is 7 days).
+
+  ```sql
+  VACUUM sales RETAIN 168 HOURS;
+  ```
+
+* **Partitioning**: Choose partition columns with low cardinality (e.g., `date`, `region`).
+
+* **Auto Optimize & Auto Compaction**: Enable table properties to automate file management.
+
+  ```sql
+  ALTER TABLE my_table SET TBLPROPERTIES (
+    'delta.autoOptimize.optimizeWrite' = 'true',
+    'delta.autoOptimize.autoCompact' = 'true'
+  );
+  ```
+
+---
+
+### **27. What are the challenges you faced while enabling schema evolution and enforcement in Delta Lake?**
+
+**Answer:**
+
+**Challenges:**
+
+* **Unexpected schema drift** from inconsistent upstream sources (e.g., missing fields or extra nested columns).
+* Schema changes in nested structures are **not automatically handled** unless `MERGE`-based.
+* Enabling **column addition** is easy, but **column renaming or data type changes** can break pipelines.
+
+**How I addressed them:**
+
+* Enabled **schema evolution** explicitly:
+
+  ```python
+  df.write.option("mergeSchema", "true").format("delta").mode("append").save(path)
+  ```
+* Used **Delta table constraints and enforcement** to reject incompatible data.
+* Established **data contracts and validations** at ingestion layer to avoid uncontrolled schema evolution.
+* Used **schema merging** in ETL pipelines cautiously and documented schema expectations.
+
+---
