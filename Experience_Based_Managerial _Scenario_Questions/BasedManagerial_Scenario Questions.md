@@ -1,4 +1,4 @@
-#Experience-Based Managerial / Scenario Questions
+# Experience-Based Managerial / Scenario Questions
 ---
 
 ### **1. Describe a situation where you led a team through a failed pipeline deployment. How did you handle it?**
