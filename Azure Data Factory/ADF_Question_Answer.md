@@ -3,7 +3,6 @@
 ### 1. How to copy data from REST API multiple page response using ADF
 #### Answer:To **copy data from a REST API with multiple pages** using **Azure Data Factory (ADF)**, you can follow these steps. ADF supports pagination rules when calling REST APIs, allowing you to retrieve data across multiple pages and copy it into your target storage.
 
----
 
 ## ✅ Step-by-Step Guide: Copy Paginated REST API Data in ADF
 
@@ -17,7 +16,6 @@
 
 * **Sink Linked Service** (e.g., Azure Blob, Azure SQL Database, etc.)
 
----
 
 ### **2. Create Dataset for REST Source**
 
@@ -27,7 +25,6 @@
 * Set request method: `GET`.
 * If the response is JSON, point to the correct `JSONPath` (e.g., `$.items`).
 
----
 
 ### **3. Define Pagination Rules**
 
@@ -43,7 +40,6 @@ In the **Source** settings of your Copy Activity:
 
 You set this in the **Copy Activity > Source > Pagination rules**.
 
----
 
 ### **Example: Page Number Pagination**
 
@@ -76,7 +72,6 @@ And the response includes metadata like:
 
 > ⚠️ If the total number of pages is not known in advance, you'll need to create a loop using **Until activity** in a pipeline.
 
----
 
 ### **4. Optional: Use Until Loop for Dynamic Pagination**
 
@@ -92,14 +87,14 @@ If the API doesn't tell you how many pages exist in advance:
    * Use Copy Activity to load data.
    * Use `If` + `Set Variable` to control when to stop (e.g., if next page is null).
 
----
+
 
 ### **5. Sink Settings**
 
 * Set up your **sink dataset** (Azure SQL/Blob/Parquet/Delta/etc.).
 * Configure schema mapping if needed.
 
----
+
 
 ## 🧪 Example JSON Response with "next" URL
 
@@ -117,7 +112,7 @@ In this case, set:
 
 ADF will follow the `next` link until it is null or not returned.
 
----
+
 
 ## ✅ Best Practices
 
@@ -128,17 +123,14 @@ ADF will follow the `next` link until it is null or not returned.
 
 ---
 
-
 ### 2. How to convert Timezone using Dataflow in ADF
 #### Answer:In **Azure Data Factory (ADF) Data Flow**, converting time from one **timezone to another** can be done using the **`toUTC()`**, **`toLocal()`**, or **`convertTimeZone()`** functions in **Derived Column** transformation.
 
----
 
 ## ✅ Use Case
 
 You have a datetime column in one timezone (e.g., UTC), and you want to convert it to another timezone (e.g., `India Standard Time` or `Pacific Standard Time`).
 
----
 
 ## 🔧 Step-by-Step: Timezone Conversion in ADF Data Flow
 
@@ -155,7 +147,6 @@ You have a datetime column in one timezone (e.g., UTC), and you want to convert 
 * Add a **Derived Column** transformation.
 * Create a new column (or replace existing) with timezone-converted datetime.
 
----
 
 ### ✅ Option 1: Convert from UTC to Local Timezone
 
@@ -181,7 +172,6 @@ convertTimeZone(event_time, 'UTC', 'India Standard Time')
 
 This converts from **UTC → IST** explicitly.
 
----
 
 ## 🕐 Supported Timezone Names
 
@@ -195,7 +185,7 @@ Use full **Windows timezone IDs** like:
 
 > ⚠️ **IANA timezone names** (like `Asia/Kolkata`, `America/Los_Angeles`) are **not supported**. Stick to **Windows timezone IDs**.
 
----
+
 
 ## 📌 Example
 
@@ -211,14 +201,13 @@ convertTimeZone(event_time, 'UTC', 'India Standard Time')
 
 `2025-06-06T15:30:00` (IST is UTC +5:30)
 
----
+
 
 ## ✅ Final Step: Sink
 
 * Add the **sink** dataset (Azure SQL, Parquet, Blob, etc.).
 * Map the derived column to the destination field.
 
----
 
 ## 🧪 Bonus Tip
 
@@ -234,7 +223,7 @@ formatDateTime(convertTimeZone(event_time, 'UTC', 'India Standard Time'), 'yyyy-
 ### 3. How to round off decimal number in pipeline expression using ADF
 #### Answer:In **Azure Data Factory (ADF)**, you can round off decimal numbers directly in **pipeline expressions** using the built-in **`round()`** function.
 
----
+
 
 ## ✅ Syntax of `round()` in ADF Expression Language
 
@@ -245,7 +234,7 @@ round(value, digits)
 * `value`: The decimal number you want to round.
 * `digits`: The number of decimal places to keep (can be 0 or more).
 
----
+
 
 ## 🔧 Examples
 
@@ -273,7 +262,6 @@ round(123.45, -1)
 
 ✅ Output: `120`
 
----
 
 ## 🛠️ Where to Use This in ADF
 
@@ -297,7 +285,6 @@ round(amount, 2)
 
 * Use `round(columnName, 0)` to clean or normalize numeric data.
 
----
 
 ## ⚠️ Notes
 
