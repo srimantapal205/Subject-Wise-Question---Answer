@@ -154,25 +154,33 @@ These levels of parameterization offer powerful tools to create dynamic, reusabl
 ### Question 16: What are Azure Data Factory User Properties?
 **Answer:** User Properties in Azure Data Factory are custom key-value pairs that can be added to activities in a pipeline. These properties are primarily used for monitoring and debugging purposes, providing additional context about activity execution.
 
-- Key Points about User Properties:  Custom Information for Monitoring:
-    - User properties help to add metadata or custom information to an activity, which can later be viewed in the Monitor section of Azure Data Factory.
-    - For example, you can use user properties to track the source and destination of a data transfer activity. 2. Key-Value Pairs:
-    - Each user property is defined as a key-value pair (e.g., Source: CustomerTable).
-    - These properties are visible during monitoring to help teams understand the pipeline's execution context. 3. Limitations:
-    - A maximum of five user properties can be added to each activity.
-    - These properties cannot affect pipeline execution; they are only for metadata purposes. 4. Usage Scenario:
-    - Particularly useful for support and monitoring teams who need additional details about activity execution without having to dive deep into the pipeline logic.
+- Key Points about User Properties:
+    - 1. Custom Information for Monitoring:
+        - User properties help to add metadata or custom information to an activity, which can later be viewed in the Monitor section of Azure Data Factory.
+        - For example, you can use user properties to track the source and destination of a data transfer activity.
+    - 2. Key-Value Pairs:
+        - Each user property is defined as a key-value pair (e.g., Source: CustomerTable).
+        - These properties are visible during monitoring to help teams understand the pipeline's execution context.
+    - 3. Limitations:
+        - A maximum of five user properties can be added to each activity.
+        - These properties cannot affect pipeline execution; they are only for metadata purposes.
+    - 4. Usage Scenario:
+        - Particularly useful for support and monitoring teams who need additional details about activity execution without having to dive deep into the pipeline logic.
 
-- How to Add User Properties:  Navigate to the Activity:
-    - Open the pipeline in the Author tab.
-    - Click on the desired activity (e.g., a Copy activity). 2. Add User Properties:
-    - In the Properties pane at the bottom, navigate to the User Properties tab.
-    - Click + New to add a new property.
-    - Define the Key (e.g., Source) and the corresponding Value (e.g., CustomerTable). 3. Save and Debug:
-    - Save the pipeline and run it in Debug mode or trigger an actual execution. 4. Monitor User Properties:
-    - Go to the Monitor tab in Azure Data Factory.
-    - View the pipeline execution details.
-    - The user properties will be displayed under the activity's details.
+- How to Add User Properties:
+    - 1.  Navigate to the Activity:
+        - Open the pipeline in the Author tab.
+        - Click on the desired activity (e.g., a Copy activity).
+    - 2. Add User Properties:
+        - In the Properties pane at the bottom, navigate to the User Properties tab.
+        - Click + New to add a new property.
+        - Define the Key (e.g., Source) and the corresponding Value (e.g., CustomerTable).
+    - 3. Save and Debug:
+        - Save the pipeline and run it in Debug mode or trigger an actual execution.
+    - 4. Monitor User Properties:
+        - Go to the Monitor tab in Azure Data Factory.
+        - View the pipeline execution details.
+        - The user properties will be displayed under the activity's details.
 
 - Example Use Case:
     - Scenario: You are running a Copy activity in a pipeline, and you want the monitoring team to know the data source and destination.
