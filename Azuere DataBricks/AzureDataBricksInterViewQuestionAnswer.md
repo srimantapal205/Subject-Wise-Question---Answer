@@ -492,9 +492,9 @@ Azure Data Factory (ADF) can orchestrate Databricks by executing notebooks, JARs
 
 ✅ Example: Passing Parameters from ADF to Databricks Notebook
     # Retrieve parameters passed from ADF
+    
     param1 = dbutils.widgets.get("param1")
     param2 = dbutils.widgets.get("param2")
-
     print(f"Received params: {param1}, {param2}")
 
 ✅ Example: Calling Databricks Job from ADF Using REST API
