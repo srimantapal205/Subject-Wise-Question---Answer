@@ -201,8 +201,3 @@ Allows handling of late data up to defined time without unbounded state growth.
 
 ---
 
-Let me know if you’d like:
-
-* Scenario-based questions
-* More questions on ML or SQL in Databricks
-* An Excel or PDF export for interview prep
