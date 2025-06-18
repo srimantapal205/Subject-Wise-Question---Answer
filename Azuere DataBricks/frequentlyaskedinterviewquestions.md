@@ -611,3 +611,221 @@ WHEN NOT MATCHED THEN INSERT *
 ```
 
 ---
+Here is a structured Q\&A format with the main questions and their follow-ups, along with concise and technically sound answers. This will help you in interviews focused on Spark and Databricks:
+
+---
+
+### **1. Explain the architecture of Spark, including the roles of driver, executors, DAGs, and SparkContext.**
+
+**Answer:**
+Spark follows a master-slave architecture. The **Driver** is the master that orchestrates the execution of jobs. It maintains the **SparkContext**, which connects to the cluster manager. **Executors** are worker nodes that run tasks and store data. Spark breaks a job into **DAGs (Directed Acyclic Graphs)** representing stages and tasks for execution.
+
+**Follow-ups:**
+
+* **How does the driver program handle task scheduling?**
+  The driver constructs a logical plan (DAG), breaks it into stages based on data shuffling, and schedules tasks using a cluster manager (YARN, Mesos, or Standalone).
+
+* **What happens when an executor fails during a task execution?**
+  Spark reassigns the failed task to another executor. If enough retries fail, the stage or job fails depending on configuration (`spark.task.maxFailures`).
+
+---
+
+### **2. What are the advantages and disadvantages of Delta Tables?**
+
+**Answer:**
+**Advantages:** ACID transactions, scalable schema evolution, time travel, optimized performance using Z-order and compaction.
+**Disadvantages:** Requires Delta Lake engine support; limited multi-cloud compatibility; larger metadata overhead.
+
+**Follow-ups:**
+
+* **How do Delta Tables handle large-scale data updates efficiently?**
+  Using **copy-on-write** mechanism and Delta Log for tracking metadata, combined with **OPTIMIZE** and **ZORDER** operations.
+
+* **What limitations do you face in a multi-cloud environment?**
+  Delta Tables may face compatibility and performance issues due to variations in cloud storage APIs and metadata handling.
+
+---
+
+### **3. Explain Delta Time Travel and the purpose of the vacuum command.**
+
+**Answer:**
+Delta Time Travel lets you query a Delta Table at a previous version or timestamp using `VERSION AS OF` or `TIMESTAMP AS OF`.
+**VACUUM** removes old files no longer in the Delta log to save space.
+
+**Follow-ups:**
+
+* **What happens if the vacuum command is not run periodically?**
+  Storage costs increase and performance degrades due to growing obsolete files.
+
+* **How do you configure retention periods for Delta tables?**
+  Set `delta.deletedFileRetentionDuration` (default is 7 days) to define how long to retain obsolete files before VACUUM deletes them.
+
+---
+
+### **4. Differentiate between Schema Enforcement and Schema Evolution.**
+
+**Answer:**
+**Schema Enforcement** prevents incompatible data from being written.
+**Schema Evolution** allows compatible changes (e.g., adding columns) to the schema automatically or manually.
+
+**Follow-ups:**
+
+* **Can Schema Evolution lead to data inconsistencies?**
+  Yes, if not managed properly. Different schema versions can lead to confusion in downstream systems.
+
+* **What are the implications of enabling schema auto-detection?**
+  Auto-detection may lead to implicit and undesired schema changes, especially in semi-structured formats like JSON or Parquet.
+
+---
+
+### **5. What is Secret Scope, and how is it used in Databricks?**
+
+**Answer:**
+Secret Scopes store credentials securely in Databricks. They can be **Databricks-backed** or **Azure Key Vault-backed**.
+
+**Follow-ups:**
+
+* **How do you handle expired secrets in a production environment?**
+  Use Key Vault-backed scopes with automatic secret rotation and monitoring alerts.
+
+* **What are the differences between Azure Key Vault-backed and Databricks-backed Secret Scopes?**
+  Key Vault-backed secrets are managed externally (more secure, auto-rotation), while Databricks-backed secrets are managed within the workspace and are static.
+
+---
+
+### **6. How do you use Spark UI to debug stages, tasks, and performance issues?**
+
+**Answer:**
+Spark UI provides detailed info on **DAGs**, **tasks**, **stages**, **executors**, **storage**, and **environment**. You can spot slow stages, skewed tasks, GC time, and memory usage.
+
+**Follow-ups:**
+
+* **How would you identify and resolve a shuffle spill in Spark UI?**
+  Look at shuffle read/write metrics and spill size. Use techniques like repartitioning, using broadcast joins, or increasing executor memory.
+
+* **What insights can you gather from the DAG visualization in Spark UI?**
+  You can see stage dependencies, narrow vs wide transformations, and potential optimization points in execution flow.
+
+---
+
+### **7. How do you handle bad data in Databricks?**
+
+**Answer:**
+Use options like `badRecordsPath`, schema validation, and try-catch logic in notebooks. Route invalid records to **quarantine tables** for review.
+
+**Follow-ups:**
+
+* **How do quarantine tables ensure data quality in downstream pipelines?**
+  They isolate bad records, preventing them from corrupting business logic or analytics.
+
+* **What are the best practices for logging and monitoring bad data?**
+  Use structured logging, capture metadata (file name, record count, error type), and monitor with tools like Azure Monitor or custom dashboards.
+
+---
+
+## **Technical Round 2**
+
+### **1. Explain how Adaptive Query Execution (AQE) works in Databricks.**
+
+**Answer:**
+AQE dynamically optimizes query plans at runtime based on actual data statistics. It can change join strategies, coalesce shuffle partitions, and optimize skew joins.
+
+**Follow-ups:**
+
+* **How does AQE optimize join operations dynamically?**
+  By converting shuffle joins to broadcast joins if small tables are detected during runtime.
+
+* **What configuration parameters are critical for enabling AQE?**
+  `spark.sql.adaptive.enabled`, `spark.sql.adaptive.coalescePartitions.enabled`, `spark.sql.adaptive.skewJoin.enabled`.
+
+---
+
+### **2. Describe the role of Dynamic Resource Allocation in Databricks.**
+
+**Answer:**
+It enables Spark to scale executors based on workload. Executors are added when load increases and removed during idle time.
+
+**Follow-ups:**
+
+* **How does resource allocation adjust with load increase?**
+  Spark requests more executors from the cluster manager based on backlogged tasks.
+
+* **What are the potential downsides of enabling dynamic resource allocation?**
+  Cold start delays, executor loss due to aggressive scale-in, and potential job failure if minimum executors are too low.
+
+---
+
+### **3. What is the usage of Optimize and REORG commands in Databricks?**
+
+**Answer:**
+`OPTIMIZE` compacts small files and improves read performance. `REORG` is used to reorder files for better data skipping and clustering.
+
+**Follow-ups:**
+
+* **How does Optimize command improve query latency in Delta tables?**
+  By reducing file fragmentation and enabling efficient predicate pushdown.
+
+* **What are the limitations of the REORG command with large datasets?**
+  It can be time-consuming, expensive, and may not scale well without proper partitioning.
+
+---
+
+### **4. How is Git version control implemented in Databricks?**
+
+**Answer:**
+Databricks notebooks can be linked to a Git provider (GitHub, Azure DevOps). Changes can be committed and version-controlled.
+
+**Follow-ups:**
+
+* **What challenges do you face when managing multiple notebooks in Git?**
+  Merge conflicts, non-standard notebook formats, difficulty in diffing large notebooks.
+
+* **How do you resolve merge conflicts in Databricks notebooks?**
+  Use the raw source view (JSON), resolve conflicts manually, or collaborate via Git branches.
+
+---
+
+### **5. What causes data skewness in Spark, and how can it be resolved?**
+
+**Answer:**
+Skewness is caused by uneven distribution of keys during shuffle operations. Solutions include **salting**, **broadcast joins**, and **AQE**.
+
+**Follow-ups:**
+
+* **How do you identify skewed partitions?**
+  Use Spark UI to inspect task execution time and data volume in partitions.
+
+* **What are the performance trade-offs of using salting?**
+  It adds complexity and requires extra logic to de-salt post-processing.
+
+---
+
+### **6. How do you decide the number of partitions for repartitioning data in Spark?**
+
+**Answer:**
+Base it on input data size and cluster resources. A good rule of thumb is **1 partition per 100-200MB** of data per core.
+
+**Follow-ups:**
+
+* **What metrics would you analyze to determine if your partitioning is effective?**
+  Task execution time, data skew, shuffle size, and stage duration in Spark UI.
+
+* **How does improper partitioning affect job performance?**
+  Too few partitions cause underutilization; too many cause overhead and memory issues.
+
+---
+
+### **7. What causes Out of Memory (OOM) issues in Databricks, and how do you resolve them?**
+
+**Answer:**
+OOM issues arise from large shuffles, wide transformations, or improper caching. Solutions include increasing executor memory, caching wisely, or repartitioning data.
+
+**Follow-ups:**
+
+* **How do caching strategies impact memory management?**
+  Over-caching can fill memory and evict necessary data; cache only reused data.
+
+* **What role does the executor heap size play in preventing OOM errors?**
+  It determines memory available for computation and caching. Set using `spark.executor.memory`.
+
+---
