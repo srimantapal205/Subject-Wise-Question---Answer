@@ -338,9 +338,9 @@ Pre-partition and sort tables before joining to reduce shuffle.
 
 + If skew exists, use salting:
 
-    df = df.withColumn("salt", (rand() * 10).cast("int"))
-    df_large = df_large.withColumn("salt", (rand() * 10).cast("int"))
-    df_large.join(df_small, ["id", "salt"])
+      df = df.withColumn("salt", (rand() * 10).cast("int"))
+      df_large = df_large.withColumn("salt", (rand() * 10).cast("int"))
+      df_large.join(df_small, ["id", "salt"])
 
 #### ✅ 5. Reduce Number of Shuffle Partitions
 
