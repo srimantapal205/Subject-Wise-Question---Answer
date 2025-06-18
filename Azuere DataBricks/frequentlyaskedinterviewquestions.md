@@ -1,4 +1,4 @@
-Here are **20 frequently asked interview questions and answers on Databricks** tailored for a **Data Engineer** role. These questions cover practical scenarios, architecture, Spark optimizations, integrations, and real-world usage in a production environment.
+Here are **frequently asked interview questions and answers on Databricks** tailored for a **Data Engineer** role. These questions cover practical scenarios, architecture, Spark optimizations, integrations, and real-world usage in a production environment.
 
 ---
 
@@ -201,3 +201,413 @@ Allows handling of late data up to defined time without unbounded state growth.
 
 ---
 
+
+
+### **21. How does Delta Lake ensure data consistency in concurrent write scenarios?**
+
+**Answer:**
+Delta Lake uses **Optimistic Concurrency Control (OCC)** to manage concurrent writes:
+
+* Each write operation reads the latest snapshot and attempts a transaction.
+* Before committing, Delta checks whether the data it read has changed.
+* If it has, the transaction fails and must be retried.
+
+Internally, Delta maintains a **transaction log** (`_delta_log`) with **JSON and checkpoint files**. This log tracks every commit, schema changes, and file operations, ensuring **ACID compliance**.
+
+---
+
+### **22. Explain how Auto Loader works internally. When should you use it over Structured Streaming?**
+
+**Answer:**
+Auto Loader is a **Databricks-optimized structured streaming source** for files. It uses:
+
+* **File notification mode** (preferred, using cloud APIs like Azure Blob storage events or S3 events) or
+* **Directory listing mode** (less performant, scans all files in a directory).
+
+Auto Loader supports:
+
+* **Incremental ingestion**
+* **Schema evolution**
+* **Scalability** to millions of files
+
+Use Auto Loader over raw `readStream` when:
+
+* You’re ingesting **large-scale file-based data**
+* Want **automated schema detection and evolution**
+* Need **exact-once semantics** and **checkpointing**
+
+---
+
+### **23. What is the significance of checkpointing and watermarking in a structured streaming pipeline? How do you configure them in Databricks?**
+
+**Answer:**
+
+* **Checkpointing** persists the state of a streaming query (e.g., offsets, intermediate state, schema), so it can recover from failure.
+* **Watermarking** is used for **late data handling**; it allows the engine to **discard old state** and limit memory usage.
+
+**Configuration:**
+
+```python
+streamDF \
+  .withWatermark("event_time", "10 minutes") \
+  .groupBy(window("event_time", "5 minutes")) \
+  .count() \
+  .writeStream \
+  .format("delta") \
+  .option("checkpointLocation", "/mnt/checkpoints/stream1") \
+  .start("/mnt/delta/output")
+```
+
+This configuration enables state cleanup for data that’s more than 10 minutes late.
+
+---
+
+### **24. What happens internally when you run `OPTIMIZE` on a Delta table with Z-Ordering?**
+
+**Answer:**
+
+`OPTIMIZE` in Delta:
+
+* **Compacts small files** into larger ones to reduce I/O and improve scan performance.
+* **Z-Ordering** organizes data on disk by sorting on the specified columns using a **space-filling curve (Z-order curve)**.
+
+This helps:
+
+* Minimize **data skipping**.
+* Improve **query performance** on filter columns (especially nested or repeated queries).
+
+Example:
+
+```sql
+OPTIMIZE sales ZORDER BY (customer_id, product_id)
+```
+
+Files are rewritten and sorted so queries on `customer_id` or `product_id` can skip irrelevant files.
+
+---
+
+### **25. How do you implement data deduplication in Delta Lake with upserts?**
+
+**Answer:**
+
+Use `MERGE INTO` with a unique key and deduplication logic.
+
+Example:
+
+```sql
+MERGE INTO target_table AS target
+USING (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY id ORDER BY updated_at DESC) as rn
+  FROM staging_table
+) AS source
+ON target.id = source.id
+WHEN MATCHED AND source.rn = 1 THEN
+  UPDATE SET target.name = source.name, ...
+WHEN NOT MATCHED AND source.rn = 1 THEN
+  INSERT (id, name, ...) VALUES (source.id, source.name, ...)
+```
+
+Here, only the **latest version** of each record is considered (`rn = 1`), ensuring deduplication during the merge.
+
+---
+
+### **26. What is the Unity Catalog and how does it improve data governance compared to legacy approaches in Databricks?**
+
+**Answer:**
+
+**Unity Catalog** provides:
+
+* Centralized **data governance and access control**
+* **Data lineage** across tables, columns, and notebooks
+* **Fine-grained permissions** (table, column, row level)
+* Unified **catalog and schema management** across all Databricks workspaces
+
+Key differences from legacy (Hive Metastore):
+
+* Unity Catalog uses **3-level namespace**: `catalog.schema.table` (vs. just `database.table`)
+* Supports **attribute-based access control (ABAC)** and **audit logs**
+* Manages **data sharing** via Databricks Clean Rooms
+
+---
+
+### **27. How would you handle schema drift in a semi-structured ingestion pipeline using Databricks?**
+
+**Answer:**
+
+Approach:
+
+* Ingest with Auto Loader using:
+
+```python
+.option("cloudFiles.schemaEvolutionMode", "addNewColumns")
+```
+
+* Use `mergeSchema = true` when writing:
+
+```python
+.write \
+.format("delta") \
+.option("mergeSchema", "true") \
+.save("/mnt/delta/table")
+```
+
+* Maintain schema versions and changes via **Delta Lake schema tracking** or **Unity Catalog audit logs**.
+
+For unknown schemas (e.g., JSON or XML):
+
+* Parse with `from_json()` and use `schema_of_json()` for dynamic schema detection.
+
+---
+
+### **28. Describe a Databricks pipeline you built. How did you optimize it for performance and reliability?**
+
+**Answer:**
+
+✅ **Pipeline Overview:**
+
+* Source: IoT sensor data from Event Hub → Raw Bronze Table (Delta)
+* Transformation: Cleansing, parsing, deduplication → Silver Table
+* Aggregation: Hourly summaries and anomaly detection → Gold Table
+* Sink: Power BI and alerting via Azure Functions
+
+✅ **Optimizations:**
+
+* Used **Auto Loader** for incremental ingest with checkpointing
+* Enforced schema with `DataFrameReader.schema()` to prevent drift
+* Applied `OPTIMIZE ZORDER` on filter columns
+* Cached small lookup tables
+* Used **cluster pools** and **job clusters** to reduce spin-up cost
+* Enabled **monitoring with job metrics** and alerting on failure
+
+✅ **Reliability Measures:**
+
+* Retry logic in jobs
+* Delta ACID transactions to avoid duplicates
+* Data quality checks in each layer
+
+---
+
+### **29. What are common causes of small files in Delta Lake, and how do you handle them?**
+
+**Answer:**
+
+**Causes:**
+
+* Too many partitions
+* Frequent streaming micro-batches with small writes
+* Parallelism with small files
+* Multiple jobs/appends without compaction
+
+**Solutions:**
+
+* Use `OPTIMIZE` regularly:
+
+```sql
+OPTIMIZE delta.`/mnt/delta/table`
+```
+
+* Batch writes instead of per-record inserts
+* Tune micro-batch sizes for streaming
+* Use Auto Loader’s `trigger=once` for large file loads
+* Monitor file count per partition and adjust partition strategy
+
+---
+
+### **30. What’s the difference between `.cache()`, `.persist()`, and broadcast variables in Spark? How do you use them in Databricks?**
+
+**Answer:**
+
+| Feature      | Description                                                                |
+| ------------ | -------------------------------------------------------------------------- |
+| `.cache()`   | Stores RDD/DataFrame in memory (default storage level: MEMORY\_AND\_DISK)  |
+| `.persist()` | Allows choosing storage level (e.g., disk-only, memory-only, etc.)         |
+| `broadcast`  | Distributes a read-only variable across all workers for efficient join use |
+
+**Use Cases:**
+
+* Cache large intermediate DataFrames reused in multiple steps.
+* Use `broadcast()` for small dimension tables in joins:
+
+```python
+broadcast_dim = broadcast(dim_df)
+fact_df.join(broadcast_dim, "key")
+```
+
+---
+
+### ✅ **Q31. What is Full Load in Databricks? When is it used?**
+
+**Answer:**
+A **full load** replaces the **entire target dataset** with new data every time. It truncates or overwrites the target table.
+
+📌 **Used when:**
+
+* Initial load of historical data
+* Target data is small
+* No change tracking or update timestamp is available
+
+---
+
+**💡 Example (PySpark):**
+
+```python
+df = spark.read.format("csv").option("header", True).load("/mnt/source/data.csv")
+
+df.write.mode("overwrite").format("delta").save("/mnt/delta/full_load_table")
+```
+
+**OR (SQL):**
+
+```sql
+CREATE OR REPLACE TABLE full_load_table AS
+SELECT * FROM parquet.`/mnt/source/data/`
+```
+
+**⚠️ Considerations:**
+
+* Time-consuming on large datasets
+* Not efficient for frequent refreshes
+
+---
+
+### ✅ **Q32. What is Incremental Load in Databricks? How do you implement it?**
+
+**Answer:**
+**Incremental load** extracts only **new or modified records** since the last load, using a **watermark** column (like `last_modified`, `updated_at`, `created_date`).
+
+📌 **Used when:**
+
+* Source data is large
+* There’s a column to track changes (e.g., timestamp or sequence ID)
+
+---
+
+**💡 Example (Last N Days - Incremental by Date):**
+
+```python
+from datetime import datetime, timedelta
+
+today = datetime.today()
+last_n_days = today - timedelta(days=1)
+formatted_date = last_n_days.strftime('%Y-%m-%d')
+
+incremental_df = spark.read.format("parquet") \
+  .load("/mnt/source/table/") \
+  .filter(f"last_modified >= '{formatted_date}'")
+```
+
+**💡 Writing to Delta Lake:**
+
+```python
+incremental_df.write.mode("append").format("delta").save("/mnt/delta/incremental_table")
+```
+
+---
+
+### ✅ **Q33. What is Delta Load in Databricks? How is it different from Incremental Load?**
+
+**Answer:**
+**Delta Load** = **Incremental Load + Merge (Upsert/Delete)**
+It uses **MERGE INTO** with Delta Lake to apply:
+
+* INSERT for new records
+* UPDATE for modified records
+* DELETE (optional, based on business logic)
+
+📌 **Used when:**
+
+* You need **Change Data Capture (CDC)** behavior
+* Maintain latest record state in target
+* Support Slowly Changing Dimensions (SCD)
+
+---
+
+**💡 Example (Delta Upsert using `MERGE INTO`):**
+
+```python
+source_df = spark.read.format("parquet").load("/mnt/source/incremental")
+
+source_df.createOrReplaceTempView("source")
+
+spark.sql("""
+MERGE INTO delta.`/mnt/delta/target_table` AS target
+USING source AS src
+ON target.id = src.id
+WHEN MATCHED THEN UPDATE SET *
+WHEN NOT MATCHED THEN INSERT *
+""")
+```
+
+**OR using PySpark API:**
+
+```python
+from delta.tables import DeltaTable
+
+delta_target = DeltaTable.forPath(spark, "/mnt/delta/target_table")
+
+(delta_target.alias("target")
+ .merge(
+    source_df.alias("src"),
+    "target.id = src.id"
+ )
+ .whenMatchedUpdateAll()
+ .whenNotMatchedInsertAll()
+ .execute()
+)
+```
+
+---
+
+### 🔁 **Comparison Table**
+
+| Feature        | Full Load              | Incremental Load                 | Delta Load / Upsert               |
+| -------------- | ---------------------- | -------------------------------- | --------------------------------- |
+| Refresh Type   | Replace entire dataset | Append only new/changed data     | Upsert (Insert + Update + Delete) |
+| Use Case       | Initial loads          | When change tracking is possible | CDC, data sync between systems    |
+| Performance    | Slow on large datasets | Fast and efficient               | Efficient and consistent          |
+| Complexity     | Low                    | Medium                           | High (requires `MERGE`)           |
+| Storage Format | Any (CSV, Parquet)     | Prefer Delta                     | **Delta Lake required**           |
+| Real-time Use  | ❌ Not suitable         | ✅ Often used                     | ✅ Enterprise-grade pipelines      |
+
+---
+
+### ✅ **Q34. How do you track the last successful load for incremental/delta loads?**
+
+**Answer:**
+
+Common approaches:
+
+* **Metadata table** (store last load timestamp)
+* **Checkpoint file** (in streaming or Auto Loader)
+* **Workflow variables** (ADF/Databricks Jobs)
+
+**Example:**
+
+```python
+# Load max date from target table
+last_loaded = spark.sql("SELECT MAX(last_updated) FROM target_table").collect()[0][0]
+
+# Use in filter for new data
+incremental_df = source_df.filter(f"last_updated > '{last_loaded}'")
+```
+
+---
+
+### ✅ **Q35. How do you handle deleted records from the source in Delta Load?**
+
+**Answer:**
+
+If the source tracks deletions (via a flag like `is_deleted = true`), use conditional logic in `MERGE`.
+
+**Example with Delete Clause:**
+
+```sql
+MERGE INTO delta.`/mnt/delta/target_table` AS target
+USING source AS src
+ON target.id = src.id
+WHEN MATCHED AND src.is_deleted = true THEN DELETE
+WHEN MATCHED THEN UPDATE SET *
+WHEN NOT MATCHED THEN INSERT *
+```
+
+---
