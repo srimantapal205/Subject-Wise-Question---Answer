@@ -50,7 +50,7 @@ But managing 200 trigger dependencies in this UI may be tedious and not scalable
 
 ---
 
-### 2. **What are the different types of activities in Azure Data Factory (ADF), and how are they used?**
+## 2. **What are the different types of activities in Azure Data Factory (ADF), and how are they used?**
 
 ---
 
@@ -231,6 +231,99 @@ When using **Mapping Data Flows** in ADF:
 | Files             | Avoid too many small files                   |
 
 ---
+## 3. How to trigger adf pipeline on 14th working day?  
+***Answer:*** Azure Data Factory (ADF) **does not natively support "working days"** (i.e., excluding weekends and/or holidays) in its trigger scheduling. However, there are **workarounds** to trigger a pipeline on the **14th working day** of the month.
 
-Let me know your use case, and I can suggest specific optimization strategies for that scenario.
+---
 
+### ✅ Recommended Approach (Using Azure Functions + ADF)
+
+Use **ADF with Azure Function** or **Logic App** to evaluate the working day logic.
+
+---
+
+## 🔧 Step-by-Step Solution (Using Azure Function + ADF):
+
+### 1. **Create an Azure Function** to check if the current day is the 14th working day of the month.
+
+#### Sample Python logic:
+
+```python
+import datetime
+
+def is_14th_working_day(today):
+    count = 0
+    day = datetime.date(today.year, today.month, 1)
+    
+    while day <= today:
+        if day.weekday() < 5:  # Monday–Friday are 0–4
+            count += 1
+        if count == 14 and day == today:
+            return True
+        day += datetime.timedelta(days=1)
+    
+    return False
+
+# Example usage
+today = datetime.date.today()
+if is_14th_working_day(today):
+    # Trigger ADF pipeline
+```
+
+You can enhance this by adding a public holiday check using an API like [Calendarific](https://calendarific.com/) or a custom holiday list.
+
+---
+
+### 2. **Deploy Azure Function and expose HTTP endpoint**
+
+* Configure the function to return `True/False` or trigger ADF directly using REST API.
+
+---
+
+### 3. **Create an ADF Pipeline with Web Activity**
+
+* Add a **Web Activity** that calls the Azure Function.
+* Use **If Condition** activity to run the main pipeline **only if the function returns `True`**.
+
+---
+
+### 4. **Schedule the Trigger in ADF**
+
+* Create a **daily trigger** (e.g., every weekday at 8 AM).
+* The pipeline logic will internally decide whether it’s the 14th working day.
+
+---
+
+## ✅ Alternate Option (Custom Table in SQL)
+
+1. Create a **calendar table** with working days marked.
+
+2. Create a Stored Procedure that:
+
+   * Checks if today is 14th working day of the month.
+   * Returns `True/False`.
+
+3. Call this SP from ADF (Lookup activity + If Condition).
+
+---
+
+## ❌ Not Supported Directly:
+
+* **ADF Triggers (Schedule/Event)** do not support:
+
+  * Skipping weekends.
+  * Complex calendar logic.
+
+---
+
+## 🔁 Summary Table:
+
+| Approach           | Logic Handling     | Pros                        | Cons                           |
+| ------------------ | ------------------ | --------------------------- | ------------------------------ |
+| Azure Function     | Fully programmable | Flexible                    | Need to maintain               |
+| SQL Calendar Table | Declarative        | Reusable for other purposes | Need calendar maintenance      |
+| Pure ADF Trigger   | ✖                  | None                        | Can't handle working day logic |
+
+---
+
+If you want, I can generate a **sample Azure Function script** or **SQL calendar table** for you.
