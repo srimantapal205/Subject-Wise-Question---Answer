@@ -1057,3 +1057,136 @@ Example:
 
 ---
 
+## Here's a well-structured **L2 Technical Interview Q\&A** set for a Data Engineering role focused on **Apache Spark, Azure Data Factory, and related data systems**:
+
+---
+
+### **1. Explain the architecture of Apache Spark. What are the key components and how do they interact?**
+
+**Answer:**
+Apache Spark follows a master-slave architecture. The **Driver Program** runs the main function and manages SparkContext, which coordinates all tasks. The **Cluster Manager** (e.g., YARN, Kubernetes, or Standalone) allocates resources. **Executors** run on worker nodes to execute tasks and store data. A job is split into **stages**, and stages into **tasks**, which are scheduled by the Driver and executed by Executors. The **DAG Scheduler** builds the execution plan from RDD lineage and manages stage dependencies.
+
+---
+
+### **2. What is the Catalyst Optimizer in Spark? How does it help improve query performance?**
+
+**Answer:**
+Catalyst is Spark SQL’s query optimization framework. It transforms SQL queries into an optimized logical plan, applies rule-based and cost-based optimizations (like constant folding, predicate pushdown), and finally converts it to a physical plan. This improves performance by selecting efficient join strategies, reordering filters, and eliminating unnecessary computations.
+
+---
+
+### **3. What are the differences between Data Lake and Delta Lake? Why was Delta Lake introduced?**
+
+**Answer:**
+
+* **Data Lake** is a storage repository that holds raw, unstructured/structured data, often in formats like Parquet or CSV. It lacks ACID transaction support.
+* **Delta Lake** is a storage layer built on top of Data Lake that brings ACID transactions, schema enforcement, time travel, and efficient upserts using **Delta format**.
+
+**Delta Lake was introduced** to handle reliability, data consistency, and performance issues in data lakes, especially for streaming + batch workloads.
+
+---
+
+### **4. Explain the internal working of the Spark SQL engine, from query parsing to execution.**
+
+**Answer:**
+
+1. **Parsing:** SQL is parsed into an unresolved logical plan.
+2. **Analysis:** The plan is resolved against the catalog to identify tables, columns.
+3. **Optimization:** Catalyst applies logical optimization rules.
+4. **Physical Planning:** The logical plan is converted to multiple physical plans.
+5. **Cost Model:** The most efficient physical plan is selected.
+6. **Code Generation:** Tungsten generates Java bytecode for optimized execution.
+
+---
+
+### **5. Describe different join strategies in Spark. What happens under the hood during each?**
+
+**Answer:**
+
+* **Broadcast Join:** One side (usually small) is broadcast to all executors to avoid shuffle.
+* **Shuffle Hash Join:** Both datasets are shuffled, hashed, and joined; suitable for medium-sized data.
+* **Sort-Merge Join:** Datasets are sorted and merged on join keys; preferred for large sorted datasets.
+* **Skew Join Handling:** Spark can use techniques like salting or AQE’s skew join optimization.
+
+---
+
+### **6. ADF Scenario: Describe real-world pipeline use cases. Why and when would you use various activities and connectors in Azure Data Factory?**
+
+**Answer:**
+**Use Case:** Ingest data from REST APIs and Oracle into ADLS, transform in Databricks, and load into Azure SQL.
+
+* **Copy Activity**: For ingestion.
+* **Lookup & If Condition**: For dynamic control flow.
+* **Stored Procedure**: For post-load processing.
+* **Web Activity**: For triggering external APIs.
+  **Connectors:** Use built-in connectors for S3, Snowflake, Oracle, etc., to integrate diverse data sources.
+
+---
+
+### **7. What is Adaptive Query Execution (AQE) in Spark? How does it improve runtime performance?**
+
+**Answer:**
+AQE dynamically optimizes query execution at runtime using actual statistics:
+
+* Switch join strategy (e.g., to Broadcast)
+* Optimize skewed joins
+* Coalesce partitions dynamically
+  It helps in handling data skew, misestimated statistics, and improves performance in unpredictable data scenarios.
+
+---
+
+### **8. How would you implement Slowly Changing Dimension Type 2 (SCD Type 2) logic in a data pipeline?**
+
+**Answer:**
+In a Spark/Databricks pipeline:
+
+1. Compare source vs target using surrogate keys.
+2. Identify new, changed, and unchanged records.
+3. For changed records: expire old (set `IsCurrent=False`, `EndDate=CurrentDate`) and insert new with `IsCurrent=True`.
+4. Merge using Delta Lake's `MERGE INTO` for atomic SCD2 updates.
+
+---
+
+### **9. What are the key differences between Azure Blob Storage and Azure Data Lake Storage Gen2?**
+
+**Answer:**
+
+| Feature                | Blob Storage            | ADLS Gen2                         |
+| ---------------------- | ----------------------- | --------------------------------- |
+| Hierarchical Namespace | No                      | Yes                               |
+| Performance            | Basic                   | Optimized for big data            |
+| Access Control         | Basic ACLs              | POSIX-compliant fine-grained ACLs |
+| Use Case               | General-purpose storage | Big data analytics, Hadoop-like   |
+
+---
+
+### **10. Why is Spark lazily evaluated? What are the benefits of lazy evaluation in practice?**
+
+**Answer:**
+Spark defers execution until an **action** is called. This allows:
+
+* Optimizing the DAG before execution
+* Reducing unnecessary computation
+* Efficient pipeline execution through task fusion
+  It leads to better performance and resource management.
+
+---
+
+### **11. Compare Kryo serialization vs Java serialization in Spark. When should you use Kryo?**
+
+**Answer:**
+
+* **Java Serialization**: Default in Spark, flexible but slow and verbose.
+* **Kryo Serialization**: Faster, more compact.
+  **Use Kryo** when:
+* Performance is critical.
+* You're dealing with large data or custom classes.
+* You register classes upfront to avoid overhead.
+
+Use:
+
+```python
+spark.conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+```
+
+---
