@@ -1,4 +1,4 @@
-# <============== ::: Azure Synapse Analytics interview questions ::: ==============>
+# <==== ::: Azure Synapse Analytics interview questions ::: ====>
 
 ---
 
