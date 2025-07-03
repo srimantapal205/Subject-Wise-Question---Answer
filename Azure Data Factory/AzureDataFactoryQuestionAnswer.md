@@ -362,7 +362,7 @@ These options allow flexibility in configuring the IR based on the specific requ
 However, if you need to transfer data from a private network or on-premises server to the cloud, you must create a Self-Hosted Integration Runtime. This is necessary to enable secure and seamless data migration in such scenarios.
 
 ### Question 21: Is it possible to call one pipeline from another pipeline in Azure Data Factory (ADF)? If yes, how?
-**Answer :** Yes, it is possible to call one pipeline from another pipeline in Azure Data Factory (ADF). This can be achieved using the Execute Pipeline Activity.
+**Answer :** Yes, it is possible to call one pipeline from another pipeline in Azure Data Factory (ADF). This can be achieved using the `Execute Pipeline Activity`.
 Steps to call a pipeline from another pipeline:
 - Add the Execute Pipeline Activity:
     - Open the parent pipeline in ADF Studio.
@@ -381,7 +381,9 @@ By using the Execute Pipeline Activity, you can easily manage pipeline dependenc
 
 ### Question 22: How can you ensure that while pulling data from an on-premises database server for multiple tables using a copy activity inside a ForEach loop in Azure Data Factory (ADF), only one database request is sent at a time?
 **Answer :** Yes, it is possible to ensure that only one database request is sent at a time when using a ForEach loop for pulling data from multiple tables in Azure Data Factory.
+
 **Solution:**
+
 1. Set the ForEach Activity to Sequential Mode:
     - In ADF, the ForEach activity can be configured to run in either parallel or sequential mode.
     - To ensure only one database request is sent at a time, you need to set the ForEach activity to sequential mode.
@@ -392,13 +394,20 @@ By using the Execute Pipeline Activity, you can easily manage pipeline dependenc
 3. Behavior:
     - In sequential mode, the ForEach activity will process each iteration one at a time.
     - Inside the ForEach loop, the Copy Activity will execute for one table, complete the operation, and then proceed to the next table.
+
 **Advantages:**
+
     - Prevents overloading the on-premises database server with multiple simultaneous requests, which could cause performance issues or server downtime.
+
 **Disadvantage:**
+
 - Running in sequential mode can increase the total execution time since only one table is processed at a time.
-Practical Use Case:
+
+**Practical Use Case:**
+
 - Use parallel mode when the server can handle concurrent requests and the goal is to minimize execution time.
 - Use sequential mode when the on-premises server has limited resources or cannot handle multiple parallel requests effectively.
+
 
 By configuring the ForEach activity in sequential mode, you ensure that each table’s data is copied one at a time, thereby adhering to the requirement of sending only 
 one request to the on-premises database at a time.
@@ -690,9 +699,10 @@ The pipeline consists of the following activities:
         + Use the last execution date (from Activity 1) and the latest update date (from Activity 2) as parameters.
         + Query the source table for records updated between these dates. Example:
 
-    SELECT * FROM SourceTable
-    WHERE LastModifiedDate > @LastExecutionDate
-      AND LastModifiedDate <= @MaxDate
+        SELECT * FROM SourceTable
+        WHERE LastModifiedDate > @LastExecutionDate
+        AND LastModifiedDate <= @MaxDate
+
 - Write the results to Azure SQL Database.
 
 * Activity 4: Copy Activity (Update High Watermark)
