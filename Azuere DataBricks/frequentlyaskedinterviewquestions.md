@@ -611,11 +611,8 @@ WHEN NOT MATCHED THEN INSERT *
 ```
 
 ---
-Here is a structured Q\&A format with the main questions and their follow-ups, along with concise and technically sound answers. This will help you in interviews focused on Spark and Databricks:
 
----
-
-### **1. Explain the architecture of Spark, including the roles of driver, executors, DAGs, and SparkContext.**
+### **36. Explain the architecture of Spark, including the roles of driver, executors, DAGs, and SparkContext.**
 
 **Answer:**
 Spark follows a master-slave architecture. The **Driver** is the master that orchestrates the execution of jobs. It maintains the **SparkContext**, which connects to the cluster manager. **Executors** are worker nodes that run tasks and store data. Spark breaks a job into **DAGs (Directed Acyclic Graphs)** representing stages and tasks for execution.
@@ -630,7 +627,7 @@ Spark follows a master-slave architecture. The **Driver** is the master that orc
 
 ---
 
-### **2. What are the advantages and disadvantages of Delta Tables?**
+### **37. What are the advantages and disadvantages of Delta Tables?**
 
 **Answer:**
 **Advantages:** ACID transactions, scalable schema evolution, time travel, optimized performance using Z-order and compaction.
@@ -646,7 +643,7 @@ Spark follows a master-slave architecture. The **Driver** is the master that orc
 
 ---
 
-### **3. Explain Delta Time Travel and the purpose of the vacuum command.**
+### **38. Explain Delta Time Travel and the purpose of the vacuum command.**
 
 **Answer:**
 Delta Time Travel lets you query a Delta Table at a previous version or timestamp using `VERSION AS OF` or `TIMESTAMP AS OF`.
@@ -662,7 +659,7 @@ Delta Time Travel lets you query a Delta Table at a previous version or timestam
 
 ---
 
-### **4. Differentiate between Schema Enforcement and Schema Evolution.**
+### **39. Differentiate between Schema Enforcement and Schema Evolution.**
 
 **Answer:**
 **Schema Enforcement** prevents incompatible data from being written.
@@ -678,7 +675,7 @@ Delta Time Travel lets you query a Delta Table at a previous version or timestam
 
 ---
 
-### **5. What is Secret Scope, and how is it used in Databricks?**
+### **40. What is Secret Scope, and how is it used in Databricks?**
 
 **Answer:**
 Secret Scopes store credentials securely in Databricks. They can be **Databricks-backed** or **Azure Key Vault-backed**.
@@ -693,7 +690,7 @@ Secret Scopes store credentials securely in Databricks. They can be **Databricks
 
 ---
 
-### **6. How do you use Spark UI to debug stages, tasks, and performance issues?**
+### **41. How do you use Spark UI to debug stages, tasks, and performance issues?**
 
 **Answer:**
 Spark UI provides detailed info on **DAGs**, **tasks**, **stages**, **executors**, **storage**, and **environment**. You can spot slow stages, skewed tasks, GC time, and memory usage.
@@ -708,7 +705,7 @@ Spark UI provides detailed info on **DAGs**, **tasks**, **stages**, **executors*
 
 ---
 
-### **7. How do you handle bad data in Databricks?**
+### **42. How do you handle bad data in Databricks?**
 
 **Answer:**
 Use options like `badRecordsPath`, schema validation, and try-catch logic in notebooks. Route invalid records to **quarantine tables** for review.
@@ -723,9 +720,7 @@ Use options like `badRecordsPath`, schema validation, and try-catch logic in not
 
 ---
 
-## **Technical Round 2**
-
-### **1. Explain how Adaptive Query Execution (AQE) works in Databricks.**
+### **43. Explain how Adaptive Query Execution (AQE) works in Databricks.**
 
 **Answer:**
 AQE dynamically optimizes query plans at runtime based on actual data statistics. It can change join strategies, coalesce shuffle partitions, and optimize skew joins.
@@ -740,7 +735,7 @@ AQE dynamically optimizes query plans at runtime based on actual data statistics
 
 ---
 
-### **2. Describe the role of Dynamic Resource Allocation in Databricks.**
+### **44. Describe the role of Dynamic Resource Allocation in Databricks.**
 
 **Answer:**
 It enables Spark to scale executors based on workload. Executors are added when load increases and removed during idle time.
@@ -755,7 +750,7 @@ It enables Spark to scale executors based on workload. Executors are added when 
 
 ---
 
-### **3. What is the usage of Optimize and REORG commands in Databricks?**
+### **44. What is the usage of Optimize and REORG commands in Databricks?**
 
 **Answer:**
 `OPTIMIZE` compacts small files and improves read performance. `REORG` is used to reorder files for better data skipping and clustering.
@@ -770,7 +765,7 @@ It enables Spark to scale executors based on workload. Executors are added when 
 
 ---
 
-### **4. How is Git version control implemented in Databricks?**
+### **45. How is Git version control implemented in Databricks?**
 
 **Answer:**
 Databricks notebooks can be linked to a Git provider (GitHub, Azure DevOps). Changes can be committed and version-controlled.
@@ -785,7 +780,7 @@ Databricks notebooks can be linked to a Git provider (GitHub, Azure DevOps). Cha
 
 ---
 
-### **5. What causes data skewness in Spark, and how can it be resolved?**
+### **46. What causes data skewness in Spark, and how can it be resolved?**
 
 **Answer:**
 Skewness is caused by uneven distribution of keys during shuffle operations. Solutions include **salting**, **broadcast joins**, and **AQE**.
@@ -800,7 +795,7 @@ Skewness is caused by uneven distribution of keys during shuffle operations. Sol
 
 ---
 
-### **6. How do you decide the number of partitions for repartitioning data in Spark?**
+### **47. How do you decide the number of partitions for repartitioning data in Spark?**
 
 **Answer:**
 Base it on input data size and cluster resources. A good rule of thumb is **1 partition per 100-200MB** of data per core.
@@ -815,7 +810,7 @@ Base it on input data size and cluster resources. A good rule of thumb is **1 pa
 
 ---
 
-### **7. What causes Out of Memory (OOM) issues in Databricks, and how do you resolve them?**
+### **58. What causes Out of Memory (OOM) issues in Databricks, and how do you resolve them?**
 
 **Answer:**
 OOM issues arise from large shuffles, wide transformations, or improper caching. Solutions include increasing executor memory, caching wisely, or repartitioning data.
