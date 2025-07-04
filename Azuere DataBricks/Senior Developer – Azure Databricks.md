@@ -169,9 +169,6 @@ df = spark.readStream.format("eventhubs").options(**event_hub_config).load()
 
 ---
 
-Here is a set of **interview-ready answers with examples** for the questions you shared. These are designed to reflect real-world, hands-on experience with Azure, Databricks, ADF, streaming, and leadership scenarios.
-
----
 
 ### 📂 Reusable Frameworks & Data Quality
 
