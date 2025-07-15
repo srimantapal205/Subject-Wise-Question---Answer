@@ -220,3 +220,220 @@ Accumulators are shared variables used for aggregating values across worker node
 ### 37. What is the use of broadcast join?
 **Answer:** 
 Broadcast join improves performance by sending a small dataset to all worker nodes instead of shuffling large data.
+
+
+### 38. What’s the difference between `select()` and `selectExpr()`?
+
+✅ `select()` takes column objects or column names and is type-safe:
+
+```python
+df.select(col("name"), col("age") + 1)
+```
+
+✅ `selectExpr()` allows you to use SQL expressions directly as strings, which is convenient for complex transformations:
+
+```python
+df.selectExpr("name", "age + 1 as age_plus_one")
+```
+
+Use `select()` when possible for better readability & safety; use `selectExpr()` for SQL-like expressions.
+
+---
+
+### 39. How do you repartition a DataFrame by multiple columns?
+
+Use `.repartition()` and pass multiple columns:
+
+```python
+df = df.repartition(10, col("col1"), col("col2"))
+```
+
+This ensures the data is distributed by a hash of `col1` and `col2`.
+
+---
+
+### 40. Write a PySpark function to extract domain from an email column.
+
+```python
+from pyspark.sql.functions import col, regexp_extract
+
+df = df.withColumn(
+    "domain", regexp_extract(col("email"), "@(.*)$", 1)
+)
+```
+
+---
+
+### 41. How to explode a map column and flatten it?
+
+```python
+from pyspark.sql.functions import explode
+
+df.select(col("id"), explode(col("map_col")).alias("key", "value"))
+```
+
+This turns the map into rows of `key` and `value`.
+
+---
+
+### 42. What’s the most efficient way to drop columns dynamically?
+
+If you have a list of columns to drop:
+
+```python
+columns_to_drop = ["col1", "col2"]
+df = df.drop(*columns_to_drop)
+```
+
+---
+
+### 43. Can a DataFrame be sorted without triggering an action?
+
+No. Sorting (`orderBy()`/`sort()`) is a transformation, but Spark builds the plan lazily.
+However, the actual sorting happens only when an **action** (like `.show()`, `.collect()`) is called.
+
+---
+
+### 44. How to handle mixed data types in a single column while writing to Parquet?
+
+Use `cast()` to enforce a consistent type before writing:
+
+```python
+df = df.withColumn("col", col("col").cast("string"))
+df.write.parquet("path")
+```
+
+---
+
+### 45. Use `groupBy()` to get the most recent record per group.
+
+```python
+from pyspark.sql.window import Window
+from pyspark.sql.functions import row_number
+
+window = Window.partitionBy("group_col").orderBy(col("timestamp").desc())
+
+df.withColumn("rn", row_number().over(window)) \
+  .filter(col("rn") == 1) \
+  .drop("rn")
+```
+
+---
+
+### 46. What’s the role of `monotonically_increasing_id()`? Where does it fail?
+
+✅ It generates unique (but **not consecutive**) 64-bit IDs within a partition.
+❌ It doesn’t guarantee strict ordering and may produce duplicate-looking patterns if repartitioned.
+
+---
+
+### 47. Read a multi-line JSON from S3 and flatten nested fields.
+
+```python
+df = spark.read.option("multiLine", True).json("s3://path/")
+df = df.select("field1", "nested.field2", ...)
+```
+
+---
+
+### 48. Difference between `alias()` and renaming a column directly.
+
+✅ `alias()` is used in a select/projection to rename temporarily.
+✅ `withColumnRenamed()` actually renames the column in the DataFrame schema.
+
+---
+
+### 49. How to apply different transformations conditionally to different columns?
+
+Use `when` and chain `withColumn`:
+
+```python
+from pyspark.sql.functions import when
+
+df = df.withColumn("col",
+    when(col("type") == "A", col("col") * 2)
+    .when(col("type") == "B", col("col") + 10)
+    .otherwise(col("col"))
+)
+```
+
+---
+
+### 50. Read only last 7 days of data from S3 using partition folder structure.
+
+If data is partitioned by date (e.g., `dt=YYYY-MM-DD`), build a list of paths:
+
+```python
+from datetime import datetime, timedelta
+
+dates = [(datetime.today() - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(7)]
+paths = [f"s3://bucket/path/dt={d}" for d in dates]
+df = spark.read.parquet(*paths)
+```
+
+---
+
+### 51. When does Spark not push down filters? How to fix that?
+
+✅ If the data source doesn’t support predicate pushdown (like some formats).
+✅ If you apply transformations that obscure the filter.
+✔️ Fix: Use `.filter()` early and use supported formats like Parquet/ORC.
+
+---
+
+### 52. How to get number of partitions in a DataFrame and why does it matter?
+
+```python
+df.rdd.getNumPartitions()
+```
+
+✅ Knowing helps optimize performance: too many = overhead, too few = under-utilization.
+
+---
+
+### 53. Difference between `count()` and `.rdd.count()` in terms of performance?
+
+✅ `.count()` uses Catalyst & Tungsten optimizations → faster.
+✅ `.rdd.count()` bypasses optimizations → slower.
+
+---
+
+### 54. What’s better for skew: salting the key or using broadcast joins?
+
+✅ For **small dimension tables** → broadcast joins are better.
+✅ For **skewed keys in large tables** → salting (adding random noise to the key) helps.
+
+---
+
+### 55. Create a new column that ranks rows within group using `dense_rank()`.
+
+```python
+from pyspark.sql.window import Window
+from pyspark.sql.functions import dense_rank
+
+window = Window.partitionBy("group_col").orderBy(col("value").desc())
+
+df = df.withColumn("rank", dense_rank().over(window))
+```
+
+---
+
+### 56. Why is `collect()` dangerous and when is it acceptable?
+
+✅ It pulls **all data into the driver’s memory**, which can cause OOM if data is large.
+✅ Use it only when the dataset is small & fits in memory (e.g., for debugging).
+
+---
+
+### 57. Convert a column of strings into timestamp — handle malformed inputs gracefully.
+
+```python
+from pyspark.sql.functions import to_timestamp
+
+df = df.withColumn("ts", to_timestamp("date_str", "yyyy-MM-dd HH:mm:ss"))
+df = df.filter(df.ts.isNotNull())
+```
+
+This converts valid strings to timestamp & drops malformed rows.
+
+

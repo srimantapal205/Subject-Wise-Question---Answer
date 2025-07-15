@@ -423,8 +423,6 @@ JOIN departments d ON e.department_id = d.id;
 
 ### 🔷 **Indexing and Storage**
 
-Here are your **SQL indexing-related questions**, renumbered starting from **question 14**, with detailed explanations and examples:
-
 ---
 
 ### **14. What are the types of indexes in SQL?**
@@ -591,7 +589,6 @@ ALTER INDEX idx_name ON employees REORGANIZE;
 -- Rebuild (offline by default)
 ALTER INDEX idx_name ON employees REBUILD;
 ```
-
 
 ---
 
