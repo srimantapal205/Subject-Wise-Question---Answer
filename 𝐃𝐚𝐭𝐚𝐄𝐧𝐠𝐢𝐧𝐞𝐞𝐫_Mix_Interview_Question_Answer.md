@@ -145,7 +145,7 @@ python
 
 ---
 
-### **2. Performance Tuning Techniques in Spark**
+### 10. **Performance Tuning Techniques in Spark**
 - **Optimize shuffles**: Use `repartition()` wisely; minimize wide transformations.
 - **Persist()/cache()**: Use when reusing intermediate results.
 - **Broadcast joins**: Broadcast small dimension tables to avoid shuffle joins.
@@ -153,13 +153,13 @@ python
 
 ---
 
-### **3. Accumulator vs Broadcast Variables**
+### 11. **Accumulator vs Broadcast Variables**
 - **Accumulator**: Used for counters, sum, etc. Write-only from executors.
 - **Broadcast**: Share small lookup datasets across nodes efficiently.
 
 ---
 
-### **4. SparkSession vs SparkContext**
+### 12. **SparkSession vs SparkContext**
 | Feature        | SparkSession                         | SparkContext                     |
 |----------------|--------------------------------------|----------------------------------|
 | Purpose        | Unified entry point (DF, SQL, etc.)  | RDD-based operations             |
@@ -168,13 +168,13 @@ python
 
 ---
 
-### **5. Dataset vs DataFrame**
+### 13. **Dataset vs DataFrame**
 - **Dataset** (Scala/Java): Type-safe, compile-time checks.
 - **DataFrame**: Untyped, row-based with schema.
 
 ---
 
-### **6. Spark Session Command**
+### 14. **Spark Session Command**
 ```python
 from pyspark.sql import SparkSession
 spark = SparkSession.builder \
@@ -184,21 +184,21 @@ spark = SparkSession.builder \
 
 ---
 
-### **7. Command to Read JSON Data**
+### 15. **Command to Read JSON Data**
 ```python
 df = spark.read.option("multiline", "true").json("path/to/file.json")
 ```
 
 ---
 
-### **8. CSV Without Column Names/Schema**
+### 16. **CSV Without Column Names/Schema**
 ```python
 df = spark.read.option("header", "false").csv("path.csv")
 ```
 
 ---
 
-### **9. Find 3rd Highest Salary**
+### 17. **Find 3rd Highest Salary**
 ```sql
 SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 3
 
@@ -208,7 +208,7 @@ SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC OFFSET 2 ROWS FETCH NE
 ```
 ---
 
-### **10. Employees Earning More Than Manager**
+### 18. **Employees Earning More Than Manager**
 ```sql
 SELECT e.name FROM employee e JOIN employee m ON e.manager_id = m.id WHERE e.salary > m.salary
 
@@ -216,7 +216,7 @@ SELECT e.name FROM employee e JOIN employee m ON e.manager_id = m.id WHERE e.sal
 
 ---
 
-### **11. Palindrome Check (PySpark UDF Example)**
+### 19. **Palindrome Check (PySpark UDF Example)**
 ```python
 from pyspark.sql.functions import udf
 from pyspark.sql.types import BooleanType
@@ -230,31 +230,31 @@ df = df.withColumn("is_palindrome", is_palindrome_udf(df["column"]))
 
 ---
 
-### **12. Spark Submit Command**
+### 20. **Spark Submit Command**
 ```bash
 spark-submit --class com.example.Main --master yarn /path/to/app.jar
 ```
 
 ---
 
-### **13. Memory Tuning**
+### 21. **Memory Tuning**
 - `--executor-memory 4G`
 - Use `StorageLevel.MEMORY_AND_DISK`
 - Tune GC with `spark.executor.extraJavaOptions`
 
 ---
 
-### **14. Created JARs**
+### 22. **Created JARs**
 > I created JARs using Maven for my Scala Spark jobs. Used `pom.xml` to manage dependencies and `spark-submit` to deploy.
 
 ---
 
-### **15. Worked with UDFs**
+### 23. **Worked with UDFs**
 > Yes, I used UDFs in Python for data transformation like converting date formats, validating emails, or checking for palindromes.
 
 ---
 
-### **16. Dynamic Resource Allocation**
+### 24. **Dynamic Resource Allocation**
 ```bash
 --conf spark.dynamicAllocation.enabled=true
 --conf spark.dynamicAllocation.minExecutors=2
@@ -263,25 +263,25 @@ spark-submit --class com.example.Main --master yarn /path/to/app.jar
 
 ---
 
-### **17. Daily Data Volume**
+### 25. **Daily Data Volume**
 > We processed ~1TB/day from various sources including system logs, e-commerce transactions, and IoT device data.
 
 ---
 
-### **18. DataFrame vs Dataset**
+### 26. **DataFrame vs Dataset**
 
 > DataFrame is untyped (runtime schema checks), Dataset is typed (compile-time checks, only in Scala/Java).
 
 ---
 
-### **19. Load CSV from HDFS**
+### 27. **Load CSV from HDFS**
 ```python
 df = spark.read.csv("hdfs://namenode/path/file.csv", header=True, inferSchema=True)
 ```
 
 ---
 
-### **20. What is Multiline?**
+### 28. **What is Multiline?**
 > The `multiline` option is used when JSON records span multiple lines.
 
 ```python
@@ -290,14 +290,14 @@ spark.read.option("multiline", "true").json("path")
 
 ---
 
-### **21. No Column Names in CSV**
+### 29. **No Column Names in CSV**
 ```python
 df = spark.read.option("header", "false").csv("path.csv")
 ```
 
 ---
 
-#### **22. Case Class and StructType Syntax**
+### 30. **Case Class and StructType Syntax**
 **Scala:**
 ```scala
 case class Person(name: String, age: Int)
@@ -317,7 +317,7 @@ df = spark.read.schema(schema).csv("path")
 
 ---
 
-### **23. Partitioning vs Bucketing**
+### 31. **Partitioning vs Bucketing**
 | Technique    | Partitioning                      | Bucketing                            |
 |--------------|-----------------------------------|--------------------------------------|
 | Based on     | Directory structure               | Hashing function                     |
@@ -326,12 +326,12 @@ df = spark.read.schema(schema).csv("path")
 
 ---
 
-### **24. Closure Function**
+### 32. **Closure Function**
 > A closure captures variables from its outer scope. Spark sends the closure to executors, so variables must be serializable.
 
 ---
 
-### **25. Count of Alphabets in String (Python)**
+### 33. **Count of Alphabets in String (Python)**
 ```python
 from collections import Counter
 
@@ -341,7 +341,7 @@ def count_alpha(s):
 
 ---
 
-### **26. List vs Tuple**
+### 34. **List vs Tuple**
 | Feature      | List                          | Tuple                        |
 |--------------|-------------------------------|------------------------------|
 | Mutability   | Mutable                        | Immutable                    |
@@ -350,7 +350,8 @@ def count_alpha(s):
 
 ---
 
-### **27 In ADF, what is the other way to get the incremental load without Watermark Columns:
+
+### 35. **In ADF, what is the other way to get the incremental load without Watermark Columns?**
 
 In **Azure Data Factory (ADF)**, if you want to implement **incremental load** without using **watermark columns** (like `LastModifiedDate` or `UpdatedDate`), there are **several alternative strategies**, depending on the data source and structure:
 
@@ -386,7 +387,8 @@ In **Azure Data Factory (ADF)**, if you want to implement **incremental load** w
 - Some systems add a **status flag** (e.g., `IsProcessed`, `IsNew`, `SyncFlag`) to identify rows ready for load.
 - ADF filters for `IsProcessed = false`, then updates the flag after successful load.
 
-### **27 How to run more than 100 pipeline at a time with sequentially and pipeline all are dependency run one by one 
+
+### 36. **How to run more than 100 pipelines at a time sequentially, with dependencies (one by one)?**
 
 If you have **more than 100 pipelines** that need to be executed **sequentially** (i.e., one after another, in a specific order, with dependencies), you can **orchestrate them efficiently in Azure Data Factory** (ADF) using the following methods:
 
@@ -461,7 +463,7 @@ Great questions! Here's a comprehensive breakdown of each one:
 
 ---
 
-### **27. Explain the differences between RDDs, DataFrames, and Datasets in PySpark. When would you use each?**
+### 37. **Explain the differences between RDDs, DataFrames, and Datasets in PySpark. When would you use each?**
 
 | Feature         | RDD                            | DataFrame                            | Dataset (Scala/Java only)        |
 |----------------|---------------------------------|--------------------------------------|----------------------------------|
@@ -478,7 +480,7 @@ Great questions! Here's a comprehensive breakdown of each one:
 
 ---
 
-### **29. How does PySpark handle lazy evaluation? Can you provide an example demonstrating this concept?**
+### 38. **How does PySpark handle lazy evaluation? Can you provide an example demonstrating this concept?**
 
 PySpark transformations are lazy, meaning they’re not executed until an action is called.
 
@@ -495,7 +497,7 @@ Only when `collect()` is called does Spark build and execute the DAG.
 
 ---
 
-### **30. Describe the role of the Catalyst optimizer in PySpark. How does it enhance query execution?**
+### 39. **Describe the role of the Catalyst optimizer in PySpark. How does it enhance query execution?**
 
 Catalyst is Spark SQL’s query optimizer. It improves performance by:
 - Analyzing and optimizing logical and physical query plans.
@@ -506,7 +508,7 @@ Catalyst is Spark SQL’s query optimizer. It improves performance by:
 
 ---
 
-### **31. What are the various types of joins supported in PySpark? How do they differ in terms of performance and use cases?**
+### 40. **What are the various types of joins supported in PySpark? How do they differ in terms of performance and use cases?**
 
 - **Inner Join**: Only matching keys.
 - **Left/Right Outer Join**: Keeps all rows from one side, nulls for no matches.
@@ -521,7 +523,7 @@ Catalyst is Spark SQL’s query optimizer. It improves performance by:
 
 ---
 
-### **32. How can you handle missing or null values in a PySpark DataFrame? What strategies are available?**
+### 41. **How can you handle missing or null values in a PySpark DataFrame? What strategies are available?**
 
 Common strategies:
 ```python
@@ -534,7 +536,7 @@ Approach depends on context—sometimes mean/median imputation is better than dr
 
 ---
 
-### **33. Explain the significance of partitioning in PySpark. How does it impact performance, and how do you implement it?**
+### 42. **Explain the significance of partitioning in PySpark. How does it impact performance, and how do you implement it?**
 
 Partitioning affects **parallelism** and **shuffling**.
 
@@ -552,7 +554,7 @@ Use `repartition()` when increasing partitions; `coalesce()` to reduce them effi
 
 ---
 
-### **34. What is the difference between the `cache()` and `persist()` methods in PySpark? When would you use each?**
+### 43. **What is the difference between the `cache()` and `persist()` methods in PySpark? When would you use each?**
 
 - `cache()` = shorthand for `persist(StorageLevel.MEMORY_AND_DISK)`
 - `persist()` = allows other storage levels (e.g., disk-only)
@@ -561,7 +563,7 @@ Use `cache()` for small-to-medium datasets accessed repeatedly. Use `persist()` 
 
 ---
 
-### **35.How do you create and register a user-defined function (UDF) in PySpark? What are the performance considerations?**
+### 44. **How do you create and register a user-defined function (UDF) in PySpark? What are the performance considerations?**
 
 ```python
     from pyspark.sql.functions import udf
@@ -578,7 +580,7 @@ Use `cache()` for small-to-medium datasets accessed repeatedly. Use `persist()` 
 
 ---
 
-### **36. Discuss the concept of shuffling in PySpark. How does it affect performance, and how can it be minimized?**
+### 45. **Discuss the concept of shuffling in PySpark. How does it affect performance, and how can it be minimized?**
 
 Shuffling = redistributing data across partitions, triggered by:
 - Wide transformations (`groupByKey`, `reduceByKey`, `join`)
@@ -593,7 +595,7 @@ Shuffling = redistributing data across partitions, triggered by:
 
 ---
 
-### **37. Describe a scenario where you had to optimize a PySpark job for performance. What steps did you take?**
+### 46. **Describe a scenario where you had to optimize a PySpark job for performance. What steps did you take?**
 
 **Example**: Job was slow due to large shuffle in join.
 
@@ -607,7 +609,7 @@ Result: Reduced execution time by 70%.
 
 ---
 
-### **38. How do you read data from and write data to various file formats (e.g., CSV, Parquet, JSON) in PySpark?**
+### 47. **How do you read data from and write data to various file formats (e.g., CSV, Parquet, JSON) in PySpark?**
 
 ```python
     # CSV
@@ -626,7 +628,7 @@ Result: Reduced execution time by 70%.
 Parquet is preferred for performance (columnar, compressed).
 
 ---
-### **39. Explain how you would perform aggregations in PySpark. What functions and methods are commonly used?**
+### 48. **Explain how you would perform aggregations in PySpark. What functions and methods are commonly used?**
 
 ```python
     from pyspark.sql.functions import count, avg, sum
@@ -642,7 +644,7 @@ Also use `window()` for time-based aggregations.
 
 ---
 
-### **40. What are broadcast variables in PySpark? How do they help in improving the performance of join operations?**
+### 49. **What are broadcast variables in PySpark? How do they help in improving the performance of join operations?**
 
 Used to cache small lookup tables on all worker nodes to avoid data shuffling during joins.
 
@@ -655,7 +657,7 @@ Greatly improves performance for joins with small datasets.
 
 ---
 
-### **41 Describe the process of handling schema evolution in PySpark when dealing with changing data structures.**
+### 50. **Describe the process of handling schema evolution in PySpark when dealing with changing data structures.**
 
 For evolving schemas:
 - Use Parquet/Avro—they support schema evolution.
@@ -667,7 +669,7 @@ For evolving schemas:
 
 ---
 
-### **42. Can you provide an example of a complex PySpark transformation pipeline you've implemented? What challenges did you face, and how did you overcome them?**
+### 51. **Can you provide an example of a complex PySpark transformation pipeline you've implemented? What challenges did you face, and how did you overcome them?**
 
 **Scenario**:
 - Merged IoT device data from multiple sources
@@ -686,7 +688,7 @@ For evolving schemas:
 
 ---
 
-### 43. Explain the difference between RDD, DataFrame, and Dataset in PySpark.
+### 52. **Explain the difference between RDD, DataFrame, and Dataset in PySpark.**
 
 | Aspect        | RDD                                  | DataFrame                          | Dataset (not in PySpark)           |
 |---------------|--------------------------------------|------------------------------------|------------------------------------|
@@ -699,7 +701,7 @@ For evolving schemas:
 
 ---
 
-### 44. What is the difference between `cache()` and `persist()` in PySpark?
+### 53. **What is the difference between `cache()` and `persist()` in PySpark?**
 
 | Aspect   | `cache()`                         | `persist()`                         |
 |----------|-----------------------------------|-------------------------------------|
@@ -709,7 +711,7 @@ For evolving schemas:
 
 ---
 
-### 45. How does Lazy Evaluation work in PySpark?
+### 54. **How does Lazy Evaluation work in PySpark?**
 
 - Transformations (like `map`, `filter`) are **lazy** — they are **not executed immediately**.
 - Actions (like `collect`, `count`) **trigger** the computation.
@@ -719,7 +721,7 @@ For evolving schemas:
 
 ---
 
-### 46. What are wide and narrow transformations in PySpark?
+### 55. **What are wide and narrow transformations in PySpark?**
 
 | Type         | Narrow Transformation          | Wide Transformation               |
 |--------------|---------------------------------|------------------------------------|
@@ -729,7 +731,7 @@ For evolving schemas:
 
 ---
 
-### 47. Explain shuffle operations in PySpark and their impact on performance.
+### 56. **Explain shuffle operations in PySpark and their impact on performance.**
 
 - **Shuffle** = data movement across nodes for operations like `groupBy`, `reduceByKey`, `join`.
 - Impact:
@@ -739,7 +741,7 @@ For evolving schemas:
 
 ---
 
-### 48. What are the different persistence levels available in PySpark?
+### 57. **What are the different persistence levels available in PySpark?**
 
 - `MEMORY_ONLY`
 - `MEMORY_AND_DISK`
@@ -752,7 +754,7 @@ Each one balances memory vs. disk based on resource availability.
 
 ---
 
-### 49.  How does PySpark handle schema evolution in DataFrames?
+### 58. **How does PySpark handle schema evolution in DataFrames?**
 
 - PySpark supports **schema merging** when reading Parquet/ORC formats.
 - For example, different files can have different schemas, and PySpark can merge them using:
@@ -763,7 +765,7 @@ Each one balances memory vs. disk based on resource availability.
 
 ---
 
-### 50. What is broadcast join, and when should we use it?
+### 59. **What is broadcast join, and when should we use it?**
 
 - Used when **one dataset is small** enough to fit into memory.
 - PySpark broadcasts the small dataset to all nodes.
@@ -776,7 +778,7 @@ Each one balances memory vs. disk based on resource availability.
 
 ---
 
-### 51. Explain the difference between `groupBy()` and `reduceByKey()` in PySpark.
+### 60. **Explain the difference between `groupBy()` and `reduceByKey()` in PySpark.**
 
 | Aspect        | groupBy()                         | reduceByKey()                     |
 |---------------|------------------------------------|-----------------------------------|
@@ -786,7 +788,7 @@ Each one balances memory vs. disk based on resource availability.
 
 ---
 
-### 52. What is the use of `explode()` function in PySpark?
+### 61. **What is the use of `explode()` function in PySpark?**
 
 - Used to **flatten arrays or maps** into multiple rows.
   
@@ -803,7 +805,7 @@ If a person has multiple hobbies, `explode()` will create one row per hobby.
 
 ---
 
-### 53. Find the top 3 highest-paid employees from each department
+### 62. **Find the top 3 highest-paid employees from each department**
 
 ```python
     from pyspark.sql import SparkSession
@@ -836,7 +838,7 @@ If a person has multiple hobbies, `explode()` will create one row per hobby.
 
 ---
 
-### 54. Count the number of null values in each column
+### 63. **Count the number of null values in each column**
 
 ```python
     from pyspark.sql.functions import col, sum as _sum, when
@@ -847,7 +849,7 @@ If a person has multiple hobbies, `explode()` will create one row per hobby.
 
 ---
 
-### 56. Remove duplicate records based on a specific column
+### 64. **Remove duplicate records based on a specific column**
 
 (Say, remove based on `id`)
 
@@ -870,7 +872,7 @@ If a person has multiple hobbies, `explode()` will create one row per hobby.
 
 ---
 
-### 57. Replace null values with previous non-null value
+### 65. **Replace null values with previous non-null value**
 
 (Use **window function** with `last()`)
 
@@ -886,7 +888,7 @@ If a person has multiple hobbies, `explode()` will create one row per hobby.
 
 ---
 
-### 58. Moving average of sales over last 3 months
+### 66. **Moving average of sales over last 3 months**
 
 Assuming we have data like:
 
@@ -916,7 +918,7 @@ Assuming we have data like:
 Alright, let’s break it down very simply:
 
 ---
-### 59. What is **Logical Plan** in PySpark?
+### 67. **What is Logical Plan in PySpark?**
 
 - In PySpark, **Logical Plan** is **how Spark understands your query internally**, step-by-step, **before** actually running it.
 - It is a **blueprint** that shows **what** operations you want to do (like select, join, filter) — but **not yet** concerned about **how** to do them.
@@ -1004,7 +1006,7 @@ Think of it like:
 
 ---
 
-### 60. What is `collect()` in Spark (PySpark)?
+### 68. **What is `collect()` in Spark (PySpark)?**
 - `.collect()` **brings all the data** from your **Spark DataFrame or RDD** **into the driver** (your local Python program).
 - It **gathers** all the distributed data spread across worker nodes and **returns it as a Python list** (for RDD) or list of Row objects (for DataFrame).
 
@@ -1061,21 +1063,21 @@ Example:
 
 ---
 
-### **1. Explain the architecture of Apache Spark. What are the key components and how do they interact?**
+### 69. **Explain the architecture of Apache Spark. What are the key components and how do they interact?**
 
 **Answer:**
 Apache Spark follows a master-slave architecture. The **Driver Program** runs the main function and manages SparkContext, which coordinates all tasks. The **Cluster Manager** (e.g., YARN, Kubernetes, or Standalone) allocates resources. **Executors** run on worker nodes to execute tasks and store data. A job is split into **stages**, and stages into **tasks**, which are scheduled by the Driver and executed by Executors. The **DAG Scheduler** builds the execution plan from RDD lineage and manages stage dependencies.
 
 ---
 
-### **2. What is the Catalyst Optimizer in Spark? How does it help improve query performance?**
+### 70. **What is the Catalyst Optimizer in Spark? How does it help improve query performance?**
 
 **Answer:**
 Catalyst is Spark SQL’s query optimization framework. It transforms SQL queries into an optimized logical plan, applies rule-based and cost-based optimizations (like constant folding, predicate pushdown), and finally converts it to a physical plan. This improves performance by selecting efficient join strategies, reordering filters, and eliminating unnecessary computations.
 
 ---
 
-### **3. What are the differences between Data Lake and Delta Lake? Why was Delta Lake introduced?**
+### 71. **What are the differences between Data Lake and Delta Lake? Why was Delta Lake introduced?**
 
 **Answer:**
 
@@ -1086,7 +1088,7 @@ Catalyst is Spark SQL’s query optimization framework. It transforms SQL querie
 
 ---
 
-### **4. Explain the internal working of the Spark SQL engine, from query parsing to execution.**
+### 72. **Explain the internal working of the Spark SQL engine, from query parsing to execution.**
 
 **Answer:**
 
@@ -1099,7 +1101,7 @@ Catalyst is Spark SQL’s query optimization framework. It transforms SQL querie
 
 ---
 
-### **5. Describe different join strategies in Spark. What happens under the hood during each?**
+### 73. **Describe different join strategies in Spark. What happens under the hood during each?**
 
 **Answer:**
 
@@ -1110,7 +1112,7 @@ Catalyst is Spark SQL’s query optimization framework. It transforms SQL querie
 
 ---
 
-### **6. ADF Scenario: Describe real-world pipeline use cases. Why and when would you use various activities and connectors in Azure Data Factory?**
+### 74. **ADF Scenario: Describe real-world pipeline use cases. Why and when would you use various activities and connectors in Azure Data Factory?**
 
 **Answer:**
 **Use Case:** Ingest data from REST APIs and Oracle into ADLS, transform in Databricks, and load into Azure SQL.
@@ -1123,7 +1125,7 @@ Catalyst is Spark SQL’s query optimization framework. It transforms SQL querie
 
 ---
 
-### **7. What is Adaptive Query Execution (AQE) in Spark? How does it improve runtime performance?**
+### 75. **What is Adaptive Query Execution (AQE) in Spark? How does it improve runtime performance?**
 
 **Answer:**
 AQE dynamically optimizes query execution at runtime using actual statistics:
@@ -1135,7 +1137,7 @@ AQE dynamically optimizes query execution at runtime using actual statistics:
 
 ---
 
-### **8. How would you implement Slowly Changing Dimension Type 2 (SCD Type 2) logic in a data pipeline?**
+### 76. **How would you implement Slowly Changing Dimension Type 2 (SCD Type 2) logic in a data pipeline?**
 
 **Answer:**
 In a Spark/Databricks pipeline:
@@ -1147,7 +1149,7 @@ In a Spark/Databricks pipeline:
 
 ---
 
-### **9. What are the key differences between Azure Blob Storage and Azure Data Lake Storage Gen2?**
+### 77. **What are the key differences between Azure Blob Storage and Azure Data Lake Storage Gen2?**
 
 **Answer:**
 
@@ -1160,7 +1162,7 @@ In a Spark/Databricks pipeline:
 
 ---
 
-### **10. Why is Spark lazily evaluated? What are the benefits of lazy evaluation in practice?**
+### 78. **Why is Spark lazily evaluated? What are the benefits of lazy evaluation in practice?**
 
 **Answer:**
 Spark defers execution until an **action** is called. This allows:
@@ -1172,7 +1174,7 @@ Spark defers execution until an **action** is called. This allows:
 
 ---
 
-### **11. Compare Kryo serialization vs Java serialization in Spark. When should you use Kryo?**
+### 79. **Compare Kryo serialization vs Java serialization in Spark. When should you use Kryo?**
 
 **Answer:**
 
@@ -1190,3 +1192,314 @@ spark.conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 ```
 
 ---
+
+
+### 80. **Explain the difference between clustering and partitioning in data warehousing.**
+
+**Answer:**
+
+* **Partitioning** divides a table **physically into separate segments** based on column values.
+  
+  Example:
+  ```sql
+  PARTITION BY RANGE(sale_date)
+  ```
+  This will store January data in one partition, February in another.
+
+* **Clustering** organizes the data **logically within a partition** to keep similar rows together (does not create separate physical files but improves I/O).
+  
+  Example (in Snowflake):
+  ```sql
+  CLUSTER BY (customer_id)
+  ```
+  Keeps rows of the same customer close together.
+
+📌 **Use Case:**
+
+* Partitioning is better for queries that filter on the partition column (e.g., by month).
+* Clustering improves performance for queries scanning large partitions with filters on non-partition keys.
+
+---
+
+📌 **Use Case:**
+
+* Partitioning is better for queries that filter on the partition column (e.g., by month).
+* Clustering improves performance for queries scanning large partitions with filters on non-partition keys.
+### 81. **How do you optimize SQL queries for performance?**
+
+**Answer:**
+
+* Use proper indexes.
+  
+  *E.g.: Create index on frequently-filtered columns:*
+  ```sql
+  CREATE INDEX idx_customer ON orders(customer_id);
+  ```
+* Avoid `SELECT *`, specify columns.
+* Use **EXPLAIN PLAN** to check the query execution path.
+* Minimize nested subqueries.
+* Use joins appropriately (use inner join if outer join isn’t required).
+* Use partition pruning where possible.
+* Use CTEs to simplify repeated logic.
+
+---
+
+---
+
+---
+### 82. **Design a schema/address mapping for a swipe-payment API.**
+
+**Answer:**
+
+For a swipe-payment system:
+
+* Table: `transactions`
+  ```sql
+  id (PK), user_id, card_id, merchant_id, amount, currency, timestamp, status
+  ```
+* Table: `users`
+  ```sql
+  id (PK), name, email, phone, address_id
+  ```
+* Table: `address`
+  ```sql
+  id (PK), street, city, state, zip, country
+  ```
+
+📌 **Description:**
+
+* Normalize addresses to avoid duplication.
+* Link transactions to user and merchant.
+* Use indexed `timestamp` & `user_id` for analytics.
+
+---
+
+---
+### 83. **Implement the "Next Greater Element" algorithm for an array.**
+
+**Answer:**
+
+Find for each element the next element greater than it.
+
+```python
+def next_greater(arr):
+    stack = []
+    res = [-1] * len(arr)
+    for i in range(len(arr)):
+        while stack and arr[i] > arr[stack[-1]]:
+            idx = stack.pop()
+            res[idx] = arr[i]
+        stack.append(i)
+    return res
+
+print(next_greater([4, 5, 2, 25]))  # Output: [5, 25, 25, -1]
+```
+
+---
+
+---
+### 84. **Search in a rotated sorted array.**
+
+**Answer:**
+
+```python
+def search(nums, target):
+    l, r = 0, len(nums)-1
+    while l <= r:
+        mid = (l + r) // 2
+        if nums[mid] == target:
+            return mid
+        if nums[l] <= nums[mid]:
+            if nums[l] <= target < nums[mid]:
+                r = mid-1
+            else:
+                l = mid+1
+        else:
+            if nums[mid] < target <= nums[r]:
+                l = mid+1
+            else:
+                r = mid-1
+    return -1
+
+search([4,5,6,7,0,1,2], 0)  # Output: 4
+```
+
+---
+
+---
+### 85. **Find the K-th element across two sorted arrays.**
+
+**Answer:**
+
+Use a binary-search approach:
+
+```python
+def find_kth(arr1, arr2, k):
+    i, j = 0, 0
+    while True:
+        if i == len(arr1): return arr2[j + k - 1]
+        if j == len(arr2): return arr1[i + k - 1]
+        if k == 1: return min(arr1[i], arr2[j])
+
+        mid_k = k // 2
+        new_i = min(i + mid_k, len(arr1)) - 1
+        new_j = min(j + mid_k, len(arr2)) - 1
+        if arr1[new_i] <= arr2[new_j]:
+            k -= (new_i - i + 1)
+            i = new_i + 1
+        else:
+            k -= (new_j - j + 1)
+            j = new_j + 1
+
+find_kth([1,3,5], [2,4,6], 4)  # Output: 4
+```
+
+---
+
+---
+### 86. **Traverse a binary tree in zigzag (spiral) order.**
+
+**Answer:**
+
+```python
+from collections import deque
+
+def zigzag(root):
+    if not root: return []
+    res, q, left_to_right = [], deque([root]), True
+    while q:
+        level = []
+        for _ in range(len(q)):
+            node = q.popleft()
+            level.append(node.val)
+            if node.left: q.append(node.left)
+            if node.right: q.append(node.right)
+        res.append(level if left_to_right else level[::-1])
+        left_to_right = not left_to_right
+    return res
+```
+
+---
+
+---
+### 87. **Explain Slowly Changing Dimensions (SCD) types and their use cases.**
+
+**Answer:**
+
+* **Type 1:** Overwrite old data.  
+  *E.g., Correcting an address error.*
+* **Type 2:** Add a new row with validity period (tracks history).  
+  *E.g., Customer moved to a new city.*
+* **Type 3:** Add a new column to hold previous value.  
+  *E.g., Store current & previous manager.*
+* **Type 4:** Historical table to keep all changes separately.
+* **Type 6/Hybrid:** Combination of Type 1,2,3.
+
+---
+
+---
+### 88. **Describe the ETL process end-to-end.**
+
+**Answer:**
+
+* **Extract:** Retrieve data from sources (databases, APIs, files).  
+  *E.g., Read sales CSVs daily.*
+* **Transform:** Clean, join, aggregate, validate.  
+  *E.g., Convert currencies, remove nulls, join with customer.*
+* **Load:** Insert into target warehouse/table.  
+  *E.g., Load into Snowflake fact tables.*
+
+**Tools:** ADF, Talend, Informatica.
+
+---
+
+---
+### 89. **Compare data lakes vs. data warehouses.**
+
+| Feature      | Data Lake                       | Data Warehouse                |
+| ------------ | ------------------------------- | ----------------------------- |
+| Data type    | Raw (structured + unstructured) | Structured & cleaned          |
+| Storage cost | Cheaper (cloud object storage)  | Expensive (compute optimized) |
+| Schema       | Schema-on-read                  | Schema-on-write               |
+| Use case     | ML, data discovery              | BI, reporting                 |
+
+---
+
+---
+### 90. **How does Hadoop MapReduce work?**
+
+**Answer:**
+
+* Splits input into **blocks** processed in parallel.
+* **Map phase:** Processes each block → (key, value) pairs.
+* **Shuffle & Sort:** Groups by key.
+* **Reduce phase:** Aggregates results.
+
+*E.g., Word count: Map emits (word, 1), Reduce sums counts per word.*
+
+---
+
+---
+### 91. **Describe Apache Spark and its advantages over Hadoop MapReduce.**
+
+**Answer:**
+
+* Spark processes in-memory → much faster.
+* Supports SQL, ML, Streaming.
+* Supports iterative algorithms (Graph, ML) efficiently.
+* Fault-tolerant via lineage (RDDs).
+
+*E.g., Spark SQL for aggregating logs 100× faster than MapReduce.*
+
+---
+
+---
+### 92. **Explain Apache Kafka and its role in real-time streaming pipelines.**
+
+**Answer:**
+
+Kafka is a distributed, fault-tolerant publish-subscribe system:
+
+* **Producers** send events (e.g., payments, logs).
+* **Brokers** store events in topics.
+* **Consumers** read events.
+
+📌 *Use case:* Capture IoT sensor data in real time → process → store in a database.
+
+---
+### 93. **Walk through designing a data pipeline and schema to support address lookup or payment flow.**
+
+**Answer:**
+
+📌 Payment Flow Pipeline:
+
+* **Ingest:** API → Kafka → Stream.
+* **Validate & transform:** Mask card details, validate amount.
+* **Store:** Transactions fact table; address dimension table.
+
+**Schema:**
+
+* `transaction_id, user_id, merchant_id, amount, timestamp, status`
+* `address_id, street, city, state, zip`
+
+---
+
+---
+
+---
+### 94. **Given a real-world case study (e.g., loading pricing options), break it down into ingestion, transformations, storage, and data serving.**
+
+**Answer:**
+
+📌 Case: Airline pricing options
+
+* **Ingestion:** Fetch JSON from partner APIs → land in blob storage.
+* **Transformation:** Parse JSON, normalize prices & currencies.
+* **Storage:** Load into `pricing_options` fact table with dimensions: route, date, airline.
+* **Serving:** Power BI dashboard querying the warehouse for cheapest/best flights.
+
+---
+
+---
+
+
