@@ -1243,10 +1243,6 @@ spark.conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 * Use CTEs to simplify repeated logic.
 
 ---
-
----
-
----
 ### 82. **Design a schema/address mapping for a swipe-payment API.**
 
 **Answer:**
@@ -1273,8 +1269,6 @@ For a swipe-payment system:
 * Use indexed `timestamp` & `user_id` for analytics.
 
 ---
-
----
 ### 83. **Implement the "Next Greater Element" algorithm for an array.**
 
 **Answer:**
@@ -1294,9 +1288,6 @@ def next_greater(arr):
 
 print(next_greater([4, 5, 2, 25]))  # Output: [5, 25, 25, -1]
 ```
-
----
-
 ---
 ### 84. **Search in a rotated sorted array.**
 
@@ -1323,10 +1314,8 @@ def search(nums, target):
 
 search([4,5,6,7,0,1,2], 0)  # Output: 4
 ```
-
 ---
 
----
 ### 85. **Find the K-th element across two sorted arrays.**
 
 **Answer:**
@@ -1356,7 +1345,6 @@ find_kth([1,3,5], [2,4,6], 4)  # Output: 4
 
 ---
 
----
 ### 86. **Traverse a binary tree in zigzag (spiral) order.**
 
 **Answer:**
@@ -1379,9 +1367,6 @@ def zigzag(root):
     return res
 ```
 
----
-
----
 ### 87. **Explain Slowly Changing Dimensions (SCD) types and their use cases.**
 
 **Answer:**
@@ -1397,7 +1382,6 @@ def zigzag(root):
 
 ---
 
----
 ### 88. **Describe the ETL process end-to-end.**
 
 **Answer:**
@@ -1413,7 +1397,6 @@ def zigzag(root):
 
 ---
 
----
 ### 89. **Compare data lakes vs. data warehouses.**
 
 | Feature      | Data Lake                       | Data Warehouse                |
@@ -1425,7 +1408,6 @@ def zigzag(root):
 
 ---
 
----
 ### 90. **How does Hadoop MapReduce work?**
 
 **Answer:**
@@ -1439,7 +1421,6 @@ def zigzag(root):
 
 ---
 
----
 ### 91. **Describe Apache Spark and its advantages over Hadoop MapReduce.**
 
 **Answer:**
@@ -1453,7 +1434,6 @@ def zigzag(root):
 
 ---
 
----
 ### 92. **Explain Apache Kafka and its role in real-time streaming pipelines.**
 
 **Answer:**
@@ -1484,9 +1464,6 @@ Kafka is a distributed, fault-tolerant publish-subscribe system:
 
 ---
 
----
-
----
 ### 94. **Given a real-world case study (e.g., loading pricing options), break it down into ingestion, transformations, storage, and data serving.**
 
 **Answer:**
@@ -1500,6 +1477,6 @@ Kafka is a distributed, fault-tolerant publish-subscribe system:
 
 ---
 
----
+
 
 
