@@ -1,7 +1,7 @@
 # **Data Modeling Interview Questions and Answers**
 
 
-## ✅ **1. What is Data Modeling, and Why is it Important in Data Engineering?**
+##  **1. What is Data Modeling, and Why is it Important in Data Engineering?**
 
 **Answer:**
 Data modeling is the process of designing the structure of data, including tables, fields, relationships, and constraints. It helps in organizing data efficiently for storage, retrieval, and analysis.
@@ -11,7 +11,7 @@ In an e-commerce business, data modeling helps structure the `Customers`, `Order
 
 ---
 
-## ✅ **2. Explain the Difference Between OLTP and OLAP Data Models.**
+##  **2. Explain the Difference Between OLTP and OLAP Data Models.**
 
 **Answer:**
 
@@ -24,7 +24,7 @@ In an e-commerce business, data modeling helps structure the `Customers`, `Order
 
 ---
 
-## ✅ **3. What are the Different Types of Data Models?**
+##  **3. What are the Different Types of Data Models?**
 
 **Answer:**
 
@@ -41,7 +41,7 @@ In a school system:
 
 ---
 
-## ✅ **4. What is Normalization? Why is it Used?**
+##  **4. What is Normalization? Why is it Used?**
 
 **Answer:**
 Normalization organizes data to reduce redundancy and dependency by dividing tables into smaller tables and defining relationships.
@@ -61,7 +61,7 @@ Normalized (3NF):
 
 ---
 
-## ✅ **5. When Would You Denormalize a Data Model?**
+##  **5. When Would You Denormalize a Data Model?**
 
 **Answer:**
 Denormalization is done to improve query performance by reducing joins. Common in OLAP systems or read-heavy dashboards.
@@ -71,7 +71,7 @@ In a sales report, instead of joining `Order`, `Customer`, and `Product` tables 
 
 ---
 
-## ✅ **6. What Tools Have You Used for Data Modeling?**
+##  **6. What Tools Have You Used for Data Modeling?**
 
 **Answer:**
 Tools used:
@@ -84,7 +84,7 @@ Tools used:
 
 ---
 
-## ✅ **7. Explain Star Schema and Snowflake Schema with Examples.**
+##  **7. Explain Star Schema and Snowflake Schema with Examples.**
 
 **Answer:**
 
@@ -108,7 +108,7 @@ City(CityID, CityName, State)
 
 ---
 
-## ✅ **8. What are Slowly Changing Dimensions (SCD)? Types?**
+##  **8. What are Slowly Changing Dimensions (SCD)? Types?**
 
 **Answer:**
 SCD tracks changes in dimension data over time.
@@ -126,7 +126,7 @@ A customer changes city:
 
 ---
 
-## ✅ **9. What are Surrogate Keys and Why Use Them?**
+##  **9. What are Surrogate Keys and Why Use Them?**
 
 **Answer:**
 Surrogate keys are system-generated primary keys (e.g., auto-incremented ID) used instead of business keys.
@@ -141,7 +141,7 @@ Instead of using `Email` or `SSN` as a primary key, we use `CustomerID (INT)`.
 
 ---
 
-## ✅ **10. What are Fact and Dimension Tables? Types of Facts?**
+##  **10. What are Fact and Dimension Tables? Types of Facts?**
 
 **Answer:**
 
@@ -156,7 +156,7 @@ Instead of using `Email` or `SSN` as a primary key, we use `CustomerID (INT)`.
 
 ---
 
-## ✅ **11. Write SQL to Find Orphan Records Between Fact and Dimension Table.**
+##  **11. Write SQL to Find Orphan Records Between Fact and Dimension Table.**
 
 **Answer:**
 
@@ -171,7 +171,7 @@ WHERE d.CustomerID IS NULL;
 
 ---
 
-## ✅ **12. How Do You Handle Schema Evolution in Data Lakes?**
+##  **12. How Do You Handle Schema Evolution in Data Lakes?**
 
 **Answer:**
 Use schema-on-read formats like **Parquet**, **Delta Lake**, or tools like **Databricks Auto Loader** to handle added columns or data type changes.
@@ -186,7 +186,7 @@ df.write.option("mergeSchema", "true").format("delta").save("/mnt/sales")
 
 ---
 
-## ✅ **13. Design a Data Model for an E-commerce Platform.**
+##  **13. Design a Data Model for an E-commerce Platform.**
 
 **Answer:**
 Tables:
@@ -203,7 +203,7 @@ Tables:
 
 ---
 
-## ✅ **14. How Would You Design for Real-Time vs. Batch Analytics?**
+##  **14. How Would You Design for Real-Time vs. Batch Analytics?**
 
 **Answer:**
 
@@ -216,7 +216,7 @@ Tables:
 
 ---
 
-## ✅ **15. How Do You Convert Normalized OLTP Schema into Analytical Schema?**
+##  **15. How Do You Convert Normalized OLTP Schema into Analytical Schema?**
 
 **Answer:**
 
@@ -230,7 +230,7 @@ OLTP: `Order`, `OrderDetails`, `Product`, `Customer`
 
 ---
 
-## ✅ **16. How Do You Optimize Join Performance in Fact-Dimension Joins?**
+##  **16. How Do You Optimize Join Performance in Fact-Dimension Joins?**
 
 **Answer:**
 
@@ -240,7 +240,7 @@ OLTP: `Order`, `OrderDetails`, `Product`, `Customer`
 
 ---
 
-## ✅ **17. What is Dimensional Conformance?**
+##  **17. What is Dimensional Conformance?**
 
 **Answer:**
 Conformed dimensions are shared across multiple fact tables or subject areas.
@@ -250,7 +250,7 @@ A `DimDate` used in both `FactSales` and `FactInventory` ensures consistency in 
 
 ---
 
-## ✅ **18. What are the Different Types of Relationships in Data Modeling?**
+##  **18. What are the Different Types of Relationships in Data Modeling?**
 
 **Answer:**
 
@@ -260,7 +260,7 @@ A `DimDate` used in both `FactSales` and `FactInventory` ensures consistency in 
 
 ---
 
-## ✅ **19. What is Data Vault Modeling? When Do You Use It?**
+##  **19. What is Data Vault Modeling? When Do You Use It?**
 
 **Answer:**
 Data Vault is used for enterprise data warehouses with agile, scalable needs.
@@ -273,7 +273,7 @@ Data Vault is used for enterprise data warehouses with agile, scalable needs.
 
 ---
 
-## ✅ **20. How Do You Document and Version Control Data Models?**
+##  **20. How Do You Document and Version Control Data Models?**
 
 **Answer:**
 
