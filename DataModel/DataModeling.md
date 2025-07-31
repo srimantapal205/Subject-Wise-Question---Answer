@@ -283,3 +283,259 @@ Data Vault is used for enterprise data warehouses with agile, scalable needs.
 
 ---
 
+##  **21. How Do You Handle Many-to-Many Relationships in a Data Warehouse?**
+
+**Answer:**
+Many-to-many relationships are handled using a **bridge (junction) table**.
+
+**Example:**
+In a university system:
+
+* One student can enroll in many courses.
+* One course can have many students.
+
+**Model:**
+
+* `Student(StudentID, Name)`
+* `Course(CourseID, Title)`
+* `Enrollment(StudentID, CourseID, EnrollmentDate)` ← Bridge table
+
+In a warehouse, facts can reference the bridge table if necessary.
+
+---
+
+##  **22. What is a Junk Dimension? Give an Example.**
+
+**Answer:**
+A Junk Dimension combines several low-cardinality flags and indicators into a single dimension to avoid cluttering the fact table.
+
+**Example:**
+Instead of adding 3 separate yes/no fields to `FactSales` (e.g., `IsPromo`, `IsOnline`, `IsReturned`), create:
+
+```sql
+DimJunk(ID, IsPromo, IsOnline, IsReturned)
+```
+
+Then reference `JunkID` from `FactSales`.
+
+---
+
+##  **23. How Do You Ensure Data Quality at the Modeling Level?**
+
+**Answer:**
+
+* Define **constraints**: primary key, foreign key, not null.
+* Use **lookup tables** for consistent values.
+* Implement **validation logic** in ETL pipelines (e.g., null checks, type checks).
+* Perform **data profiling** using tools like Great Expectations or Deequ.
+
+---
+
+##  **24. How Do You Handle Null Values in Data Models?**
+
+**Answer:**
+
+* Use `NOT NULL` where applicable.
+* For dimension tables, use **default records** for unknowns (e.g., `-1: Unknown`).
+* Handle with care in joins to avoid loss of rows.
+* Replace nulls with defaults during transformation, if appropriate.
+
+**Example:**
+If a customer's city is NULL:
+
+```sql
+COALESCE(City, 'Unknown')
+```
+
+---
+
+##  **25. How Do You Choose Column Data Types When Designing a Model?**
+
+**Answer:**
+
+* Use **smaller types** for better performance (`INT` over `BIGINT`, `VARCHAR(50)` instead of `VARCHAR(MAX)`).
+* Ensure **compatibility** with tools (e.g., use `STRING` in Hive/Spark).
+* Consider **compression efficiency** (e.g., integers compress better than strings).
+
+---
+
+##  **26. How Do You Model Historical Data?**
+
+**Answer:**
+
+* Use **Type 2 SCD** for dimensions to store changes over time.
+* Use **snapshot fact tables** to capture point-in-time metrics.
+
+**Example:**
+Monthly snapshot of customer balances → `FactCustomerBalance(Month, CustomerID, Balance)`
+
+---
+
+##  **27. How Do You Perform Impact Analysis When a Schema Changes?**
+
+**Answer:**
+
+* Use **data lineage tools** (e.g., Azure Purview, Unity Catalog, dbt docs).
+* Track dependencies between columns and downstream tables/views.
+* Perform **automated tests** after schema evolution.
+* Communicate changes via **schema registry or changelog**.
+
+---
+
+##  **28. What is a Conformed Fact?**
+
+**Answer:**
+A fact that is shared across multiple business processes and uses **conformed dimensions**.
+
+**Example:**
+
+* `FactSales` and `FactReturns` may share `DimProduct`, `DimCustomer`, and `DimDate`.
+
+---
+
+##  **29. What Are Degenerate Dimensions?**
+
+**Answer:**
+A **degenerate dimension** is a dimension key stored in the fact table that does not have its own dimension table.
+
+**Example:**
+Invoice number in `FactSales`:
+
+```sql
+FactSales(InvoiceNo, CustomerID, ProductID, Amount)
+```
+
+Here, `InvoiceNo` is a degenerate dimension—it holds business meaning but doesn’t need a dimension table.
+
+---
+
+##  **30. What Is Data Lineage and Why Is It Important in Data Modeling?**
+
+**Answer:**
+**Data lineage** tracks the flow of data from source to destination, showing how data is transformed and used.
+
+**Importance:**
+
+* Helps in debugging data issues.
+* Ensures regulatory compliance (GDPR, HIPAA).
+* Supports impact analysis.
+
+**Tools:** Azure Purview, Alation, Informatica, dbt docs, Unity Catalog (Databricks).
+
+---
+
+##  **31. How Would You Approach Versioning a Data Model?**
+
+**Answer:**
+
+* Use **semantic versioning**: e.g., v1.0 → v1.1 → v2.0
+* Maintain DDL scripts in **Git**
+* Use **feature branches** for schema changes
+* Tag releases and maintain backward compatibility for downstream systems
+
+---
+
+##  **32. What Is the Difference Between Primary Key and Unique Key?**
+
+**Answer:**
+
+| Feature    | Primary Key                 | Unique Key                    |
+| ---------- | --------------------------- | ----------------------------- |
+| Uniqueness | Must be unique and not null | Must be unique (null allowed) |
+| Count      | Only one per table          | Multiple allowed              |
+| Purpose    | Row identification          | Enforce uniqueness            |
+
+---
+
+##  **33. What is Cardinality? How Does It Impact Data Modeling?**
+
+**Answer:**
+**Cardinality** refers to the number of unique values in a column.
+
+* High cardinality: e.g., `CustomerID`
+* Low cardinality: e.g., `Gender`, `Yes/No`
+
+**Impact:**
+
+* High cardinality dimensions may increase storage and query complexity.
+* Low cardinality attributes are good candidates for junk dimensions.
+
+---
+
+##  **34. Explain the Role of Indexes in Physical Data Models.**
+
+**Answer:**
+Indexes help improve query performance by allowing faster lookup.
+
+* **Clustered index**: Sorts the table rows.
+* **Non-clustered index**: Points to data locations.
+
+**Trade-off:** Indexes speed up reads but slow down inserts/updates.
+
+---
+
+##  **35. What is a Factless Fact Table? Give an Example.**
+
+**Answer:**
+A fact table that contains **only foreign keys** and **no measurable facts**.
+
+**Use case:** Track events or coverage.
+
+**Example:**
+To track course enrollment:
+
+```sql
+FactEnrollment(StudentID, CourseID, DateID)
+```
+
+No measures—just the event.
+
+---
+
+##  **36. How Do You Decide When to Use Snowflake Schema Over Star Schema?**
+
+**Answer:**
+Use **Snowflake** when:
+
+* Dimensional hierarchies need normalization.
+* Data redundancy is a concern.
+* Storage is a constraint.
+* You want better control over updates.
+
+Use **Star** when:
+
+* Query performance is priority.
+* Simpler reporting needed.
+* Storage is cheap.
+
+---
+
+##  **37. What’s Your Approach to Creating a Data Dictionary?**
+
+**Answer:**
+
+* Define each table and column with:
+
+  * Name
+  * Data type
+  * Description
+  * Source
+  * Business rules
+
+Tools: dbt docs, Confluence, Excel templates, Dataedo.
+
+---
+
+##  **38. How Do You Model Real-Time Streaming Data into a Warehouse?**
+
+**Answer:**
+
+* Use **append-only models**.
+* Design fact tables with timestamps and partitioning.
+* Store immutable records.
+* Use tools like Kafka, Event Hubs → Stream → Delta Lake.
+
+**Example:**
+Real-time orders → streamed into `FactOrderStream` partitioned by `order_date`.
+
+---
