@@ -810,7 +810,7 @@ Base it on input data size and cluster resources. A good rule of thumb is **1 pa
 
 ---
 
-### **58. What causes Out of Memory (OOM) issues in Databricks, and how do you resolve them?**
+### **48. What causes Out of Memory (OOM) issues in Databricks, and how do you resolve them?**
 
 **Answer:**
 OOM issues arise from large shuffles, wide transformations, or improper caching. Solutions include increasing executor memory, caching wisely, or repartitioning data.
