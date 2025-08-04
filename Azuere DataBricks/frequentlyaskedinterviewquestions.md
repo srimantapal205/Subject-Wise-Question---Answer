@@ -750,7 +750,7 @@ It enables Spark to scale executors based on workload. Executors are added when 
 
 ---
 
-### **44. What is the usage of Optimize and REORG commands in Databricks?**
+### **45. What is the usage of Optimize and REORG commands in Databricks?**
 
 **Answer:**
 `OPTIMIZE` compacts small files and improves read performance. `REORG` is used to reorder files for better data skipping and clustering.
@@ -765,7 +765,7 @@ It enables Spark to scale executors based on workload. Executors are added when 
 
 ---
 
-### **45. How is Git version control implemented in Databricks?**
+### **46. How is Git version control implemented in Databricks?**
 
 **Answer:**
 Databricks notebooks can be linked to a Git provider (GitHub, Azure DevOps). Changes can be committed and version-controlled.
@@ -780,7 +780,7 @@ Databricks notebooks can be linked to a Git provider (GitHub, Azure DevOps). Cha
 
 ---
 
-### **46. What causes data skewness in Spark, and how can it be resolved?**
+### **47. What causes data skewness in Spark, and how can it be resolved?**
 
 **Answer:**
 Skewness is caused by uneven distribution of keys during shuffle operations. Solutions include **salting**, **broadcast joins**, and **AQE**.
@@ -795,7 +795,7 @@ Skewness is caused by uneven distribution of keys during shuffle operations. Sol
 
 ---
 
-### **47. How do you decide the number of partitions for repartitioning data in Spark?**
+### **48. How do you decide the number of partitions for repartitioning data in Spark?**
 
 **Answer:**
 Base it on input data size and cluster resources. A good rule of thumb is **1 partition per 100-200MB** of data per core.
@@ -810,7 +810,7 @@ Base it on input data size and cluster resources. A good rule of thumb is **1 pa
 
 ---
 
-### **48. What causes Out of Memory (OOM) issues in Databricks, and how do you resolve them?**
+### **49. What causes Out of Memory (OOM) issues in Databricks, and how do you resolve them?**
 
 **Answer:**
 OOM issues arise from large shuffles, wide transformations, or improper caching. Solutions include increasing executor memory, caching wisely, or repartitioning data.
