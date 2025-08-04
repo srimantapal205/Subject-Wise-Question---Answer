@@ -747,3 +747,5 @@ Navigate to the Azure Portal:
 
 This change ensures that the new redundancy configuration is applied to your storage account. Note that changing redundancy might incur data transfer and storage costs, depending on the selected redundancy type.
 
+
+---
