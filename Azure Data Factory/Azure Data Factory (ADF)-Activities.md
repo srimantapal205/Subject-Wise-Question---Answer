@@ -1,4 +1,4 @@
-# Azure Data Factory (ADF)**, **Activities*
+# Azure Data Factory (ADF) - Activities
 
 In **Azure Data Factory (ADF)**, **activities** are the building blocks of a pipeline. They define the actions you want to perform on your data — such as copying, transforming, controlling flow, or executing external processes.
 
