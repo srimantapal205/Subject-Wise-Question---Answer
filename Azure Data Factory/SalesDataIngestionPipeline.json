@@ -1,0 +1,95 @@
+{
+  "name": "SalesDataIngestionPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "GetMetadataSalesFile",
+        "type": "GetMetadata",
+        "dependsOn": [],
+        "typeProperties": {
+          "dataset": {
+            "referenceName": "SalesCsvBlobDataset",
+            "type": "DatasetReference"
+          },
+          "fieldList": ["exists"]
+        }
+      },
+      {
+        "name": "CheckFileExists",
+        "type": "IfCondition",
+        "dependsOn": [
+          {
+            "activity": "GetMetadataSalesFile",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "typeProperties": {
+          "expression": {
+            "value": "@activity('GetMetadataSalesFile').output.exists",
+            "type": "Expression"
+          },
+          "ifTrueActivities": [
+            {
+              "name": "CopySalesToDataLake",
+              "type": "Copy",
+              "typeProperties": {
+                "source": { "type": "DelimitedTextSource" },
+                "sink": { "type": "AzureDataLakeStoreSink" }
+              },
+              "inputs": [{ "referenceName": "SalesCsvBlobDataset", "type": "DatasetReference" }],
+              "outputs": [{ "referenceName": "RawSalesDataLakeDataset", "type": "DatasetReference" }]
+            },
+            {
+              "name": "TransformSalesData",
+              "type": "DataFlow",
+              "typeProperties": {
+                "dataflow": {
+                  "referenceName": "SalesTransformationDataFlow",
+                  "type": "DataFlowReference"
+                }
+              }
+            },
+            {
+              "name": "RunStoredProcedure",
+              "type": "SqlServerStoredProcedure",
+              "typeProperties": {
+                "storedProcedureName": "sp_UpdateSalesSummary"
+              },
+              "linkedServiceName": { "referenceName": "AzureSqlDB_LinkedService", "type": "LinkedServiceReference" }
+            },
+            {
+              "name": "RefreshPowerBI",
+              "type": "ExecutePipeline",
+              "typeProperties": {
+                "pipeline": {
+                  "referenceName": "PowerBIRefreshPipeline",
+                  "type": "PipelineReference"
+                }
+              }
+            },
+            {
+              "name": "NotifyBusinessUsers",
+              "type": "WebActivity",
+              "typeProperties": {
+                "url": "https://yourwebhook.com/notify",
+                "method": "POST",
+                "body": "{\"message\": \"Sales data pipeline completed successfully\"}"
+              }
+            }
+          ],
+          "ifFalseActivities": [
+            {
+              "name": "SendFailureAlert",
+              "type": "WebActivity",
+              "typeProperties": {
+                "url": "https://yourwebhook.com/alert",
+                "method": "POST",
+                "body": "{\"message\": \"Sales data file not found in blob storage\"}"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
