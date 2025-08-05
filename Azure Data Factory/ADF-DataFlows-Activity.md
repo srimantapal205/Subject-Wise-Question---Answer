@@ -1,5 +1,5 @@
 
-# Aure Data Factory (ADF) Data Flows Activity
+# Azure Data Factory (ADF) Data Flows Activity
 
 
 In **Azure Data Factory (ADF)**, **Data Flows** are powerful **ETL (Extract, Transform, Load)** tools that allow you to design **data transformation logic visually**, without writing code. These are **executed using Azure Spark clusters**, making them suitable for big data transformations.
