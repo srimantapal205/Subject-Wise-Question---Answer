@@ -824,3 +824,117 @@ OOM issues arise from large shuffles, wide transformations, or improper caching.
   It determines memory available for computation and caching. Set using `spark.executor.memory`.
 
 ---
+
+### **50.  What is **Z-Ordering** in Delta Lake, and  explain it?
+
+**Z-Ordering** is a **data layout optimization technique** used in **Delta Lake (on Apache Spark)** that helps **improve query performance** by **clustering related data together** on storage (e.g., Parquet files).
+
+It uses a **space-filling curve** (Z-order curve) to **sort data across multiple columns** to enhance **data skipping** during query execution.
+
+---
+
+### ✅ **Why Z-Ordering?**
+
+When querying huge datasets with filters (e.g., `WHERE user_id = 123`), Spark needs to scan multiple files. Z-ordering improves performance by:
+
+* **Placing similar values together** (i.e., clustered layout)
+* **Enabling efficient file pruning** (skip unnecessary files)
+* **Reducing disk I/O and read time**
+
+---
+
+### 🔁 **Z-Ordering Workflow (Step-by-Step)**
+
+Here's how it works in **Delta Lake**:
+
+---
+
+#### 🔹 Step 1: Write / Append Data
+
+* Data is written into **Delta tables**.
+* Rows are distributed across **multiple Parquet files**.
+* Initially, there's **no guarantee of sorted or clustered layout**.
+
+---
+
+#### 🔹 Step 2: Run `OPTIMIZE` with `ZORDER BY`
+
+```sql
+OPTIMIZE my_table
+ZORDER BY (col1, col2, ...)
+```
+
+* This command triggers:
+
+  * **Compaction**: Small files are **merged into larger files**.
+  * **Z-Ordering**: Data within those files is **reorganized** using a Z-order curve on specified columns.
+
+---
+
+#### 🔹 Step 3: Z-Order Curve Sorting
+
+* Z-order converts multi-dimensional values (e.g., `user_id`, `event_date`) into a **single scalar value**.
+* It **interleaves binary representations** of the columns, then sorts on that combined value.
+* As a result, rows with **similar column values** are stored **close together**.
+
+##### Example:
+
+* Columns: `user_id`, `device_id`
+* Z-Order would store rows like:
+
+  ```
+  (101, 5), (101, 6), (102, 5), (102, 6)
+  ```
+
+---
+
+#### 🔹 Step 4: Query with Filter
+
+```sql
+SELECT * FROM my_table WHERE user_id = 101 AND device_id = 5
+```
+
+* **Delta Lake checks metadata** and sees:
+
+  * Which files **contain values** close to `101, 5` (based on Z-ordering).
+* **Unrelated files are skipped**, reducing I/O.
+* Only relevant files are **read into memory**, making the query faster.
+
+---
+
+### 🔬 Visualization: Z-Order vs Normal Sort
+
+| Without Z-Order (random layout) | With Z-Order (clustered layout) |
+| ------------------------------- | ------------------------------- |
+| Data spread across many files   | Similar values stored together  |
+| Hard to skip irrelevant files   | Efficient file pruning          |
+| Slower query performance        | Faster filter-based queries     |
+
+---
+
+### ⚙️ When to Use Z-Ordering
+
+✅ Ideal for:
+
+* **Read-heavy** Delta tables
+* Frequent **filter** queries on certain columns
+* Improving **query latency** in dashboards (e.g., Power BI, Tableau)
+
+🚫 Not ideal for:
+
+* Tables with **frequent small updates**
+* Low query volume or no filter queries
+
+---
+
+### 🧠 Pro Tip:
+
+Use Z-Ordering on columns that:
+
+* Are **frequently filtered** or
+* Have **high cardinality** (lots of unique values)
+
+---
+
+
+---
