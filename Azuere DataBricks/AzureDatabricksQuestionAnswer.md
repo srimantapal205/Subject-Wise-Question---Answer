@@ -1,21 +1,6 @@
-# Databricks
 
-### Question 1: Why would you choose Spark over Hadoop?
-**Answer:** Choosing Spark over Hadoop is driven by several advantages:
-1. Better Performance:
-    - Spark is 10 to 100 times faster than Hadoop.
-    - This performance boost is due to Spark's use of in-memory processing (RAM) instead of Hadoop's reliance on disk-based read/write operations for intermediary data.
-    - In big data scenarios, avoiding disk operations significantly enhances efficiency.
-2. Processing Modes:
-    - Spark supports both interactive processing (real-time responses, like typing commands in a command prompt) and batch processing (submitting pre-written code in one go).
-    - Hadoop only supports batch processing, making Spark more versatile.
-3. Machine Learning Support:
-    - Spark includes MLlib, a machine learning library that allows integration of machine learning into big data workflows.
-    - This capability provides a holistic solution for analytics and machine learning in a single framework.
-These factors—performance, versatility in processing, and machine learning integration—have driven the preference for Spark over Hadoop.
 
 ### Question 2: What is the difference between Spark, Databricks, and PySpark?
-**Answer:** The key differences among Spark, Databricks, and PySpark are as follows:
 1. Apache Spark:
     - Definition: An open-source framework used for big data analytics.
     - Purpose: Designed for distributed processing and in-memory computations.
@@ -33,7 +18,6 @@ These factors—performance, versatility in processing, and machine learning int
     - Compatibility: Works seamlessly with Apache Spark and Databricks environments.
 
 
-### Question 3 : What is the difference between a transformation and an action in Spark?
 **Answer:** The main differences between transformations and actions in Spark are as follows:
 1. Definition:
     - Transformation: A function that modifies data by creating a new DataFrame or RDD from an existing one.
