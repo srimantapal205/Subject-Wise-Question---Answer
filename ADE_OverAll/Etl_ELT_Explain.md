@@ -13,7 +13,7 @@ Great question! Let’s break down **ETL (Extract–Transform–Load)** and **EL
 ```
 [Source Systems] → [ETL Tool / Engine] → [Staging Area] → [Data Warehouse / Data Mart]
 ```
-<img src = "./images/etl.png" alt = "ETL Architecture">
+<img src = "image/etl.png" alt = "ETL Architecture">
 * **Extract**: Pulls data from sources (databases, APIs, flat files, etc.).
 * **Transform**: Cleanses, aggregates, standardizes, applies business logic (done in ETL server/middleware).
 * **Load**: Loads transformed data into a target system (OLAP databases, data warehouses like Teradata, Oracle, SQL Server).
@@ -44,7 +44,7 @@ Great question! Let’s break down **ETL (Extract–Transform–Load)** and **EL
 ```
 [Source Systems] → [Data Lake / Cloud DW (Snowflake, BigQuery, Databricks)] → [Transform inside DW]
 ```
-<img src = "./images/elt.png" alt = "ELT Architecture">
+<img src = "image/elt.png" alt = "ELT Architecture">
 
 
 * **Extract**: Same as ETL (pulls raw data).
