@@ -3,13 +3,12 @@ This is my step-by-step plan with resources.
 
 Here’s the exact roadmap I would follow from zero.
 
-
 1️⃣ Master SQL (the backbone of Data Engineering)
 
-→ Basics (GeeksforGeeks): https://lnkd.in/giDNAFyV
-→ Window Functions (Ashutosh Kumar): https://lnkd.in/gJ8PVugX
-→ Practice (LeetCode): https://lnkd.in/gYT5Rzcx
-→ Practice (DataLemur 🐵 (Ace the SQL & Data Interview) ): https://lnkd.in/gqm9qwdk
+* → Basics (GeeksforGeeks): https://lnkd.in/giDNAFyV
+* → Window Functions (Ashutosh Kumar): https://lnkd.in/gJ8PVugX
+* → Practice (LeetCode): https://lnkd.in/gYT5Rzcx
+* → Practice (DataLemur 🐵 (Ace the SQL & Data Interview) ): https://lnkd.in/gqm9qwdk
 
 2️⃣ Learn Programming (Python is my pick)
 
