@@ -1,4 +1,4 @@
-Here are **frequently asked interview questions and answers on Databricks** tailored for a **Data Engineer** role. These questions cover practical scenarios, architecture, Spark optimizations, integrations, and real-world usage in a production environment.
+# Databricks --- ***Data Engineer***
 
 ---
 
