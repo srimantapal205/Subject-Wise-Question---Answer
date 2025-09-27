@@ -326,4 +326,84 @@ You can enhance this by adding a public holiday check using an API like [Calenda
 
 ---
 
-If you want, I can generate a **sample Azure Function script** or **SQL calendar table** for you.
+## 4  you’ve got ~200 **ADF pipelines** orchestrated in sequence using **Execute Pipeline** activities, and if one pipeline in the middle fails, the rest don’t run. That’s a classic orchestration challenge. Let me break it down and give you **multiple ways to resolve it**, depending on how you want your control and monitoring. explain it in multiple way
+
+---
+
+## 🔹 1. Add **Error Handling with `OnFailure` / `OnCompletion`**
+
+* Each **Execute Pipeline** activity in ADF has success, failure, and completion dependency conditions.
+* You can connect the **Failure** output of one pipeline execution to either:
+
+  * A **logging activity** (set variable, write to log, send email/Teams alert).
+  * A **continue path** that triggers the next pipeline, so execution continues even after failure.
+* This way, one pipeline’s failure won’t block the others.
+
+👉 Good when: You want all pipelines to run, but still capture which ones failed.
+
+---
+
+## 🔹 2. Use a **ForEach Loop** Instead of Sequential Pipelines
+
+* Instead of chaining 200 `Execute Pipeline` activities manually:
+
+  * Put pipeline names/IDs into a **lookup table** (SQL, JSON file, parameter).
+  * Use a **ForEach loop** to iterate over that list.
+  * Inside ForEach → call `Execute Pipeline` activity dynamically with parameters.
+* Add **retry policy** or **continue on error** at the ForEach level.
+* Failed ones can be logged while the loop continues with the rest.
+
+👉 Good when: You want a scalable, dynamic design (easy to add/remove pipelines without redesign).
+
+---
+
+## 🔹 3. Use **Execute Pipeline with “Wait on Completion = False”** (Parallel)
+
+* By default, ADF waits for the child pipeline to finish before moving on.
+* If you set **“Wait on completion” = False**, ADF will trigger the pipeline and move to the next one immediately (async behavior).
+* This way, one pipeline’s failure doesn’t stop the master from continuing.
+
+👉 Good when: You don’t care about strict sequential execution and want parallel/async behavior.
+
+---
+
+## 🔹 4. Break the 200 Pipelines into **Smaller Groups**
+
+* Instead of 200 sequential executes:
+
+  * Group them logically (say 20 per master pipeline).
+  * Run those 10 master pipelines in sequence or parallel.
+* If one group fails, only that group stops, not the entire 200.
+
+👉 Good when: You want balance between orchestration complexity and fault tolerance.
+
+---
+
+## 🔹 5. Implement **Custom Logging & Restart Mechanism**
+
+* Maintain a **control table** with pipeline names, execution status, timestamps.
+* Your master pipeline reads this table to decide which pipelines to run next.
+* If one fails, update the status and move on.
+* Later, you can re-run only the failed pipelines (instead of entire 200).
+
+👉 Good when: You want a “resume from failure” mechanism.
+
+---
+
+## 🔹 6. Enable **Retry Policies** on Activities
+
+* Each `Execute Pipeline` activity allows setting **retry count + interval**.
+* If a child pipeline fails due to transient error (like connection issue), retries might resolve it without blocking the whole sequence.
+
+👉 Good when: Failures are usually temporary (network, service downtime, etc.).
+
+---
+
+✅ **In summary**
+
+* **Quick fix** → Add `OnFailure → Continue` links between activities.
+* **Best practice for large scale** → Use **ForEach loop with dynamic pipeline calls + control table**.
+* **For async** → Use **Wait on completion = False**.
+* **For resilience** → Combine retries, logging, and modular grouping.
+
+
