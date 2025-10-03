@@ -528,7 +528,8 @@ This document shows a concrete end-to-end pattern for a single on-prem source (C
 
 ## 2) Architecture diagram (Mermaid)
 
-```mermaid
+```
+mermaid
 flowchart LR
   subgraph OnPrem
     SFTP["SFTP / File Share (CSV)"]
