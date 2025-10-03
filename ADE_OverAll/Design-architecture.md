@@ -242,9 +242,14 @@ Skew happens when a small subset of keys holds a large fraction of data.
 ```python
 import pyspark.sql.functions as F
 N = 10
-left_salted = left_df.withColumn("salt", F.floor(F.rand()*N)).withColumn("join_key_salt", F.concat_ws("_", F.col("key"), F.col("salt")))
-right_expanded = right_df.withColumn("salt", F.explode(F.array([F.lit(i) for i in range(N)]))).withColumn("join_key_salt", F.concat_ws("_", F.col("key"), F.col("salt")))
+left_salted = left_df.withColumn("salt", F.floor(F.rand()*N))\
+    .withColumn("join_key_salt", F.concat_ws("_", F.col("key"), F.col("salt")))
+
+right_expanded = right_df.withColumn("salt", F.explode(F.array([F.lit(i) for i in range(N)])))\
+    .withColumn("join_key_salt", F.concat_ws("_", F.col("key"), F.col("salt")))
+
 joined = left_salted.join(right_expanded, "join_key_salt")
+
 ```
 
 ### 5.3 Adaptive Query Execution (AQE)
