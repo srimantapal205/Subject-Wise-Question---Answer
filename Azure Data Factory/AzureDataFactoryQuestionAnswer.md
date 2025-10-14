@@ -1034,3 +1034,138 @@ Example in Azure Data Factory:
 
 By applying these strategies, you can significantly enhance the performance of your Copy Activity in Azure Data Factory.
 
+
+## 39: How would you implement Slowly Changing Dimensions (SCD) Type 2 and Type 3 in Azure Data Factory (ADF)? Please explain the concepts and steps involved.
+
+**Answer :**
+---
+
+Explain **Slowly Changing Dimensions (SCD)** — particularly **Type 2** and **Type 3** — and how you can **implement them in ADF**.
+
+---
+
+### 🧠 1. What are Slowly Changing Dimensions (SCDs)?
+
+In a **data warehouse**, dimension tables (like `Customer`, `Product`, `Employee`) may change over time.
+We need to **track changes** in a controlled way — that’s what **SCD** handles.
+
+---
+
+### 📘 2. Types Overview
+
+| SCD Type   | Behavior                                | Example                                   |
+| ---------- | --------------------------------------- | ----------------------------------------- |
+| **Type 1** | Overwrites old data (no history)        | Update address directly                   |
+| **Type 2** | Keeps history by adding new rows        | Add a new record with a new surrogate key |
+| **Type 3** | Keeps limited history by adding columns | Add a “Previous Address” column           |
+
+---
+
+### ⚙️ 3. **SCD Type 2 – Implementation in Azure Data Factory**
+
+#### ✅ **Concept**
+
+Keep **full history** by inserting a new record each time a change occurs, and **expire** the old one.
+
+#### 🧩 **Typical Columns**
+
+| Column         | Description                     |
+| -------------- | ------------------------------- |
+| `CustomerKey`  | Surrogate key (auto-increment)  |
+| `CustomerID`   | Natural key from source         |
+| `CustomerName` | Attribute                       |
+| `StartDate`    | When this record became active  |
+| `EndDate`      | When this record was superseded |
+| `IsCurrent`    | 1 = Active, 0 = Historical      |
+
+---
+
+#### 🛠 **ADF Implementation Steps**
+
+##### **Step 1: Source and Target**
+
+* **Source:** Staging or operational data (new data).
+* **Target:** Dimension table in the data warehouse.
+
+##### **Step 2: Use Mapping Data Flow**
+
+1. Create a **Data Flow**.
+2. Add **Source** (staging data).
+3. Add **Lookup** or **Join** with **target dimension table** using the **natural key** (e.g., CustomerID).
+4. Add a **Conditional Split**:
+
+   * **New records** → not found in target.
+   * **Changed records** → found but attributes differ.
+   * **Unchanged records** → found and same data.
+
+##### **Step 3: Handle Each Case**
+
+* **New records:**
+  → Go to **Sink** (Insert new row) with `StartDate = current_date`, `IsCurrent = 1`.
+
+* **Changed records:**
+  → Update the **existing record** → set `EndDate = current_date`, `IsCurrent = 0`.
+  → Then **insert a new record** with updated data and `IsCurrent = 1`.
+
+* **Unchanged records:**
+  → Do nothing.
+
+##### **Step 4: Sink Settings**
+
+* Use **Alter Row** transformation:
+
+  * `insert()`, `update()`, `delete()` flags.
+* Configure **Sink** to use **UPSERT** or separate updates/inserts as needed.
+
+---
+
+### ⚙️ 4. **SCD Type 3 – Implementation in Azure Data Factory**
+
+#### ✅ **Concept**
+
+Keep **limited history** (usually just one previous value) by **adding columns** like `PreviousValue`.
+
+#### 🧩 **Example**
+
+| CustomerID | Name | CurrentCity | PreviousCity |
+| ---------- | ---- | ----------- | ------------ |
+| 101        | John | London      | Paris        |
+
+---
+
+#### 🛠 **ADF Implementation Steps**
+
+1. **Source**: Get the latest data.
+2. **Join** with **target dimension table** on natural key.
+3. Use **Conditional Split** to find changed rows.
+4. In **Derived Column**:
+
+   * Set `PreviousCity = CurrentCity (from target)`
+   * Set `CurrentCity = City (from source)`
+5. **Sink** → Update the record (Type 3 only updates, doesn’t insert).
+
+---
+
+### 🗣️ 5. **Interview-Ready Explanation**
+
+Here’s how you can **explain it in an interview** 👇
+
+> “In Azure Data Factory, we can implement Slowly Changing Dimensions using Mapping Data Flows.
+> For **SCD Type 2**, we maintain full history — when an attribute changes, we mark the old record as inactive (by setting EndDate and IsCurrent = 0) and insert a new record with updated values.
+> For **SCD Type 3**, we maintain limited history by adding columns like ‘PreviousValue’ and updating them during changes.
+>
+> Practically, I use a Data Flow with a Join between the source and target, a Conditional Split to identify new/changed rows, and an Alter Row transformation to control inserts and updates.
+> This helps preserve historical accuracy and enables time-based analysis in the data warehouse.”
+
+---
+
+### 💡 **Tips**
+
+* Mention **Delta tables** or **Synapse dedicated SQL pool** if relevant — these are typical SCD targets.
+* Stress **parameterization** and **reusability** (e.g., using Flowlets for SCD logic).
+* Talk about **performance optimization** — e.g., incremental load before SCD processing.
+
+---
+
+
+
