@@ -5,6 +5,7 @@
 ## Azure Data Lake
 ## Azure Delta Lake
 ## SQL
+## Snowflake
 ## Python & PySpark
 ## Azure DevOps for ADF & ADB
 
