@@ -27,10 +27,12 @@ Transformation in Apache Spark is a function that can be applied to a RDD. Outpu
 
 ## 4. What are security options in Apache Spark?
 Apache Spark provides following security options:
-Encryption: Apache Spark supports encryption by SSL. We can use HTTPS protocol for secure data transfer. Therefore data is transmitted in encrypted mode. We can use spark.ssl parameters to set the SSL configuration.
 
-Authentication: We can perform authentication by a shared secret in Apache Spark. We can use spark.authenticate	to configure authentication in Spark.
-Event Logging: If we use Event Logging, then we can set the permissions on the directory where event logs are	stored.	These permissions can ensure access control for Event log.
+**Encryption:** Apache Spark supports encryption by SSL. We can use HTTPS protocol for secure data transfer. Therefore data is transmitted in encrypted mode. We can use spark.ssl parameters to set the SSL configuration.
+
+**Authentication:** We can perform authentication by a shared secret in Apache Spark. We can use spark.authenticate to configure authentication in Spark.
+
+**Event Logging:** If we use Event Logging, then we can set the permissions on the directory where event logs are stored. These permissions can ensure access control for Event log.
 
 
 
