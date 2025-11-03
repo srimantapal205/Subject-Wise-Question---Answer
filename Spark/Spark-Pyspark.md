@@ -1,9 +1,9 @@
-# Spark and PySpark Inter View Question & Answer
+# Spark and PySpark Interview Question & Answer
 
 https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/index.html
 
 
-### 1. What is spark? Explain Architecture
+### 1. What is Spark? Explain Architecture
 **Answer:**
 Apache Spark is an open-source distributed computing framework for big data processing, known for its speed and ease of use. It consists of:
 
@@ -15,7 +15,7 @@ Apache Spark is an open-source distributed computing framework for big data proc
         from pyspark.sql import SparkSession
         spark = SparkSession.builder.appName("SparkExample").getOrCreate()
 
-### 2. Explain where did you use spark in your project?
+### 2. Explain where you used Spark in your project?
 **Answer:**
 
 
@@ -28,7 +28,7 @@ Apache Spark is an open-source distributed computing framework for big data proc
 + Predicate Pushdown to filter early in queries
 
 
-### 4. Explain transformations and actions have you used?
+### 4. Explain the transformations and actions you have used?
 **Answer:**
 + Transformations: map(), filter(), groupBy(), join(), reduceByKey()
 + Actions: count(), collect(), show(), saveAsTextFile()
