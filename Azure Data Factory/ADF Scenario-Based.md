@@ -1,8 +1,6 @@
 # 📋 ADF Scenario-Based Questions
 
-### 🔷 Data Ingestion Scenarios
-
-1. **How would you design a pipeline to ingest incremental data from an on-prem SQL Server to Azure Data Lake every hour?**
+### 1. **How would you design a pipeline to ingest incremental data from an on-prem SQL Server to Azure Data Lake every hour?**
 
    * Follow-up: How will you handle late-arriving data?
 
@@ -16,7 +14,7 @@ Let’s walk through both parts step by step:
 
 # 🚀 **Pipeline to ingest incremental data from on-prem SQL Server to Azure Data Lake every hour**
 
-### 🔷 **Requirements**
+#### 🔷 **Requirements**
 
 * Source: On-premises **SQL Server**
 * Destination: **Azure Data Lake (ADLS Gen2)**
@@ -30,7 +28,7 @@ Let’s walk through both parts step by step:
 
 ---
 
-## 1️⃣ **Connectivity**
+#### 1️⃣ **Connectivity**
 
 * Use **Self-hosted Integration Runtime (SHIR)** to connect securely to your on-prem SQL Server from Azure.
 
@@ -39,7 +37,7 @@ Let’s walk through both parts step by step:
 
 ---
 
-## 2️⃣ **Detect Incremental Data**
+#### 2️⃣ **Detect Incremental Data**
 
 There are several ways to identify incremental changes:
 
@@ -49,7 +47,7 @@ There are several ways to identify incremental changes:
   * `CreatedDateTime`
   * or a **change tracking / CDC mechanism**
 
-### Options:
+#### Options:
 
 | Method                        | Notes                                                                                                                                               |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -63,9 +61,9 @@ For most scenarios:
 
 ---
 
-## 3️⃣ **Build the ADF Pipeline**
+#### 3️⃣ **Build the ADF Pipeline**
 
-### Components:
+##### Components:
 
 * **Lookup** activity → fetch last watermark from a control table / blob file.
 * **Source Dataset** → SQL Server table, with query:
@@ -82,13 +80,13 @@ For most scenarios:
 
 ---
 
-## 4️⃣ **Schedule**
+#### 4️⃣ **Schedule**
 
 * Use **ADF Trigger** (time-based) → run **every hour on the hour**.
 
 ---
 
-## 5️⃣ **Schema & Partitioning**
+#### 5️⃣ **Schema & Partitioning**
 
 * Store data in ADLS partitioned by date/hour:
 
@@ -101,7 +99,7 @@ For most scenarios:
 
 ---
 
-# 📦 **Handling Late-Arriving Data**
+## 📦 **Handling Late-Arriving Data**
 
 Late-arriving data means records that belong to an earlier period (e.g., a transaction for 10 AM arrives at 2 PM).
 
@@ -178,7 +176,7 @@ ADLS Gen2 → partitioned folders or Delta table
 
 
 
-2. **You need to copy files from an SFTP server to Azure Blob Storage and send an email to the manager if any file is missing. How would you implement this?**
+## 2. **You need to copy files from an SFTP server to Azure Blob Storage and send an email to the manager if any file is missing. How would you implement this?**
 ✅ Good scenario — let me walk you through a **design** for this use case step by step:
 
 > 📄 **Goal**: Copy files from SFTP → Azure Blob Storage, and if any expected file(s) are missing, send an email to the manager.
@@ -308,7 +306,7 @@ Data Engineering Team
 ---
 
 
-3. **You’re asked to ingest data from 50 different REST APIs with different authentication mechanisms. How would you make the pipeline reusable and dynamic?**
+## 3. **You’re asked to ingest data from 50 different REST APIs with different authentication mechanisms. How would you make the pipeline reusable and dynamic?**
 
 ✅ This is a **classic scenario** in data engineering where you need to ingest data from many REST APIs — each with **different authentication mechanisms** — and you want to build a **reusable & dynamic pipeline** rather than 50 hard-coded pipelines.
 
@@ -453,7 +451,7 @@ Once this framework is in place:
 ---
 
 
-4. **If your source table doesn’t have a column that indicates updated/inserted records, how can you implement incremental load?**
+## 4. **If your source table doesn’t have a column that indicates updated/inserted records, how can you implement incremental load?**
 
 ✅ Great question — and a very common challenge in data engineering & ETL design!
 
@@ -558,7 +556,7 @@ If you’re using cloud tools like:
 
 
 
-5. **Your pipeline needs to fetch yesterday’s sales data automatically. How would you parameterize and set up the pipeline for that?**
+## 5. **Your pipeline needs to fetch yesterday’s sales data automatically. How would you parameterize and set up the pipeline for that?**
 
 
 ✅ This is a very common **date-driven pipeline design question**, and a good answer shows you know how to make it **dynamic and reusable**.
@@ -652,68 +650,68 @@ ADF example:
 
 ### 🔷 Data Transformation & Data Flow Scenarios
 
-6. **You have two datasets (customer & orders) in Blob Storage that need to be joined on `CustomerID`, aggregated, and written into Azure SQL Database. How would you build this?**
+## 6. **You have two datasets (customer & orders) in Blob Storage that need to be joined on `CustomerID`, aggregated, and written into Azure SQL Database. How would you build this?**
 
-7. **How would you implement Slowly Changing Dimension (SCD) Type 2 logic in ADF Data Flows?**
+## 7. **How would you implement Slowly Changing Dimension (SCD) Type 2 logic in ADF Data Flows?**
 
-8. **If the source file contains invalid/malformed rows, how would you handle and log them?**
+## 8. **If the source file contains invalid/malformed rows, how would you handle and log them?**
 
-9. **Your pipeline needs to convert files from CSV to Parquet and partition them by date before storing in ADLS. How would you achieve this?**
+## 9. **Your pipeline needs to convert files from CSV to Parquet and partition them by date before storing in ADLS. How would you achieve this?**
 
 ---
 
 ### 🔷 Orchestration & Monitoring Scenarios
 
-10. **How would you design a pipeline that runs every day at 2AM, but only if the upstream system has deposited a new file in Blob Storage?**
+## 10. **How would you design a pipeline that runs every day at 2AM, but only if the upstream system has deposited a new file in Blob Storage?**
 
-11. **How would you retry a failed activity only 3 times and send a Teams notification if it still fails?**
+## 11. **How would you retry a failed activity only 3 times and send a Teams notification if it still fails?**
 
-12. **You need to execute pipelines in a specific order — Pipeline A → Pipeline B → Pipeline C, but only if A & B are successful. How would you design this?**
+## 12. **You need to execute pipelines in a specific order — Pipeline A → Pipeline B → Pipeline C, but only if A & B are successful. How would you design this?**
 
-13. **How would you implement a mechanism to log every pipeline run status, start & end time, and activity outcomes into a SQL table for auditing?**
+## 13. **How would you implement a mechanism to log every pipeline run status, start & end time, and activity outcomes into a SQL table for auditing?**
 
 ---
 
 ### 🔷 Performance & Optimization Scenarios
 
-14. **What techniques would you use to optimize the performance of a copy activity transferring millions of rows?**
+## 14. **What techniques would you use to optimize the performance of a copy activity transferring millions of rows?**
 
-15. **How would you design your pipeline to scale when processing 1TB of daily data without failing?**
+## 15. **How would you design your pipeline to scale when processing 1TB of daily data without failing?**
 
 ---
 
 ### 🔷 Dynamic & Parameterized Pipelines
 
-16. **You have to load data from 100 tables of a database into their respective folders in ADLS. How would you build a single dynamic pipeline to handle this?**
+## 16. **You have to load data from 100 tables of a database into their respective folders in ADLS. How would you build a single dynamic pipeline to handle this?**
 
-17. **Your pipeline needs to read the schema of incoming files dynamically and load them to a staging table. How would you handle schema drift?**
+## 17. **Your pipeline needs to read the schema of incoming files dynamically and load them to a staging table. How would you handle schema drift?**
 
 ---
 
 ### 🔷 Security & Access Scenarios
 
-18. **If you need to securely connect to an on-prem SQL Server via Self-Hosted Integration Runtime, what steps would you take?**
+## 18. **If you need to securely connect to an on-prem SQL Server via Self-Hosted Integration Runtime, what steps would you take?**
 
-19. **How would you ensure that sensitive information (like passwords or API keys) are not exposed in your pipelines?**
+## 19. **How would you ensure that sensitive information (like passwords or API keys) are not exposed in your pipelines?**
 
 ---
 
 ### 🔷 Advanced/Real-Time Scenarios
 
-20. **You’re asked to implement a pipeline that triggers on arrival of a file, transforms it, and updates Power BI datasets in near real-time. How would you design it?**
+## 20. **You’re asked to implement a pipeline that triggers on arrival of a file, transforms it, and updates Power BI datasets in near real-time. How would you design it?**
 
-21. **You have to process and validate thousands of small files arriving every hour and merge them into a single Parquet file. How would you build this?**
+## 21. **You have to process and validate thousands of small files arriving every hour and merge them into a single Parquet file. How would you build this?**
 
 ---
 
 ## 📌 Bonus — Troubleshooting & Best Practices
 
-22. **A pipeline that was running fine yesterday is now failing with a timeout error when writing to SQL Database. How would you debug it?**
+## 22. **A pipeline that was running fine yesterday is now failing with a timeout error when writing to SQL Database. How would you debug it?**
 
-23. **What are some best practices you follow for naming conventions, folder structure, and reusability in ADF?**
+## 23. **What are some best practices you follow for naming conventions, folder structure, and reusability in ADF?**
 
-24. **How would you test your pipelines before moving them to production?**
+## 24. **How would you test your pipelines before moving them to production?**
 
-25. **What would you do if the dataset schema at the source changed suddenly and broke your pipeline?**
+## 25. **What would you do if the dataset schema at the source changed suddenly and broke your pipeline?**
 
 ---
