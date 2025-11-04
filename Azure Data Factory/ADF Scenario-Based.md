@@ -652,11 +652,1016 @@ ADF example:
 
 ## 6. **You have two datasets (customer & orders) in Blob Storage that need to be joined on `CustomerID`, aggregated, and written into Azure SQL Database. How would you build this?**
 
+*** Answer: ***
+Here’s a **complete, interview-ready answer** with a **clear architectural diagram** and detailed **step-by-step explanation** for the given **Azure Data Engineering scenario** 👇
+
+---
+
+## ✅ **Scenario**
+
+You have **two datasets** in **Azure Blob Storage**:
+
+* **Customer.csv**
+* **Orders.csv**
+
+These need to be **joined on `CustomerID`**, **aggregated**, and the **final result** should be **stored in Azure SQL Database**.
+
+---
+
+## 🧭 **Objective**
+
+Build an **end-to-end data pipeline** that:
+
+1. Reads both datasets from Blob Storage
+2. Joins them on `CustomerID`
+3. Performs aggregations (e.g., total order value per customer)
+4. Writes the final aggregated data to Azure SQL Database
+
+---
+
+## 🧱 **High-Level Architecture Diagram**
+
+```
+            +--------------------------+
+            |      Azure Blob Storage  |
+            |--------------------------|
+            |  Customer.csv  Orders.csv|
+            +------------+-------------+
+                         |
+                         v
+             +--------------------------+
+             |  Azure Data Factory (ADF)|
+             |--------------------------|
+             |  Pipeline Orchestration  |
+             |  Data Flow Activity      |
+             +------------+-------------+
+                          |
+                          v
+           +------------------------------+
+           |  Mapping Data Flow in ADF     |
+           |------------------------------|
+           |  Source1: Customer.csv        |
+           |  Source2: Orders.csv          |
+           |  Join on CustomerID           |
+           |  Aggregate (SUM(OrderAmount)) |
+           |  Sink: Azure SQL Database     |
+           +-------------------------------+
+                          |
+                          v
+             +--------------------------+
+             |   Azure SQL Database     |
+             |--------------------------|
+             |   Final Aggregated Table |
+             +--------------------------+
+```
+
+---
+
+## ⚙️ **Step-by-Step Implementation**
+
+### **Step 1: Create Linked Services**
+
+In **Azure Data Factory**:
+
+* **Linked Service 1:** Azure Blob Storage
+  → Connect to your container holding the input CSV files
+* **Linked Service 2:** Azure SQL Database
+  → Use connection string, username, password, and firewall settings
+
+---
+
+### **Step 2: Create Datasets**
+
+* **Customer Dataset (DelimitedText)** → Points to `Customer.csv` in Blob Storage
+* **Orders Dataset (DelimitedText)** → Points to `Orders.csv`
+* **Azure SQL Dataset (Table)** → Destination table in Azure SQL Database (e.g., `Customer_Order_Aggregate`)
+
+---
+
+### **Step 3: Build Data Flow**
+
+Inside ADF, create a **Mapping Data Flow**:
+
+1. **Add Source transformations:**
+
+   * Source1 → Customer dataset
+   * Source2 → Orders dataset
+
+2. **Join transformation:**
+
+   * Join type: `Inner` (or `Left Outer`, depending on requirement)
+   * Condition: `Customer.CustomerID == Orders.CustomerID`
+
+3. **Aggregate transformation:**
+
+   * Group by: `CustomerID`, `CustomerName`
+   * Aggregates:
+
+     * `TotalOrders = count(Orders.OrderID)`
+     * `TotalAmount = sum(Orders.OrderAmount)`
+
+4. **Sink transformation:**
+
+   * Sink: Azure SQL Database dataset
+   * Write mode: `Upsert` or `Truncate and Load` (depending on your requirement)
+
+---
+
+### **Step 4: Pipeline Orchestration**
+
+In ADF:
+
+* Create a **pipeline**
+* Add **Data Flow Activity**
+* Link the created **Mapping Data Flow**
+* Trigger manually or set a **schedule trigger**
+
+---
+
+### **Step 5: Azure SQL Table Schema (Example)**
+
+```sql
+CREATE TABLE Customer_Order_Aggregate (
+    CustomerID INT,
+    CustomerName NVARCHAR(100),
+    TotalOrders INT,
+    TotalAmount DECIMAL(18,2),
+    LoadDate DATETIME DEFAULT GETDATE()
+);
+```
+
+---
+
+### **Step 6: Validation and Monitoring**
+
+* Use **ADF Monitor tab** to check pipeline execution status, data flow performance, and row counts.
+* Optionally, enable **logging in Azure Log Analytics** for operational insights.
+
+---
+
+## 💡 **Alternative Approach (If Transformation is Complex)**
+
+If transformations are **heavy or require custom logic**, use:
+
+* **Azure Databricks** for joining and aggregation
+* Then write the final result into **Azure SQL Database**
+
+**Modified Flow:**
+Blob Storage → Databricks (PySpark) → Azure SQL Database
+→ ADF orchestrates the workflow.
+
+---
+
+## 🏁 **Final Answer Summary**
+
+| Step | Component          | Purpose                            |
+| ---- | ------------------ | ---------------------------------- |
+| 1    | Azure Blob Storage | Store raw Customer and Orders CSVs |
+| 2    | Azure Data Factory | Orchestrate and transform data     |
+| 3    | Mapping Data Flow  | Join on CustomerID, aggregate      |
+| 4    | Azure SQL Database | Store final aggregated result      |
+| 5    | Trigger/Monitor    | Schedule and observe pipeline runs |
+
+---
+
+
 ## 7. **How would you implement Slowly Changing Dimension (SCD) Type 2 logic in ADF Data Flows?**
+*** Answer: ***
+Here’s a **complete, interview-ready answer** — explaining **how to implement Slowly Changing Dimension (SCD) Type 2** in **Azure Data Factory (ADF) Mapping Data Flows**, with a **diagram**, **step-by-step explanation**, and **key interview talking points** 👇
+
+---
+
+## 🎯 **Scenario**
+
+You have a **dimension table (e.g., Customer Dimension)** in **Azure SQL Database**, and a **daily incremental file** (e.g., from Azure Blob Storage) with **updated customer data**.
+You need to track **historical changes** (Type 2 SCD), meaning:
+
+* When a record changes, you must **insert a new row** with updated details,
+* and **mark the old row as inactive**.
+
+---
+
+## 💡 **Goal**
+
+Implement **SCD Type 2** logic in **ADF Mapping Data Flow** so that:
+
+* Historical versions are preserved,
+* Only one record per business key is **current**,
+* Changes are captured efficiently.
+
+---
+
+## 🧱 **Architecture Diagram**
+
+```
+          +---------------------------+
+          | Azure Blob Storage        |
+          |---------------------------|
+          | customer_incremental.csv  |
+          +------------+--------------+
+                       |
+                       v
+            +---------------------------+
+            | Azure Data Factory (ADF)  |
+            | Mapping Data Flow         |
+            |---------------------------|
+            | Source (New Data)         |
+            | Lookup (Existing Data)    |
+            | Conditional Split         |
+            | AlterRow + Sink           |
+            +------------+--------------+
+                       |
+                       v
+          +----------------------------+
+          | Azure SQL Database          |
+          | Customer_Dimension Table    |
+          +----------------------------+
+```
+
+---
+
+## ⚙️ **Step-by-Step Implementation**
+
+### **Step 1: Prepare Target Table (Azure SQL)**
+
+Create a **Customer_Dimension** table with SCD tracking columns:
+
+```sql
+CREATE TABLE Customer_Dimension (
+    CustomerID INT,
+    CustomerName NVARCHAR(100),
+    Address NVARCHAR(200),
+    City NVARCHAR(100),
+    EffectiveStartDate DATETIME,
+    EffectiveEndDate DATETIME,
+    IsCurrent BIT,
+    CONSTRAINT PK_Customer PRIMARY KEY (CustomerID, EffectiveStartDate)
+);
+```
+
+---
+
+### **Step 2: Create Linked Services and Datasets**
+
+* **Linked Services:**
+
+  * Azure Blob Storage (source)
+  * Azure SQL Database (target)
+* **Datasets:**
+
+  * `Customer_New` → source CSV
+  * `Customer_Dim` → SQL table
+
+---
+
+### **Step 3: Build the Mapping Data Flow**
+
+#### 🔹 1. **Source Transformation**
+
+* Source → New incoming data (`Customer_New`)
+
+#### 🔹 2. **Lookup Transformation**
+
+* Lookup against the **existing dimension table (`Customer_Dim`)**
+* Join on **`CustomerID`**
+* Retrieve columns: `CustomerName`, `Address`, `City`, `EffectiveStartDate`, `EffectiveEndDate`, `IsCurrent`
+
+#### 🔹 3. **Derived Column (Optional)**
+
+Add `CurrentDate = currentUTC()` to mark load date dynamically.
+
+#### 🔹 4. **Conditional Split**
+
+Use this to separate rows into three categories:
+
+| Condition                    | Meaning          | Action                             |
+| ---------------------------- | ---------------- | ---------------------------------- |
+| No match in Lookup           | New Customer     | **Insert as new record**           |
+| Match but attributes changed | Updated Customer | **Expire old + insert new record** |
+| Match and no change          | Unchanged        | **Skip (no action)**               |
+
+Example expression:
+
+```text
+iif(isNull(lookup.CustomerID), 'New',
+    iif(CustomerName != lookup.CustomerName || Address != lookup.Address || City != lookup.City, 'Changed', 'Unchanged'))
+```
+
+#### 🔹 5. **Alter Row Transformation**
+
+Define actions for each condition:
+
+| Row Type | Rule                            | Action                                                                            |
+| -------- | ------------------------------- | --------------------------------------------------------------------------------- |
+| New      | `conditionalSplit == 'New'`     | **Insert**                                                                        |
+| Changed  | `conditionalSplit == 'Changed'` | **Insert** new record (with new EffectiveStartDate)                               |
+| Changed  | Expire old record               | **Update** existing record (set `IsCurrent=0` and `EffectiveEndDate=CurrentDate`) |
+
+You’ll need **two sinks**:
+
+* One for inserting **new/changed records**
+* One for **updating** old records (to expire them)
+
+#### 🔹 6. **Sink Transformations**
+
+* **Sink 1 (Insert new rows):**
+
+  * Target: Customer_Dimension
+  * Insert mode
+  * Columns: set `EffectiveStartDate = currentUTC()`, `EffectiveEndDate = NULL`, `IsCurrent = 1`
+* **Sink 2 (Update old rows):**
+
+  * Target: Customer_Dimension
+  * Update mode
+  * Match on `CustomerID` and `IsCurrent = 1`
+  * Set `EffectiveEndDate = currentUTC()`, `IsCurrent = 0`
+
+---
+
+## 🧩 **Data Flow Logic Summary**
+
+| Transformation        | Purpose                                      |
+| --------------------- | -------------------------------------------- |
+| **Source**            | Load new customer data                       |
+| **Lookup**            | Get existing data from dimension table       |
+| **Conditional Split** | Detect new, changed, or unchanged records    |
+| **Alter Row**         | Define insert/update actions                 |
+| **Sink (Insert)**     | Add new or changed customers as new versions |
+| **Sink (Update)**     | Expire old versions (set IsCurrent=0)        |
+
+---
+
+## 📊 **Example**
+
+| CustomerID | Name  | City     | IsCurrent | StartDate  | EndDate    |
+| ---------- | ----- | -------- | --------- | ---------- | ---------- |
+| 1          | Alice | New York | 1         | 2023-01-01 | NULL       |
+| 1          | Alice | London   | 0         | 2021-06-01 | 2022-12-31 |
+
+When Alice moves to a new city, old record is marked inactive, and new record is inserted with updated data.
+
+---
+
+## 🧠 **Interview Tip: Key Talking Points**
+
+✅ Explain **why Type 2** → preserves history
+✅ Mention **Effective Dates and IsCurrent flags**
+✅ Explain **ADF’s “Alter Row” transformation** for upserts
+✅ Mention **Lookup + Conditional Split** pattern
+✅ Optionally, say **Data Flows scale well for SCD** vs manual SQL merges
+
+---
+
+## 🚀 **Bonus: Optimization Tips**
+
+* Use **Surrogate Keys** (Identity in SQL) for dimension records
+* Filter only **IsCurrent = 1** records in lookup for efficiency
+* Use **staging tables** if data volume is large
+* Enable **data flow debug mode** for validation before deployment
+
+---
+
 
 ## 8. **If the source file contains invalid/malformed rows, how would you handle and log them?**
+*** Answer: ****
+Excellent question — this is a **very common scenario** asked in **Azure Data Factory (ADF)** or **Data Engineering interviews** to check how you handle **bad data quality** and ensure **data reliability**.
+
+Here’s a **complete, scenario-based answer** with **ADF best practices, data flow design, and logging strategy** 👇
+
+---
+
+## 🎯 **Scenario**
+
+You are ingesting data from a **source file (e.g., CSV in Azure Blob Storage)** into a **target database (Azure SQL)** using **Azure Data Factory**.
+However, some rows in the file are **invalid or malformed** — for example:
+
+* Missing required fields
+* Incorrect data types
+* Extra delimiters or corrupted values
+* Date parsing errors
+
+You need to **detect**, **handle**, and **log** these bad rows without failing the entire pipeline.
+
+---
+
+## 🧱 **High-Level Architecture Diagram**
+
+```
++----------------------------+
+| Azure Blob Storage         |
+|----------------------------|
+| Source File (CSV)          |
+|                            |
+|  ├── Valid rows            |
+|  └── Invalid rows          |
++-------------+--------------+
+              |
+              v
+  +---------------------------+
+  | Azure Data Factory (ADF)  |
+  | Mapping Data Flow         |
+  |---------------------------|
+  |  1. Source                |
+  |  2. Derived Column        |
+  |  3. Conditional Split     |
+  |  4. Sink (Valid -> DB)    |
+  |  5. Sink (Invalid -> Blob)|
+  +-------------+-------------+
+              |
+              v
+  +-----------------------------+
+  | Azure SQL Database (Valid)  |
+  | Azure Blob Storage (Invalid)|
+  +-----------------------------+
+```
+
+---
+
+## ⚙️ **Step-by-Step Implementation**
+
+### **Step 1: Source Transformation**
+
+* Connect your **source CSV** file from Azure Blob Storage.
+* Enable **"Fault tolerance"** options in data flow settings:
+
+  * `Skip error rows` → Yes
+  * `Report rows with errors` → Enables bad data tracking
+
+✅ **Tip:** ADF will automatically log parsing errors like mismatched columns or bad data types.
+
+---
+
+### **Step 2: Derived Column Transformation (Optional)**
+
+Use this to perform **data cleansing or validation logic**.
+
+Example:
+
+```text
+isValidEmail = iif(isMatch(Email, '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'), true(), false())
+```
+
+Or check nulls:
+
+```text
+isValidRecord = iif(!isNull(CustomerID) && !isNull(OrderDate), true(), false())
+```
+
+---
+
+### **Step 3: Conditional Split Transformation**
+
+Split the data into **valid** and **invalid** streams.
+
+Example expression:
+
+```text
+iif(isValidRecord == true(), 'Valid', 'Invalid')
+```
+
+This gives you:
+
+* ✅ **Valid stream** — clean rows ready for loading
+* ❌ **Invalid stream** — malformed rows to be logged
+
+---
+
+### **Step 4: Sink 1 — Valid Data Sink**
+
+* Target: **Azure SQL Database** (or Data Lake “Processed” zone)
+* Operation: **Insert**
+* Configure schema mapping properly
+
+---
+
+### **Step 5: Sink 2 — Invalid Data Sink**
+
+* Target: **Azure Blob Storage (or Azure Data Lake)**
+* File format: **DelimitedText or JSON**
+* File name: include timestamp for traceability (e.g., `bad_records_2025_11_05.csv`)
+* Include additional fields for debugging:
+
+  * FileName
+  * RowNumber
+  * ErrorDescription
+  * PipelineRunID
+
+You can add these using a **Derived Column** before the sink:
+
+```text
+ErrorDescription = 'Invalid Email or Null CustomerID'
+LoadDate = currentUTC()
+```
+
+---
+
+### **Step 6: Pipeline-Level Logging (Optional)**
+
+Add a **Stored Procedure Activity** or **Web Activity** after data flow to log summary metrics into a **logging table**, e.g.:
+
+```sql
+CREATE TABLE Pipeline_Run_Log (
+    PipelineRunID NVARCHAR(50),
+    SourceFile NVARCHAR(100),
+    TotalRows INT,
+    ValidRows INT,
+    InvalidRows INT,
+    StartTime DATETIME,
+    EndTime DATETIME,
+    Status NVARCHAR(20)
+);
+```
+
+ADF can pass the **row counts** using data flow output parameters into the logging table.
+
+---
+
+## 🧩 **ADF Fault Tolerance Settings (Alternative)**
+
+ADF Mapping Data Flow has a **"Fault tolerance"** tab where you can:
+
+* **Skip malformed rows**
+* **Redirect rows to error stream**
+* **Collect error messages and file locations**
+
+This approach is often used for simple file format issues like extra columns or bad delimiters.
+
+---
+
+## 💡 **Example Outcome**
+
+| CustomerID | Email                                   | OrderDate  | isValidRecord | ErrorDescription        |
+| ---------- | --------------------------------------- | ---------- | ------------- | ----------------------- |
+| 1001       | [john@gmail.com](mailto:john@gmail.com) | 2025-11-05 | TRUE          | NULL                    |
+| NULL       | [jane@xyz.com](mailto:jane@xyz.com)     | NULL       | FALSE         | Missing CustomerID/Date |
+| 1003       | invalid-email                           | 2025-11-04 | FALSE         | Invalid Email Format    |
+
+✅ Valid records go to SQL
+❌ Invalid records are logged in Blob under `/bad_records/`
+
+---
+
+## 🧠 **Interview Key Points to Mention**
+
+| Concept             | Talking Point                                                           |
+| ------------------- | ----------------------------------------------------------------------- |
+| **Error Handling**  | Use Conditional Split to route invalid records                          |
+| **Logging**         | Store invalid records with context (error reason, file name, timestamp) |
+| **Fault Tolerance** | Use Data Flow fault tolerance to skip/redirect malformed rows           |
+| **Automation**      | Use Stored Procedure or Web Activity for run summary logging            |
+| **Best Practice**   | Never drop bad data silently — always log for audit                     |
+
+---
+
+## 🚀 **Bonus: Advanced Enhancements**
+
+* Integrate with **Azure Log Analytics** for centralized monitoring
+* Trigger **Azure Function** or **Logic App** to send alerts if bad record % exceeds threshold
+* Use **ADF Expressions** to dynamically name output error files
+* Optionally use **Azure Data Quality Services (DQS)** for complex validation
+
+---
+Perfect — this is a **classic real-world and interview scenario** that tests your ability to design **efficient, production-grade data pipelines** in **Azure Data Factory (ADF)** using **Mapping Data Flows** for file format conversion and partitioning.
+
+Below is a **complete, structured, and interview-ready answer** with a **diagram**, **step-by-step explanation**, and **key talking points** 👇
+
+---
+
+## 🎯 **Scenario**
+
+You have **raw CSV files** landing in **Azure Blob Storage or ADLS “Raw Zone”**.
+You need to:
+
+1. Convert these files from **CSV → Parquet** (optimized columnar format)
+2. **Partition the output** by **date** (e.g., `Year/Month/Day`)
+3. Store them in **Azure Data Lake Storage (ADLS)** — in a **Processed or Curated Zone**
+
+---
+
+## 🧱 **High-Level Architecture Diagram**
+
+```
++-----------------------------------+
+|  Azure Blob Storage / ADLS (Raw)  |
+|-----------------------------------|
+|  sales_2025-11-05.csv             |
+|  sales_2025-11-06.csv             |
++-------------------+---------------+
+                    |
+                    v
+        +----------------------------+
+        | Azure Data Factory (ADF)   |
+        | Mapping Data Flow          |
+        |----------------------------|
+        | 1. Source (CSV)            |
+        | 2. Derived Column (Date)   |
+        | 3. Sink (Parquet + Partition) |
+        +----------------------------+
+                    |
+                    v
++----------------------------------------------+
+|  Azure Data Lake Storage (Processed Zone)    |
+|----------------------------------------------|
+| /year=2025/month=11/day=05/sales.parquet     |
+| /year=2025/month=11/day=06/sales.parquet     |
++----------------------------------------------+
+```
+
+---
+
+## ⚙️ **Step-by-Step Implementation**
+
+### **Step 1: Create Linked Services**
+
+* **Source Linked Service:** Azure Blob Storage (Raw Zone)
+* **Sink Linked Service:** Azure Data Lake Storage Gen2 (Processed Zone)
+
+---
+
+### **Step 2: Create Datasets**
+
+* **Source Dataset:**
+
+  * Type: **DelimitedText (CSV)**
+  * Points to the raw CSV folder
+  * Schema: Import from a sample file
+  * Enable “First row as header”
+* **Sink Dataset:**
+
+  * Type: **Parquet**
+  * Points to ADLS processed zone
+  * Do **not** hardcode file names; use dynamic expressions
+
+---
+
+### **Step 3: Build Mapping Data Flow**
+
+#### 🔹 1. **Source Transformation**
+
+* Load the CSV dataset.
+* Optionally enable **wildcard paths** to pick up multiple files (`sales_*.csv`).
+
+Example path:
+
+```
+@dataset().path
+```
+
+---
+
+#### 🔹 2. **Derived Column Transformation**
+
+Add columns for **partitioning** based on file name or a date column within data.
+
+If the file has a column like `TransactionDate`, derive partition values:
+
+```text
+Year = year(toDate(TransactionDate))
+Month = month(toDate(TransactionDate))
+Day = day(toDate(TransactionDate))
+```
+
+Or, if the date is in the file name (like `sales_2025-11-05.csv`), use ADF system variable `@item().name` and extract date using string functions.
+
+---
+
+#### 🔹 3. **Sink Transformation**
+
+Configure Sink to write **Parquet** files partitioned by date.
+
+In **Sink Settings:**
+
+* Dataset: Parquet dataset (pointing to ADLS folder)
+
+* File format: Parquet
+
+* File path:
+
+  ```
+  /year=$Year/month=$Month/day=$Day/
+  ```
+
+  (You can use dynamic content or derived column values.)
+
+* **Partition Options:**
+
+  * Enable **“Partition by column”**
+  * Choose: `Year`, `Month`, `Day`
+
+* Set “File name option” → “Output to single file” (if desired)
+
+* Compression → Snappy (default Parquet compression)
+
+---
+
+### **Step 4: Pipeline Configuration**
+
+* Add **Get Metadata** or **ForEach** activity to loop over all source CSV files.
+* Inside ForEach → call the **Data Flow Activity**.
+* Pass **file name** dynamically to the data flow for processing.
+
+Example dynamic expression for parameter:
+
+```
+@item().name
+```
+
+---
+
+### **Step 5: Schedule and Monitor**
+
+* Schedule the pipeline (daily/trigger-based)
+* Monitor pipeline runs in **ADF Monitor tab**
+* Verify ADLS output folder structure:
+
+  ```
+  /processed/year=2025/month=11/day=05/sales.parquet
+  ```
+
+---
+
+## 📊 **Example Folder Structure (Final Output)**
+
+```
+adls://sales-data/processed/
+ ├── year=2025/
+ │    ├── month=11/
+ │    │     ├── day=05/
+ │    │     │     └── sales.parquet
+ │    │     ├── day=06/
+ │    │     │     └── sales.parquet
+```
+
+Each folder corresponds to a logical partition.
+
+---
+
+## 💡 **Why Convert CSV to Parquet?**
+
+| Feature            | CSV                  | Parquet                                  |
+| ------------------ | -------------------- | ---------------------------------------- |
+| Storage efficiency | Large (uncompressed) | Highly compressed                        |
+| Query performance  | Slow (row-based)     | Fast (columnar)                          |
+| Schema             | Text-based           | Self-describing (includes schema)        |
+| Analytics tools    | Limited              | Optimized for Spark, Synapse, Databricks |
+
+---
+
+## 🧠 **Interview Key Points to Mention**
+
+| Concept                     | Talking Point                                      |
+| --------------------------- | -------------------------------------------------- |
+| **ADF Mapping Data Flow**   | Best suited for format conversion and partitioning |
+| **Partitioning Strategy**   | Improves query and read performance                |
+| **Derived Column**          | Used to extract or compute partition values        |
+| **Dynamic Sink Path**       | Enables automation for multiple dates/files        |
+| **Monitoring & Validation** | Use debug mode and logs in ADF Monitor             |
+
+---
+
+## 🚀 **Bonus: Optimization Tips**
+
+* Enable **Data Flow Debug Mode** to test output partitions.
+* Use **parameterized pipelines** to dynamically handle multiple source paths.
+* Leverage **Auto-scaling Integration Runtimes** for large file conversions.
+* Store metadata (input/output paths, file counts) in a **logging table** for audit.
+
+---
+
+## 🧩 **Alternative Option**
+
+If you need **complex transformation** or **large-scale data conversion**, use:
+
+* **Azure Databricks**
+
+  * Read CSV → `spark.read.csv()`
+  * Write Parquet → `df.write.partitionBy("Year","Month","Day").parquet()`
+  * Orchestrate using **ADF Notebook activity**
+
+---
+
+
 
 ## 9. **Your pipeline needs to convert files from CSV to Parquet and partition them by date before storing in ADLS. How would you achieve this?**
+
+*** Answer: ****
+
+Perfect — this is a **classic real-world and interview scenario** that tests your ability to design **efficient, production-grade data pipelines** in **Azure Data Factory (ADF)** using **Mapping Data Flows** for file format conversion and partitioning.
+
+Below is a **complete, structured, and interview-ready answer** with a **diagram**, **step-by-step explanation**, and **key talking points** 👇
+
+---
+
+## 🎯 **Scenario**
+
+You have **raw CSV files** landing in **Azure Blob Storage or ADLS “Raw Zone”**.
+You need to:
+
+1. Convert these files from **CSV → Parquet** (optimized columnar format)
+2. **Partition the output** by **date** (e.g., `Year/Month/Day`)
+3. Store them in **Azure Data Lake Storage (ADLS)** — in a **Processed or Curated Zone**
+
+---
+
+## 🧱 **High-Level Architecture Diagram**
+
+```
++-----------------------------------+
+|  Azure Blob Storage / ADLS (Raw)  |
+|-----------------------------------|
+|  sales_2025-11-05.csv             |
+|  sales_2025-11-06.csv             |
++-------------------+---------------+
+                    |
+                    v
+        +----------------------------+
+        | Azure Data Factory (ADF)   |
+        | Mapping Data Flow          |
+        |----------------------------|
+        | 1. Source (CSV)            |
+        | 2. Derived Column (Date)   |
+        | 3. Sink (Parquet + Partition) |
+        +----------------------------+
+                    |
+                    v
++----------------------------------------------+
+|  Azure Data Lake Storage (Processed Zone)    |
+|----------------------------------------------|
+| /year=2025/month=11/day=05/sales.parquet     |
+| /year=2025/month=11/day=06/sales.parquet     |
++----------------------------------------------+
+```
+
+---
+
+## ⚙️ **Step-by-Step Implementation**
+
+### **Step 1: Create Linked Services**
+
+* **Source Linked Service:** Azure Blob Storage (Raw Zone)
+* **Sink Linked Service:** Azure Data Lake Storage Gen2 (Processed Zone)
+
+---
+
+### **Step 2: Create Datasets**
+
+* **Source Dataset:**
+
+  * Type: **DelimitedText (CSV)**
+  * Points to the raw CSV folder
+  * Schema: Import from a sample file
+  * Enable “First row as header”
+* **Sink Dataset:**
+
+  * Type: **Parquet**
+  * Points to ADLS processed zone
+  * Do **not** hardcode file names; use dynamic expressions
+
+---
+
+### **Step 3: Build Mapping Data Flow**
+
+#### 🔹 1. **Source Transformation**
+
+* Load the CSV dataset.
+* Optionally enable **wildcard paths** to pick up multiple files (`sales_*.csv`).
+
+Example path:
+
+```
+@dataset().path
+```
+
+---
+
+#### 🔹 2. **Derived Column Transformation**
+
+Add columns for **partitioning** based on file name or a date column within data.
+
+If the file has a column like `TransactionDate`, derive partition values:
+
+```text
+Year = year(toDate(TransactionDate))
+Month = month(toDate(TransactionDate))
+Day = day(toDate(TransactionDate))
+```
+
+Or, if the date is in the file name (like `sales_2025-11-05.csv`), use ADF system variable `@item().name` and extract date using string functions.
+
+---
+
+#### 🔹 3. **Sink Transformation**
+
+Configure Sink to write **Parquet** files partitioned by date.
+
+In **Sink Settings:**
+
+* Dataset: Parquet dataset (pointing to ADLS folder)
+
+* File format: Parquet
+
+* File path:
+
+  ```
+  /year=$Year/month=$Month/day=$Day/
+  ```
+
+  (You can use dynamic content or derived column values.)
+
+* **Partition Options:**
+
+  * Enable **“Partition by column”**
+  * Choose: `Year`, `Month`, `Day`
+
+* Set “File name option” → “Output to single file” (if desired)
+
+* Compression → Snappy (default Parquet compression)
+
+---
+
+### **Step 4: Pipeline Configuration**
+
+* Add **Get Metadata** or **ForEach** activity to loop over all source CSV files.
+* Inside ForEach → call the **Data Flow Activity**.
+* Pass **file name** dynamically to the data flow for processing.
+
+Example dynamic expression for parameter:
+
+```
+@item().name
+```
+
+---
+
+### **Step 5: Schedule and Monitor**
+
+* Schedule the pipeline (daily/trigger-based)
+* Monitor pipeline runs in **ADF Monitor tab**
+* Verify ADLS output folder structure:
+
+  ```
+  /processed/year=2025/month=11/day=05/sales.parquet
+  ```
+
+---
+
+## 📊 **Example Folder Structure (Final Output)**
+
+```
+adls://sales-data/processed/
+ ├── year=2025/
+ │    ├── month=11/
+ │    │     ├── day=05/
+ │    │     │     └── sales.parquet
+ │    │     ├── day=06/
+ │    │     │     └── sales.parquet
+```
+
+Each folder corresponds to a logical partition.
+
+---
+
+## 💡 **Why Convert CSV to Parquet?**
+
+| Feature            | CSV                  | Parquet                                  |
+| ------------------ | -------------------- | ---------------------------------------- |
+| Storage efficiency | Large (uncompressed) | Highly compressed                        |
+| Query performance  | Slow (row-based)     | Fast (columnar)                          |
+| Schema             | Text-based           | Self-describing (includes schema)        |
+| Analytics tools    | Limited              | Optimized for Spark, Synapse, Databricks |
+
+---
+
+## 🧠 **Interview Key Points to Mention**
+
+| Concept                     | Talking Point                                      |
+| --------------------------- | -------------------------------------------------- |
+| **ADF Mapping Data Flow**   | Best suited for format conversion and partitioning |
+| **Partitioning Strategy**   | Improves query and read performance                |
+| **Derived Column**          | Used to extract or compute partition values        |
+| **Dynamic Sink Path**       | Enables automation for multiple dates/files        |
+| **Monitoring & Validation** | Use debug mode and logs in ADF Monitor             |
+
+---
+
+## 🚀 **Bonus: Optimization Tips**
+
+* Enable **Data Flow Debug Mode** to test output partitions.
+* Use **parameterized pipelines** to dynamically handle multiple source paths.
+* Leverage **Auto-scaling Integration Runtimes** for large file conversions.
+* Store metadata (input/output paths, file counts) in a **logging table** for audit.
+
+---
+
+## 🧩 **Alternative Option**
+
+If you need **complex transformation** or **large-scale data conversion**, use:
+
+* **Azure Databricks**
+
+  * Read CSV → `spark.read.csv()`
+  * Write Parquet → `df.write.partitionBy("Year","Month","Day").parquet()`
+  * Orchestrate using **ADF Notebook activity**
 
 ---
 
@@ -664,7 +1669,217 @@ ADF example:
 
 ## 10. **How would you design a pipeline that runs every day at 2AM, but only if the upstream system has deposited a new file in Blob Storage?**
 
+*** Answer: ****
+Excellent — this is a **very practical and frequently asked scenario** in **Azure Data Factory (ADF)** interviews. It checks your ability to handle **event-based and schedule-based triggers together**, ensuring **automation with dependency awareness**.
+
+Here’s a **complete, interview-quality answer** with a **diagram**, **step-by-step explanation**, and **best practices** 👇
+
+---
+
+## 🎯 **Scenario**
+
+You need to design an **ADF pipeline** that:
+
+* Runs **every day at 2 AM**
+* But only **if a new file** has been **deposited in Azure Blob Storage** by an upstream system
+* If no new file is available, **the pipeline should not run** (to avoid reprocessing old data)
+
+---
+
+## 🧱 **High-Level Architecture Diagram**
+
+```
+                   ┌───────────────────────────────┐
+                   │   Upstream System              │
+                   │ (Drops file in Blob Storage)   │
+                   └──────────────┬────────────────┘
+                                  │
+                                  ▼
+              +-------------------------------------+
+              |  Azure Blob Storage (Landing Zone)  |
+              |-------------------------------------|
+              |  /incoming/sales_2025-11-05.csv     |
+              +-----------------┬-------------------+
+                                │
+                                ▼
+             +--------------------------------------+
+             | Azure Data Factory (ADF) Pipeline    |
+             |--------------------------------------|
+             | 1. Trigger Check for New File        |
+             | 2. If New File Found → Run Pipeline  |
+             | 3. Else → Exit Gracefully            |
+             +-----------------┬--------------------+
+                               │
+                               ▼
+               +------------------------------------+
+               |  Azure SQL / ADLS / Power BI       |
+               | (Target System)                    |
+               +------------------------------------+
+```
+
+---
+
+## ⚙️ **Two Common Approaches (You Can Mention Either or Both)**
+
+### **Approach 1: Event-Based Trigger (Recommended for Real-Time Scenarios)**
+
+Use an **Event-Based Trigger** that fires **as soon as a new file is added** to Blob Storage.
+
+#### ✅ Steps:
+
+1. **Configure Event-Based Trigger** in ADF:
+
+   * Type: **Blob Event Trigger**
+   * Event: **Blob Created**
+   * Storage Type: **Azure Blob Storage or ADLS Gen2**
+   * Container: e.g., `/incoming`
+   * File path filter: e.g., `sales_*.csv`
+
+2. **Trigger → ADF Pipeline**
+
+   * The pipeline will **automatically run whenever a new file arrives**.
+   * You can also add a **filter activity** to ensure it only processes specific files (by date or pattern).
+
+3. **Optional Scheduling Constraint**
+
+   * If the business rule says *only after 2 AM*, you can use:
+
+     * A **Wait activity** (until 2 AM)
+     * Or **time window validation** before processing.
+
+#### ⚙️ Example Flow:
+
+```
+Blob Upload → Event Grid → ADF Event Trigger → Pipeline Executes
+```
+
+---
+
+### **Approach 2: Scheduled Trigger + File Check Logic (Controlled 2 AM Runs)**
+
+Use a **Time-Based (Schedule) Trigger** that runs **every day at 2 AM**, but add logic inside the pipeline to **check for file presence** before proceeding.
+
+#### ✅ Steps:
+
+1. **ADF Trigger:**
+
+   * Type: **Schedule Trigger**
+   * Time: **2:00 AM IST**
+   * Recurrence: **Daily**
+
+2. **Pipeline Activities:**
+
+   ```
+   ADF Pipeline: CheckAndProcessFile
+   ├── Get Metadata Activity → check file in Blob
+   ├── If Condition Activity
+   │     ├── [True] → Execute Data Flow / Copy Activity
+   │     └── [False] → Log & End Pipeline
+   ```
+
+#### 🔹 **Step 1: Get Metadata Activity**
+
+* Linked Service: Azure Blob Storage
+* Point to the folder `/incoming/`
+* Configure: “Field list → Child Items”
+
+#### 🔹 **Step 2: If Condition Activity**
+
+Expression example:
+
+```text
+@greater(length(activity('Get Metadata').output.childItems), 0)
+```
+
+➡ **True branch:**
+Run Copy or Data Flow activity (process the file)
+
+➡ **False branch:**
+Log “No new file found” into SQL/Log Analytics or simply end pipeline.
+
+#### 🔹 **Step 3: Optional Enhancements**
+
+* Track the **last processed file name** in a metadata table, and compare to detect **only new files**.
+* Delete or move processed files to `/archive/` after completion.
+
+---
+
+## 🧩 **Sample Folder Flow**
+
+```
+/incoming/sales_2025-11-05.csv    → New file detected at 1:45 AM
+/scheduled pipeline runs @ 2:00AM
+ → File found → Process → Move to /archive/
+/incoming/ empty → Next run waits for next file
+```
+
+---
+
+## 🧠 **Interview Key Points to Mention**
+
+| Concept                 | Explanation                                                      |
+| ----------------------- | ---------------------------------------------------------------- |
+| **Event-Based Trigger** | Best when you need real-time response to file arrival            |
+| **Scheduled Trigger**   | Best when pipeline must run at a specific time (e.g., 2 AM)      |
+| **File Presence Check** | Use *Get Metadata + If Condition*                                |
+| **Idempotency**         | Always check last processed file to avoid duplicates             |
+| **Logging**             | Log file names, timestamps, and status for audit trail           |
+| **Scalability**         | You can extend logic for multiple file types using ForEach loops |
+
+---
+
+## 🚀 **Best Practice Hybrid Approach**
+
+Use **Event-Based Trigger + Validation Window**:
+
+* Event trigger starts pipeline immediately when file lands.
+* Pipeline includes a **Wait or Time Check activity**:
+
+  * If file lands early (say at midnight), it waits until **2 AM** to process.
+* Combines **event-driven automation** with **schedule enforcement**.
+
+---
+
+## ✅ **Example Pseudocode Logic (in ADF Expressions)**
+
+**If Condition Expression:**
+
+```text
+@and(
+    greater(length(activity('Get Metadata').output.childItems), 0),
+    equals(formatDateTime(utcNow(),'HH:mm'), '02:00')
+)
+```
+
+---
+
+## 📊 **Logging Table Example**
+
+| RunDate    | FileName             | Status  | Remarks              |
+| ---------- | -------------------- | ------- | -------------------- |
+| 2025-11-05 | sales_2025-11-05.csv | Success | Processed at 2:03 AM |
+| 2025-11-06 | (none)               | Skipped | No new file found    |
+
+---
+
+## 💬 **Final Summary (Answer for Interview)**
+
+> “I would design this using a **daily schedule trigger at 2 AM** combined with a **file existence check** inside the pipeline.
+> The pipeline uses a **Get Metadata** activity to check if a new file has been deposited in Blob Storage.
+> If found, it proceeds with transformation or loading; otherwise, it exits gracefully.
+>
+> Alternatively, for real-time scenarios, I can use an **event-based trigger** that automatically starts the pipeline as soon as a new file is uploaded.
+> Both methods ensure that the pipeline only runs when valid new data is available, preventing unnecessary executions.”
+
+---
+
+
+
 ## 11. **How would you retry a failed activity only 3 times and send a Teams notification if it still fails?**
+
+*** Answer: ****
+
+
 
 ## 12. **You need to execute pipelines in a specific order — Pipeline A → Pipeline B → Pipeline C, but only if A & B are successful. How would you design this?**
 
