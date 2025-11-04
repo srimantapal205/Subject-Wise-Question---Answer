@@ -1,6 +1,7 @@
 
 
 ### Question 2: What is the difference between Spark, Databricks, and PySpark?
+**Answer:**
 1. Apache Spark:
     - Definition: An open-source framework used for big data analytics.
     - Purpose: Designed for distributed processing and in-memory computations.
@@ -18,7 +19,7 @@
     - Compatibility: Works seamlessly with Apache Spark and Databricks environments.
 
 
-**Answer:** The main differences between transformations and actions in Spark are as follows:
+### Question 3: What is the main differences between transformations and actions in Spark are as follows:
 1. Definition:
     - Transformation: A function that modifies data by creating a new DataFrame or RDD from an existing one.
     - Action: A function that triggers the execution of transformations and produces a non-DataFrame or non-RDD result.
@@ -33,7 +34,7 @@
     - Action: Produces a final result that is not a DataFrame or RDD (e.g., a scalar value, array, or written output).
 
 
-### Question 4 : What do you mean by lazy transformations in Spark?
+### Question 4: What do you mean by lazy transformations in Spark?
 **Answer:** Lazy transformations in Spark refer to a design where transformations are not executed immediately when they are called. Instead, their execution is deferred until an action triggers the computation.
 Key Points About Lazy Transformations:
 1. Deferred Execution:
