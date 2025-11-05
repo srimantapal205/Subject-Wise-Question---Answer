@@ -549,8 +549,11 @@ If you’re using cloud tools like:
 ## 👷 Best Practice
 
 ✅ If the source DB supports CDC → use it.
+
 ✅ If not, but data size is small → use full extract + hash comparison.
+
 ✅ If large & no CDC → consider designing a lightweight trigger-based log.
+
 ✅ Always try to push the responsibility for tracking changes to the **source system** if possible (add a `last_modified` column if feasible).
 
 ---
@@ -1006,9 +1009,13 @@ When Alice moves to a new city, old record is marked inactive, and new record is
 ## 🧠 **Interview Tip: Key Talking Points**
 
 ✅ Explain **why Type 2** → preserves history
+
 ✅ Mention **Effective Dates and IsCurrent flags**
+
 ✅ Explain **ADF’s “Alter Row” transformation** for upserts
+
 ✅ Mention **Lookup + Conditional Split** pattern
+
 ✅ Optionally, say **Data Flows scale well for SCD** vs manual SQL merges
 
 ---
