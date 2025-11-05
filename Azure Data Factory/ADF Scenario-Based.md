@@ -1,6 +1,6 @@
 # 📋 ADF Scenario-Based Questions
 
-### 1. **How would you design a pipeline to ingest incremental data from an on-prem SQL Server to Azure Data Lake every hour?**
+## 1. **How would you design a pipeline to ingest incremental data from an on-prem SQL Server to Azure Data Lake every hour?**
 
    * Follow-up: How will you handle late-arriving data?
 
@@ -12,7 +12,7 @@ Let’s walk through both parts step by step:
 
 ---
 
-# 🚀 **Pipeline to ingest incremental data from on-prem SQL Server to Azure Data Lake every hour**
+### 🚀 **Pipeline to ingest incremental data from on-prem SQL Server to Azure Data Lake every hour**
 
 #### 🔷 **Requirements**
 
