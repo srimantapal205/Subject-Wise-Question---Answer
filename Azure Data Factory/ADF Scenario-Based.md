@@ -1,6 +1,5 @@
 # 📋 ADF Scenario-Based Questions
 
-<details open>
 ## 1. **How would you design a pipeline to ingest incremental data from an on-prem SQL Server to Azure Data Lake every hour?**
 
    * Follow-up: How will you handle late-arriving data?
@@ -171,11 +170,9 @@ ADLS Gen2 → partitioned folders or Delta table
     ⬇️
 (Downstream processing: Databricks, Synapse, Power BI)
 ```
-</details>
 
 ---
 
-<details open>
 ## 2. **You need to copy files from an SFTP server to Azure Blob Storage and send an email to the manager if any file is missing. How would you implement this?**
 ✅ Good scenario — let me walk you through a **design** for this use case step by step:
 
@@ -303,11 +300,9 @@ Thanks,
 Data Engineering Team
 ```
 
-</details>
-
 ---
 
-<details open>
+
 ## 3. **You’re asked to ingest data from 50 different REST APIs with different authentication mechanisms. How would you make the pipeline reusable and dynamic?**
 
 ✅ This is a **classic scenario** in data engineering where you need to ingest data from many REST APIs — each with **different authentication mechanisms** — and you want to build a **reusable & dynamic pipeline** rather than 50 hard-coded pipelines.
@@ -454,11 +449,9 @@ Once this framework is in place:
 | Storage       | ADLS Gen2, Blob, SQL               |
 | Monitoring    | Azure Monitor, Log Analytics       |
 
-</details>
-
 ---
 
-<details open>
+
 ## 4. **If your source table doesn’t have a column that indicates updated/inserted records, how can you implement incremental load?**
 
 ✅ Great question — and a very common challenge in data engineering & ETL design!
@@ -563,11 +556,10 @@ If you’re using cloud tools like:
 
 ✅ Always try to push the responsibility for tracking changes to the **source system** if possible (add a `last_modified` column if feasible).
 
-</details>
-
 ---
 
-<details open>
+
+
 ## 5. **Your pipeline needs to fetch yesterday’s sales data automatically. How would you parameterize and set up the pipeline for that?**
 
 
@@ -657,7 +649,7 @@ ADF example:
 | Use parameter in query/path    | `WHERE sales_date = '@ProcessingDate'` or file path    |
 | Schedule pipeline              | Daily trigger (e.g., at 2 AM)                          |
 
-</details>
+
 ---
 
 ### 🔷 Data Transformation & Data Flow Scenarios
