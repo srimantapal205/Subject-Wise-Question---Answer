@@ -99,7 +99,7 @@ For most scenarios:
 
 ---
 
-## 📦 **Handling Late-Arriving Data**
+### 📦 **Handling Late-Arriving Data**
 
 Late-arriving data means records that belong to an earlier period (e.g., a transaction for 10 AM arrives at 2 PM).
 
@@ -107,13 +107,13 @@ Late-arriving data means records that belong to an earlier period (e.g., a trans
 
 ---
 
-### 🌟 1. **Do Nothing (if acceptable)**
+#### 🌟 1. **Do Nothing (if acceptable)**
 
 If your downstream processing tolerates late data, and consumers always query the **latest snapshot**, you may not need to correct history.
 
 ---
 
-### 🌟 2. **Reprocess Window**
+#### 🌟 2. **Reprocess Window**
 
 * Keep a **rolling window of N hours/days** in your ingestion pipeline.
 * Every hour:
@@ -131,7 +131,7 @@ If your downstream processing tolerates late data, and consumers always query th
 
 ---
 
-### 🌟 3. **Delta Lake / Upserts**
+#### 🌟 3. **Delta Lake / Upserts**
 
 * Store data in **Delta Lake** format on ADLS.
 * With Delta tables, you can **merge/upsert** late-arriving records into existing partitions.
@@ -139,7 +139,7 @@ If your downstream processing tolerates late data, and consumers always query th
 
 ---
 
-### 🌟 4. **Audit & Alerts**
+#### 🌟 4. **Audit & Alerts**
 
 * Optionally track how much late data is arriving.
 * Trigger alerts if lateness > threshold → so the source system can be improved.
@@ -159,7 +159,7 @@ If your downstream processing tolerates late data, and consumers always query th
 
 ---
 
-# 📋 Example Architecture:
+#### 📋 Example Architecture:
 
 ```
 On-prem SQL Server
@@ -172,9 +172,6 @@ ADLS Gen2 → partitioned folders or Delta table
 ```
 
 ---
-
-
-
 
 ## 2. **You need to copy files from an SFTP server to Azure Blob Storage and send an email to the manager if any file is missing. How would you implement this?**
 ✅ Good scenario — let me walk you through a **design** for this use case step by step:
