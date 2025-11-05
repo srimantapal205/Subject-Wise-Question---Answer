@@ -24,7 +24,7 @@ Let’s walk through both parts step by step:
 
 ---
 
-# 🎯 **Design Steps**
+### 🎯 **Design Steps**
 
 ---
 
@@ -146,7 +146,7 @@ If your downstream processing tolerates late data, and consumers always query th
 
 ---
 
-# ✨ **Summary Table**
+#### ✨ **Summary Table**
 
 | Feature            | Implementation                                        |
 | ------------------ | ----------------------------------------------------- |
