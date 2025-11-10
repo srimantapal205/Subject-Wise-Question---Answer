@@ -10,9 +10,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Python is a high-level, interpreted, general-purpose programming language. 
-   * Key features include: readable & clear syntax; dynamic typing; automatic memory management; large standard library; cross-platform. 
-   * Example:
+* Python is a high-level, interpreted, general-purpose programming language. 
+* Key features include: readable & clear syntax; dynamic typing; automatic memory management; large standard library; cross-platform. 
+* Example:
 
      ```python
      print("Hello, world!")
@@ -24,9 +24,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * A **list** is mutable (you can change, add, remove items) and defined with square brackets `[]`.
-   * A **tuple** is immutable (once created you cannot change its items) and defined with parentheses `()`. 
-   * Example:
+* A **list** is mutable (you can change, add, remove items) and defined with square brackets `[]`.
+* A **tuple** is immutable (once created you cannot change its items) and defined with parentheses `()`. 
+* Example:
 
      ```python
      my_list = [1, 2, 3]
@@ -39,9 +39,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * `__init__` is the constructor method in Python classes: it’s automatically called when a new instance is created. 
-   * It’s used to initialize instance attributes.
-   * Example:
+* `__init__` is the constructor method in Python classes: it’s automatically called when a new instance is created. 
+* It’s used to initialize instance attributes.
+* Example:
 
      ```python
      class Person:
@@ -57,17 +57,17 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Python is generally considered an interpreted language, since its code is executed by the Python Virtual Machine (PVM) after it is compiled into bytecode. 
-   * Under the hood: source code → compiled to `.pyc` bytecode → interpreted/executed.
-   * Example: When you run `python script.py`, the interpreter handles execution.
+* Python is generally considered an interpreted language, since its code is executed by the Python Virtual Machine (PVM) after it is compiled into bytecode. 
+* Under the hood: source code → compiled to `.pyc` bytecode → interpreted/executed.
+* Example: When you run `python script.py`, the interpreter handles execution.
 
 ### 5. **Q:** What is indentation in Python & why is it important?
    
 **Answer:**
 
-   * Indentation in Python defines the blocks of code (for loops, if statements, function definitions). It is **required**; Python uses indentation instead of braces. 
-   * Wrong indentation leads to `IndentationError`.
-   * Example:
+* Indentation in Python defines the blocks of code (for loops, if statements, function definitions). It is **required**; Python uses indentation instead of braces. 
+* Wrong indentation leads to `IndentationError`.
+* Example:
 
      ```python
      if x > 0:
@@ -79,9 +79,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * `/` is “true division” (floating-point) even if operands are integers in Python 3.
-   * `//` is floor (or integer) division: it returns the quotient truncated toward negative infinity (for positive numbers, simply integer part). Example: `5//2 == 2`, `5/2 == 2.5`. 
-   * Example:
+* `/` is “true division” (floating-point) even if operands are integers in Python 3.
+* `//` is floor (or integer) division: it returns the quotient truncated toward negative infinity (for positive numbers, simply integer part). Example: `5//2 == 2`, `5/2 == 2.5`. 
+* Example:
 
      ```python
      print(5 / 2)   # 2.5
@@ -92,8 +92,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Dynamic typing means that you don’t have to declare the type of a variable; the type is determined at runtime. 
-   * Example:
+* Dynamic typing means that you don’t have to declare the type of a variable; the type is determined at runtime. 
+* Example:
 
      ```python
      a = 5        # a is int
@@ -104,9 +104,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Use the `+` operator: `a + b` gives a new list combining `a` and `b`. 
-   * Or use `list.extend()`: modifies the first list in-place.
-   * Example:
+* Use the `+` operator: `a + b` gives a new list combining `a` and `b`. 
+* Or use `list.extend()`: modifies the first list in-place.
+* Example:
 
      ```python
      a = [1,2,3]
@@ -119,8 +119,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Slicing is a way to extract subsets of sequences (strings, lists, tuples) using `[start:stop:step]` notation. 
-   * Example:
+* Slicing is a way to extract subsets of sequences (strings, lists, tuples) using `[start:stop:step]` notation. 
+* Example:
 
      ```python
      numbers = [0,1,2,3,4,5,6]
@@ -133,9 +133,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Mutable types: their contents can be changed after creation (lists, dictionaries, sets).
-    * Immutable types: their contents cannot be changed (strings, tuples, integers). 
-    * Example:
+* Mutable types: their contents can be changed after creation (lists, dictionaries, sets).
+* Immutable types: their contents cannot be changed (strings, tuples, integers). 
+* Example:
 
       ```python
       s = "hello"
@@ -148,9 +148,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * A **module** is a single `.py` file containing Python definitions (functions, classes, variables) that you can import.
-    * A **package** is a directory containing modules, and must include an `__init__.py` file (in older Python versions) to be recognized as a package. 
-    * Example:
+* A **module** is a single `.py` file containing Python definitions (functions, classes, variables) that you can import.
+* A **package** is a directory containing modules, and must include an `__init__.py` file (in older Python versions) to be recognized as a package. 
+* Example:
 
       ```
       mypackage/
@@ -165,8 +165,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `pass` is a no-operation placeholder: it does nothing when executed. It’s useful when you need a syntactically valid block but haven’t implemented it yet. 
-    * Example:
+* `pass` is a no-operation placeholder: it does nothing when executed. It’s useful when you need a syntactically valid block but haven’t implemented it yet. 
+* Example:
 
       ```python
       def not_implemented_yet():
@@ -177,9 +177,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Python uses a model often called “pass by object reference” (or “pass by assignment”). 
-    * If you pass a mutable object to a function, modifications inside can affect the caller’s object. If you pass an immutable object, you cannot modify it in place.
-    * Example:
+* Python uses a model often called “pass by object reference” (or “pass by assignment”). 
+* If you pass a mutable object to a function, modifications inside can affect the caller’s object. If you pass an immutable object, you cannot modify it in place.
+* Example:
 
       ```python
       def f(x):
@@ -201,8 +201,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Use `math.floor()` from the `math` module. 
-    * Example:
+* Use `math.floor()` from the `math` module. 
+* Example:
 
       ```python
       import math
@@ -213,9 +213,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `for` loop: iterates over a known sequence (list, tuple, range).
-    * `while` loop: runs until a given condition becomes false — useful when number of iterations isn’t known ahead of time. 
-    * Example:
+* `for` loop: iterates over a known sequence (list, tuple, range).
+* `while` loop: runs until a given condition becomes false — useful when number of iterations isn’t known ahead of time. 
+* Example:
 
       ```python
       for i in range(5):
@@ -231,8 +231,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * A dictionary (`dict`) is a built-in mutable mapping type: key → value pairs, with unique keys.
-    * Example:
+* A dictionary (`dict`) is a built-in mutable mapping type: key → value pairs, with unique keys.
+* Example:
 
       ```python
       d = {"name": "Alice", "age": 30}
@@ -244,8 +244,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Use `dict.items()` to get `(key, value)` pairs; `dict.keys()` for keys; `dict.values()` for values.
-    * Example:
+* Use `dict.items()` to get `(key, value)` pairs; `dict.keys()` for keys; `dict.values()` for values.
+* Example:
 
       ```python
       for key, value in d.items():
@@ -256,8 +256,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * A concise way to create lists using a single expression, often replacing loops.
-    * Example:
+* A concise way to create lists using a single expression, often replacing loops.
+* Example:
 
       ```python
       squares = [x*x for x in range(1, 6)]  # [1,4,9,16,25]
@@ -268,9 +268,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `==` tests value equality (are the objects’ values equal?).
-    * `is` tests identity (are the two references pointing to the **same** object?).
-    * Example:
+* `==` tests value equality (are the objects’ values equal?).
+* `is` tests identity (are the two references pointing to the **same** object?).
+* Example:
 
       ```python
       a = [1,2,3]
@@ -283,8 +283,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * It can lead to unexpected behavior (skip elements or run indefinitely). It’s safer either to iterate over a copy or build a new list.
-    * Example:
+* It can lead to unexpected behavior (skip elements or run indefinitely). It’s safer either to iterate over a copy or build a new list.
+* Example:
 
       ```python
       lst = [1,2,3,4]
@@ -298,23 +298,23 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * When a Python file is run directly (not imported), `__name__` is set to `"__main__"`.
-    * So we use:
+* When a Python file is run directly (not imported), `__name__` is set to `"__main__"`.
+* So we use:
 
       ```python
       if __name__ == "__main__":
           main()
       ```
 
-      to ensure `main()` runs only when script is executed, not when imported.
+to ensure `main()` runs only when script is executed, not when imported.
 
 ### 22. **Q:** What is the difference between `append()` and `extend()` methods on lists?
     
 **Answer:**
 
-    * `append(x)`: adds a single item `x` at end of list.
-    * `extend(iterable)`: iterates over `iterable`, adding each element to the list.
-    * Example:
+* `append(x)`: adds a single item `x` at end of list.
+* `extend(iterable)`: iterates over `iterable`, adding each element to the list.
+* Example:
 
       ```python
       lst = [1,2]
@@ -330,9 +330,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * A set is an unordered collection of unique elements (mutable).
-    * Useful for membership testing, eliminating duplicates.
-    * Example:
+* A set is an unordered collection of unique elements (mutable).
+* Useful for membership testing, eliminating duplicates.
+* Example:
 
       ```python
       s = {1,2,3,2,1}
@@ -344,9 +344,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * A generator is a special kind of iterator, defined using a function with `yield`, or by using generator expression `( … for … )`.
-    * It produces values lazily (on demand) and is memory‐efficient for large data sets.
-    * Example:
+* A generator is a special kind of iterator, defined using a function with `yield`, or by using generator expression `( … for … )`.
+* It produces values lazily (on demand) and is memory‐efficient for large data sets.
+* Example:
 
       ```python
       def my_gen(n):
@@ -361,14 +361,14 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `=` is the assignment operator: `a = 10` assigns value `10` to variable `a`.
-    * `==` is the equality comparison operator: `a == 10` returns `True` if `a` equals `10`.
+* `=` is the assignment operator: `a = 10` assigns value `10` to variable `a`.
+* `==` is the equality comparison operator: `a == 10` returns `True` if `a` equals `10`.
 
 ### 26. **Q:** How do you swap two variables in Python without a temporary variable?
     
 **Answer:**
 
-    * Python allows tuple unpacking:
+* Python allows tuple unpacking:
 
       ```python
       a = 5
@@ -381,9 +381,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Shallow copy (`copy.copy()`): creates a new object, but nested elements still refer to original objects.
-    * Deep copy (`copy.deepcopy()`): creates new object **and** recursively copies nested objects so that no references to the original nested objects remain.
-    * Example:
+* Shallow copy (`copy.copy()`): creates a new object, but nested elements still refer to original objects.
+* Deep copy (`copy.deepcopy()`): creates new object **and** recursively copies nested objects so that no references to the original nested objects remain.
+* Example:
 
       ```python
       import copy
@@ -399,8 +399,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * In a class, `@staticmethod` defines a method that does **not** receive `self` or `cls` parameter; it's just a function within a class’s namespace.
-    * Example:
+* In a class, `@staticmethod` defines a method that does **not** receive `self` or `cls` parameter; it's just a function within a class’s namespace.
+* Example:
 
       ```python
       class MyClass:
@@ -415,9 +415,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * In a class, `@classmethod` defines a method that receives the class itself (`cls`) as the first parameter instead of `self`.
-    * Useful for factory methods.
-    * Example:
+* In a class, `@classmethod` defines a method that receives the class itself (`cls`) as the first parameter instead of `self`.
+* Useful for factory methods.
+* Example:
 
       ```python
       class MyClass:
@@ -451,15 +451,15 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * PEP 8 is the Python Enhancement Proposal that describes the coding style guidelines for Python code — naming conventions, formatting, whitespace, etc.
-    * Adhering to PEP 8 helps maintain readable and consistent code across teams.
+* PEP 8 is the Python Enhancement Proposal that describes the coding style guidelines for Python code — naming conventions, formatting, whitespace, etc.
+* Adhering to PEP 8 helps maintain readable and consistent code across teams.
 
 ### 32. **Q:** What is a lambda function in Python? Provide an example.
     
 **Answer:**
 
-    * A lambda function is an anonymous (no name) small function defined with the `lambda` keyword.
-    * Example:
+* A lambda function is an anonymous (no name) small function defined with the `lambda` keyword.
+* Example:
 
       ```python
       square = lambda x: x*x
@@ -470,9 +470,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `map(func, iterable)`: applies `func` to each item in `iterable`, returns an iterator.
-    * `filter(func, iterable)`: returns items for which `func(item)` is `True`.
-    * Example:
+* `map(func, iterable)`: applies `func` to each item in `iterable`, returns an iterator.
+* `filter(func, iterable)`: returns items for which `func(item)` is `True`.
+* Example:
 
       ```python
       nums = [1,2,3,4]
@@ -484,8 +484,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * f-strings (Python 3.6+): embed expressions inside string literals using `{}` and prefix `f` before string.
-    * Example:
+* f-strings (Python 3.6+): embed expressions inside string literals using `{}` and prefix `f` before string.
+* Example:
 
       ```python
       name = "Alice"
@@ -497,8 +497,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Use `try‐except` blocks to catch exceptions, optionally `finally`, optionally `else`.
-    * Example:
+* Use `try‐except` blocks to catch exceptions, optionally `finally`, optionally `else`.
+* Example:
 
       ```python
       try:
@@ -518,8 +518,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * The `with` statement simplifies resource management (opening/closing files, locks) by guaranteeing the correct acquisition and release of resources.
-    * Example:
+* The `with` statement simplifies resource management (opening/closing files, locks) by guaranteeing the correct acquisition and release of resources.
+* Example:
 
       ```python
       with open("file.txt", "r") as f:
@@ -531,7 +531,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Similar to lists: you can slice strings. Example:
+* Similar to lists: you can slice strings. Example:
 
       ```python
       s = "Hello, world!"
@@ -543,7 +543,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Use the built-in `int()` function. Example:
+* Use the built-in `int()` function. Example:
 
       ```python
       s = "123"
@@ -555,8 +555,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `enumerate(iterable, start=0)` returns pairs of (index, item) for items in `iterable`. Useful when you need item index and value.
-    * Example:
+* `enumerate(iterable, start=0)` returns pairs of (index, item) for items in `iterable`. Useful when you need item index and value.
+* Example:
 
       ```python
       for idx, val in enumerate(["a","b","c"], start=1):
@@ -600,9 +600,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `__str__(self)`: human-readable string representation of object (for `print(obj)`).
-    * `__repr__(self)`: unambiguous representation, ideally one that could recreate the object, used by `repr(obj)` or in interactive prompt.
-    * Example:
+* `__str__(self)`: human-readable string representation of object (for `print(obj)`).
+* `__repr__(self)`: unambiguous representation, ideally one that could recreate the object, used by `repr(obj)` or in interactive prompt.
+* Example:
 
       ```python
       class Person:
@@ -621,8 +621,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * A docstring is a string literal placed at the beginning of a module, class, or function to describe what it does. It becomes the `__doc__` attribute.
-    * Example:
+* A docstring is a string literal placed at the beginning of a module, class, or function to describe what it does. It becomes the `__doc__` attribute.
+* Example:
 
       ```python
       def add(a, b):
@@ -636,7 +636,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Use the `in` operator:
+* Use the `in` operator:
 
       ```python
       d = {"a":1, "b":2}
@@ -648,7 +648,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
         
 **Answer:**
 
-    * In `[start:stop:step]`, `step` is how many positions to jump. Example:
+* In `[start:stop:step]`, `step` is how many positions to jump. Example:
 
       ```python
       numbers = [0,1,2,3,4,5,6,7]
@@ -660,7 +660,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `zip(*iterables)` combines elements from each iterable into tuples, stopping at the shortest. Example:
+* `zip(*iterables)` combines elements from each iterable into tuples, stopping at the shortest. Example:
 
       ```python
       names = ["Alice","Bob","Carol"]
@@ -676,7 +676,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * One approach:
+* One approach:
 
       ```python
       seen = set()
@@ -692,9 +692,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `*args`: collects extra positional arguments into a tuple.
-    * `**kwargs`: collects extra keyword arguments into a dict.
-    * Example:
+* `*args`: collects extra positional arguments into a tuple.
+* `**kwargs`: collects extra keyword arguments into a dict.
+* Example:
 
       ```python
       def func(a, b, *args, **kwargs):
@@ -713,7 +713,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Use the `random` module:
+* Use the `random` module:
 
       ```python
       import random
@@ -725,9 +725,9 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Indexing (`lst[i]`): returns single element at position i.
-    * Slicing (`lst[i:j]`): returns a new list with elements from i up to (but not including) j.
-    * Example:
+* Indexing (`lst[i]`): returns single element at position i.
+* Slicing (`lst[i:j]`): returns a new list with elements from i up to (but not including) j.
+* Example:
 
       ```python
       lst = [10,20,30,40]
