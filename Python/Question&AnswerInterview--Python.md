@@ -10,8 +10,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Python is a high-level, interpreted, general-purpose programming language. ([DataCamp][1])
-   * Key features include: readable & clear syntax; dynamic typing; automatic memory management; large standard library; cross-platform. ([DataCamp][1])
+   * Python is a high-level, interpreted, general-purpose programming language. 
+   * Key features include: readable & clear syntax; dynamic typing; automatic memory management; large standard library; cross-platform. 
    * Example:
 
      ```python
@@ -25,7 +25,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 **Answer:**
 
    * A **list** is mutable (you can change, add, remove items) and defined with square brackets `[]`.
-   * A **tuple** is immutable (once created you cannot change its items) and defined with parentheses `()`. ([DataCamp][1])
+   * A **tuple** is immutable (once created you cannot change its items) and defined with parentheses `()`. 
    * Example:
 
      ```python
@@ -134,7 +134,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 **Answer:**
 
     * Mutable types: their contents can be changed after creation (lists, dictionaries, sets).
-    * Immutable types: their contents cannot be changed (strings, tuples, integers). ([DataCamp][1])
+    * Immutable types: their contents cannot be changed (strings, tuples, integers). 
     * Example:
 
       ```python
@@ -934,7 +934,7 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
     
 **Answer:**
 
-    * Monkey‐patching refers to dynamically modifying classes or modules at runtime (adding methods, changing behavior). While powerful, it can be risky for maintainability. ([DataCamp][1])
+    * Monkey‐patching refers to dynamically modifying classes or modules at runtime (adding methods, changing behavior). While powerful, it can be risky for maintainability. 
     * Example:
 
       ```python
@@ -1023,7 +1023,7 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
 **Answer:**
 
     * The GIL is a mutex that allows only one native thread to execute Python bytecode at a time in CPython.
-    * It means multi-threading may not scale CPU‐bound workloads; you may use multiprocessing or external libraries releasing the GIL for concurrency. ([DataCamp][1])
+    * It means multi-threading may not scale CPU‐bound workloads; you may use multiprocessing or external libraries releasing the GIL for concurrency. 
 
 ### 69. **Q:** How do you implement caching in Python (memoization) for a recursive function?
     
