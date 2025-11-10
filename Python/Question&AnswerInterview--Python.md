@@ -7,7 +7,8 @@
 These questions test basic Python concepts: syntax, data types, control-flow, built-ins.
 
 1. **Q:** What is Python? Name a few key features.
-   **A:**
+   
+**Answer:**
 
    * Python is a high-level, interpreted, general-purpose programming language. ([DataCamp][1])
    * Key features include: readable & clear syntax; dynamic typing; automatic memory management; large standard library; cross-platform. ([DataCamp][1])
@@ -20,7 +21,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
      runs without needing explicit compilation.
 
 2. **Q:** What is the difference between a list and a tuple in Python?
-   **A:**
+   
+**Answer:**
 
    * A **list** is mutable (you can change, add, remove items) and defined with square brackets `[]`.
    * A **tuple** is immutable (once created you cannot change its items) and defined with parentheses `()`. ([DataCamp][1])
@@ -34,7 +36,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
      ```
 
 3. **Q:** Explain what the `__init__` method is in Python classes.
-   **A:**
+   
+**Answer:**
 
    * `__init__` is the constructor method in Python classes: it’s automatically called when a new instance is created. ([InterviewBit][2])
    * It’s used to initialize instance attributes.
@@ -51,14 +54,16 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
      ```
 
 4. **Q:** Is Python a compiled language or an interpreted language?
-   **A:**
+   
+**Answer:**
 
    * Python is generally considered an interpreted language, since its code is executed by the Python Virtual Machine (PVM) after it is compiled into bytecode. ([GeeksforGeeks][3])
    * Under the hood: source code → compiled to `.pyc` bytecode → interpreted/executed.
    * Example: When you run `python script.py`, the interpreter handles execution.
 
 5. **Q:** What is indentation in Python & why is it important?
-   **A:**
+   
+**Answer:**
 
    * Indentation in Python defines the blocks of code (for loops, if statements, function definitions). It is **required**; Python uses indentation instead of braces. ([GeeksforGeeks][3])
    * Wrong indentation leads to `IndentationError`.
@@ -71,7 +76,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
      ```
 
 6. **Q:** What is the difference between the `/` and `//` operators in Python?
-   **A:**
+   
+**Answer:**
 
    * `/` is “true division” (floating-point) even if operands are integers in Python 3.
    * `//` is floor (or integer) division: it returns the quotient truncated toward negative infinity (for positive numbers, simply integer part). Example: `5//2 == 2`, `5/2 == 2.5`. ([GeeksforGeeks][3])
@@ -83,7 +89,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
      ```
 
 7. **Q:** What is dynamic typing?
-   **A:**
+   
+**Answer:**
 
    * Dynamic typing means that you don’t have to declare the type of a variable; the type is determined at runtime. ([GeeksforGeeks][3])
    * Example:
@@ -94,7 +101,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
      ```
 
 8. **Q:** How can you concatenate two lists in Python?
-   **A:**
+   
+**Answer:**
 
    * Use the `+` operator: `a + b` gives a new list combining `a` and `b`. ([GeeksforGeeks][3])
    * Or use `list.extend()`: modifies the first list in-place.
@@ -108,7 +116,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
      ```
 
 9. **Q:** What is slicing in Python?
-   **A:**
+   
+**Answer:**
 
    * Slicing is a way to extract subsets of sequences (strings, lists, tuples) using `[start:stop:step]` notation. ([InterviewBit][2])
    * Example:
@@ -121,7 +130,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
      ```
 
 10. **Q:** What is the difference between mutable and immutable data types?
-    **A:**
+    
+**Answer:**
 
     * Mutable types: their contents can be changed after creation (lists, dictionaries, sets).
     * Immutable types: their contents cannot be changed (strings, tuples, integers). ([DataCamp][1])
@@ -135,7 +145,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 11. **Q:** What is a module and what is a package in Python?
-    **A:**
+    
+**Answer:**
 
     * A **module** is a single `.py` file containing Python definitions (functions, classes, variables) that you can import.
     * A **package** is a directory containing modules, and must include an `__init__.py` file (in older Python versions) to be recognized as a package. ([GeeksforGeeks][3])
@@ -151,7 +162,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       Then you can `import mypackage.module1` etc.
 
 12. **Q:** What does the `pass` statement do?
-    **A:**
+    
+**Answer:**
 
     * `pass` is a no-operation placeholder: it does nothing when executed. It’s useful when you need a syntactically valid block but haven’t implemented it yet. ([GeeksforGeeks][3])
     * Example:
@@ -162,7 +174,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 13. **Q:** What is the difference between “pass by value” and “pass by reference” in Python?
-    **A:**
+    
+**Answer:**
 
     * Python uses a model often called “pass by object reference” (or “pass by assignment”). ([GeeksforGeeks][3])
     * If you pass a mutable object to a function, modifications inside can affect the caller’s object. If you pass an immutable object, you cannot modify it in place.
@@ -185,7 +198,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 14. **Q:** How do you floor a number in Python (i.e., get the largest integer ≤ x)?
-    **A:**
+    
+**Answer:**
 
     * Use `math.floor()` from the `math` module. ([GeeksforGeeks][3])
     * Example:
@@ -196,7 +210,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 15. **Q:** What is the difference between `for` and `while` loops in Python?
-    **A:**
+    
+**Answer:**
 
     * `for` loop: iterates over a known sequence (list, tuple, range).
     * `while` loop: runs until a given condition becomes false — useful when number of iterations isn’t known ahead of time. ([GeeksforGeeks][3])
@@ -213,7 +228,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 16. **Q:** What is a dictionary in Python?
-    **A:**
+    
+**Answer:**
 
     * A dictionary (`dict`) is a built-in mutable mapping type: key → value pairs, with unique keys.
     * Example:
@@ -225,7 +241,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 17. **Q:** How do you iterate through a dictionary’s keys and values?
-    **A:**
+    
+**Answer:**
 
     * Use `dict.items()` to get `(key, value)` pairs; `dict.keys()` for keys; `dict.values()` for values.
     * Example:
@@ -236,7 +253,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 18. **Q:** What is a list comprehension? Give an example.
-    **A:**
+    
+**Answer:**
 
     * A concise way to create lists using a single expression, often replacing loops.
     * Example:
@@ -247,7 +265,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 19. **Q:** What is the difference between `==` and `is` in Python?
-    **A:**
+    
+**Answer:**
 
     * `==` tests value equality (are the objects’ values equal?).
     * `is` tests identity (are the two references pointing to the **same** object?).
@@ -261,7 +280,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 20. **Q:** What happens if you modify a list while iterating it?
-    **A:**
+    
+**Answer:**
 
     * It can lead to unexpected behavior (skip elements or run indefinitely). It’s safer either to iterate over a copy or build a new list.
     * Example:
@@ -275,7 +295,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 21. **Q:** Explain what the `__name__ == "__main__"` idiom does.
-    **A:**
+    
+**Answer:**
 
     * When a Python file is run directly (not imported), `__name__` is set to `"__main__"`.
     * So we use:
@@ -288,7 +309,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       to ensure `main()` runs only when script is executed, not when imported.
 
 22. **Q:** What is the difference between `append()` and `extend()` methods on lists?
-    **A:**
+    
+**Answer:**
 
     * `append(x)`: adds a single item `x` at end of list.
     * `extend(iterable)`: iterates over `iterable`, adding each element to the list.
@@ -305,7 +327,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 23. **Q:** What is a set in Python? What are its basic properties?
-    **A:**
+    
+**Answer:**
 
     * A set is an unordered collection of unique elements (mutable).
     * Useful for membership testing, eliminating duplicates.
@@ -318,7 +341,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 24. **Q:** What is a generator in Python?
-    **A:**
+    
+**Answer:**
 
     * A generator is a special kind of iterator, defined using a function with `yield`, or by using generator expression `( … for … )`.
     * It produces values lazily (on demand) and is memory‐efficient for large data sets.
@@ -334,13 +358,15 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 25. **Q:** What is the difference between `=` and `==` in Python?
-    **A:**
+    
+**Answer:**
 
     * `=` is the assignment operator: `a = 10` assigns value `10` to variable `a`.
     * `==` is the equality comparison operator: `a == 10` returns `True` if `a` equals `10`.
 
 26. **Q:** How do you swap two variables in Python without a temporary variable?
-    **A:**
+    
+**Answer:**
 
     * Python allows tuple unpacking:
 
@@ -352,7 +378,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 27. **Q:** What is the difference between `deepcopy` and `copy` (shallow copy) in Python?
-    **A:**
+    
+**Answer:**
 
     * Shallow copy (`copy.copy()`): creates a new object, but nested elements still refer to original objects.
     * Deep copy (`copy.deepcopy()`): creates new object **and** recursively copies nested objects so that no references to the original nested objects remain.
@@ -369,7 +396,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 28. **Q:** What does the `@staticmethod` decorator do?
-    **A:**
+    
+**Answer:**
 
     * In a class, `@staticmethod` defines a method that does **not** receive `self` or `cls` parameter; it's just a function within a class’s namespace.
     * Example:
@@ -384,7 +412,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 29. **Q:** What does the `@classmethod` decorator do?
-    **A:**
+    
+**Answer:**
 
     * In a class, `@classmethod` defines a method that receives the class itself (`cls`) as the first parameter instead of `self`.
     * Useful for factory methods.
@@ -407,7 +436,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 30. **Q:** How can you install external packages in Python?
-    **A:**
+    
+**Answer:**
 
     * Using `pip`, e.g.:
 
@@ -418,13 +448,15 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     * Note: For best practice, use `requirements.txt` to freeze versions.
 
 31. **Q:** What is PEP 8?
-    **A:**
+    
+**Answer:**
 
     * PEP 8 is the Python Enhancement Proposal that describes the coding style guidelines for Python code — naming conventions, formatting, whitespace, etc.
     * Adhering to PEP 8 helps maintain readable and consistent code across teams.
 
 32. **Q:** What is a lambda function in Python? Provide an example.
-    **A:**
+    
+**Answer:**
 
     * A lambda function is an anonymous (no name) small function defined with the `lambda` keyword.
     * Example:
@@ -435,7 +467,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 33. **Q:** What is the usage of the `map()` and `filter()` functions?
-    **A:**
+    
+**Answer:**
 
     * `map(func, iterable)`: applies `func` to each item in `iterable`, returns an iterator.
     * `filter(func, iterable)`: returns items for which `func(item)` is `True`.
@@ -448,7 +481,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 34. **Q:** What is string formatting in Python? Provide an example using f-strings.
-    **A:**
+    
+**Answer:**
 
     * f-strings (Python 3.6+): embed expressions inside string literals using `{}` and prefix `f` before string.
     * Example:
@@ -460,7 +494,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 35. **Q:** Explain how to handle exceptions in Python.
-    **A:**
+    
+**Answer:**
 
     * Use `try‐except` blocks to catch exceptions, optionally `finally`, optionally `else`.
     * Example:
@@ -480,7 +515,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 36. **Q:** What is the `with` statement (context manager) used for?
-    **A:**
+    
+**Answer:**
 
     * The `with` statement simplifies resource management (opening/closing files, locks) by guaranteeing the correct acquisition and release of resources.
     * Example:
@@ -492,7 +528,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 37. **Q:** What is slicing a string in Python? Provide an example.
-    **A:**
+    
+**Answer:**
 
     * Similar to lists: you can slice strings. Example:
 
@@ -503,7 +540,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 38. **Q:** How do you convert a string to an integer in Python?
-    **A:**
+    
+**Answer:**
 
     * Use the built-in `int()` function. Example:
 
@@ -514,7 +552,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 39. **Q:** What is `enumerate()` used for?
-    **A:**
+    
+**Answer:**
 
     * `enumerate(iterable, start=0)` returns pairs of (index, item) for items in `iterable`. Useful when you need item index and value.
     * Example:
@@ -528,7 +567,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 40. **Q:** What is the difference between `==` and `<`, `>`, etc., for strings in Python?
-    **A:**
+    
+**Answer:**
 
     * `==` checks equality of two strings.
     * `<`, `>` compare lexicographically (based on character codes).
@@ -540,7 +580,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 41. **Q:** How do you open a file for writing and read from it in Python?
-    **A:**
+    
+**Answer:**
 
     * Example:
 
@@ -556,7 +597,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 42. **Q:** What does `__repr__` vs `__str__` in a class mean?
-    **A:**
+    
+**Answer:**
 
     * `__str__(self)`: human-readable string representation of object (for `print(obj)`).
     * `__repr__(self)`: unambiguous representation, ideally one that could recreate the object, used by `repr(obj)` or in interactive prompt.
@@ -576,7 +618,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 43. **Q:** What is docstring?
-    **A:**
+    
+**Answer:**
 
     * A docstring is a string literal placed at the beginning of a module, class, or function to describe what it does. It becomes the `__doc__` attribute.
     * Example:
@@ -590,7 +633,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 44. **Q:** How do you check whether a key exists in a dictionary?
-    **A:**
+    
+**Answer:**
 
     * Use the `in` operator:
 
@@ -601,7 +645,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 45. **Q:** What is the ‘slice’ step parameter? Example usage.
-    **A:**
+    
+**Answer:**
 
     * In `[start:stop:step]`, `step` is how many positions to jump. Example:
 
@@ -612,7 +657,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 46. **Q:** What is the `zip()` function used for?
-    **A:**
+    
+**Answer:**
 
     * `zip(*iterables)` combines elements from each iterable into tuples, stopping at the shortest. Example:
 
@@ -627,7 +673,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 47. **Q:** How do you remove duplicates from a list while preserving order?
-    **A:**
+    
+**Answer:**
 
     * One approach:
 
@@ -642,7 +689,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 48. **Q:** What does the `*args` and `**kwargs` syntax mean in function definitions?
-    **A:**
+    
+**Answer:**
 
     * `*args`: collects extra positional arguments into a tuple.
     * `**kwargs`: collects extra keyword arguments into a dict.
@@ -662,7 +710,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 49. **Q:** How do you pick a random element from a list?
-    **A:**
+    
+**Answer:**
 
     * Use the `random` module:
 
@@ -673,7 +722,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       ```
 
 50. **Q:** What is list slicing vs indexing?
-    **A:**
+    
+**Answer:**
 
     * Indexing (`lst[i]`): returns single element at position i.
     * Slicing (`lst[i:j]`): returns a new list with elements from i up to (but not including) j.
@@ -692,7 +742,8 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some algorithms, memory/ performance concerns.
 
 51. **Q:** Explain multiple inheritance in Python and how method resolution order (MRO) works.
-    **A:**
+    
+**Answer:**
 
     * Python supports multiple inheritance: a class can inherit from multiple base classes.
     * The Method Resolution Order (MRO) defines the order in which base classes are searched when looking up a method. In new-style classes (Python 3) it uses C3 linearization.
@@ -718,14 +769,16 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
     * Key takeaway: MRO ensures a consistent and deterministic lookup order.
 
 52. **Q:** What is the difference between shallow copy and deep copy? (again but in context)
-    **A:**
+    
+**Answer:**
 
     * As answered previously: shallow copy copies the outer object, inner references still point to original. Deep copy copies the entire structure recursively.
     * Use when you want independent nested objects.
     * Example shown in beginner section.
 
 53. **Q:** What is a decorator in Python? Provide an example.
-    **A:**
+    
+**Answer:**
 
     * A decorator is a function that takes another function (or class) as input and returns a new function (or class) with added/modified behavior.
     * Example:
@@ -751,7 +804,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 54. **Q:** What are iterators and iterable in Python?
-    **A:**
+    
+**Answer:**
 
     * An **iterable** is an object you can obtain an iterator from (e.g., lists, tuples, sets, dicts).
     * An **iterator** is an object that implements `__next__()` and `__iter__()`; calling `next()` yields successive values, raises `StopIteration` when done.
@@ -767,7 +821,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 55. **Q:** What is `yield` and how does it differ from `return`?
-    **A:**
+    
+**Answer:**
 
     * `return` ends function execution and optionally sends back a value.
     * `yield` makes the function a generator: each time it yields, it suspends state and returns a value; next time it resumes after yield.
@@ -785,7 +840,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 56. **Q:** Explain list vs generator comprehensions; differences in memory.
-    **A:**
+    
+**Answer:**
 
     * List comprehension (`[x*x for x in range(n)]`) builds the entire list in memory.
     * Generator expression (`(x*x for x in range(n))`) returns a generator that yields items one at a time; uses less memory.
@@ -800,7 +856,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 57. **Q:** What is an abstract base class (ABC) in Python?
-    **A:**
+    
+**Answer:**
 
     * In module `abc`, you can define classes with `@abstractmethod` that cannot be instantiated unless abstract methods are overridden. Useful for interface‐like behavior.
     * Example:
@@ -825,14 +882,16 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 58. **Q:** How does Python’s memory management work? (heap, garbage collection)
-    **A:**
+    
+**Answer:**
 
     * Python uses a private heap for all objects & data structures. The memory manager handles allocation. ([BrainStation][4])
     * There’s built-in garbage collection (GC) and reference counting: when an object’s reference count drops to zero, it can be reclaimed.
     * Example: cyclic references may require GC to clean up.
 
 59. **Q:** What are `__slots__` in Python classes and when might you use them?
-    **A:**
+    
+**Answer:**
 
     * `__slots__` is a class variable you define to restrict attribute creation to a fixed list and avoid per‐instance `__dict__`, reducing memory overhead when many instances exist.
     * Example:
@@ -849,7 +908,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 60. **Q:** Explain context managers and how you can create your own using `__enter__`, `__exit__`.
-    **A:**
+    
+**Answer:**
 
     * A context manager defines `__enter__()` (called at block start) and `__exit__(exc_type, exc_val, exc_tb)` (called on exit). It can be used with `with` statement to manage resources.
     * Example:
@@ -871,7 +931,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 61. **Q:** What is monkey-patching?
-    **A:**
+    
+**Answer:**
 
     * Monkey‐patching refers to dynamically modifying classes or modules at runtime (adding methods, changing behavior). While powerful, it can be risky for maintainability. ([DataCamp][1])
     * Example:
@@ -885,7 +946,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 62. **Q:** Explain how you would implement a stack data structure in Python.
-    **A:**
+    
+**Answer:**
 
     * Use a list (or `collections.deque`) to implement stack: `push` = `append`, `pop` = `pop()`.
     * Example:
@@ -909,7 +971,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 63. **Q:** Explain shallow vs deep copy again but in context of lists of dictionaries.
-    **A:**
+    
+**Answer:**
 
     * Suppose you have `lst = [ {'a':1}, {'b':2} ]`.
 
@@ -917,7 +980,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       * A deep copy (`import copy; lst3 = copy.deepcopy(lst)`) duplicates the dictionaries too, so modifications are independent.
 
 64. **Q:** How do you sort a list of dictionaries by a given key?
-    **A:**
+    
+**Answer:**
 
     * Use `sorted()` with `key=` parameter or list’s `sort()` method.
     * Example:
@@ -933,32 +997,37 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 65. **Q:** Explain the difference between `__new__` and `__init__` in class instantiation.
-    **A:**
+    
+**Answer:**
 
     * `__new__(cls, ...)` is called to create (allocate) a new instance (before initialization). It returns the new instance (or subclass).
     * `__init__(self, ...)` initializes the instance after it’s created.
     * Usually you override `__new__` when subclassing immutable types (like `tuple`, `str`) or customizing instantiation.
 
 66. **Q:** What is list slicing performance — is it O(n)?
-    **A:**
+    
+**Answer:**
 
     * Yes, slicing a list (e.g., `lst[1:1000]`) creates a new list and copies elements, so it’s O(k) where k = size of slice.
     * Important for performance when doing many or large slices.
 
 67. **Q:** How do Python’s built-in `sort()` and `sorted()` functions work internally (algorithm)?
-    **A:**
+    
+**Answer:**
 
     * Python (CPython) uses Timsort (a hybrid stable sorting algorithm derived from merge sort and insertion sort) for list sorting since Python 2.3. ([Wikipedia][5])
     * It is O(n log n) worst-case, and takes advantage of existing runs (already sorted subsequences) to accelerate for nearly‐sorted input.
 
 68. **Q:** What is the Global Interpreter Lock (GIL) in Python?
-    **A:**
+    
+**Answer:**
 
     * The GIL is a mutex that allows only one native thread to execute Python bytecode at a time in CPython.
     * It means multi-threading may not scale CPU‐bound workloads; you may use multiprocessing or external libraries releasing the GIL for concurrency. ([DataCamp][1])
 
 69. **Q:** How do you implement caching in Python (memoization) for a recursive function?
-    **A:**
+    
+**Answer:**
 
     * Use dictionary to store previously computed results (manual) or use `functools.lru_cache`.
     * Example:
@@ -976,7 +1045,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 70. **Q:** What is the difference between `__call__()` and normal methods?
-    **A:**
+    
+**Answer:**
 
     * If a class defines `__call__(self, *args, **kwargs)`, its instances become callable like functions.
     * Example:
@@ -993,7 +1063,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 71. **Q:** Explain how to merge two sorted lists into one sorted list (algorithmically).
-    **A:**
+    
+**Answer:**
 
     * Use two pointers i, j starting at list1[0], list2[0], compare and copy smaller into result, advance pointer; when one list ends, copy remainder.
     * Example:
@@ -1014,7 +1085,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 72. **Q:** What is the difference between `__getitem__`, `__iter__`, `__next__` in custom classes?
-    **A:**
+    
+**Answer:**
 
     * `__getitem__(self, key)`: allows indexing `obj[key]`.
     * `__iter__(self)`: returns an iterator (typically `self`).
@@ -1039,14 +1111,16 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 73. **Q:** How does Python’s garbage collector handle cyclic references?
-    **A:**
+    
+**Answer:**
 
     * Python uses reference counting for immediate deallocation of objects when count drops to zero. However, reference counting cannot clean up objects involved in cycles (A→B→A).
     * Therefore, the garbage collector periodically examines object generations to find cycles and free them.
     * Important for memory management when objects reference each other.
 
 74. **Q:** What is the `__eq__` method in a class? How do you define it?
-    **A:**
+    
+**Answer:**
 
     * `__eq__(self, other)` defines behavior for `self == other`. You can override it to compare objects meaningfully.
     * Example:
@@ -1067,7 +1141,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 75. **Q:** Explain difference between `@property` decorator vs normal method getter.
-    **A:**
+    
+**Answer:**
 
     * `@property` allows you to access method as attribute (for read-only or computed attributes) instead of calling it.
     * Example:
@@ -1087,7 +1162,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 76. **Q:** How would you profile a Python program’s performance (time/memory)?
-    **A:**
+    
+**Answer:**
 
     * Use modules like `cProfile` (for time), `timeit` (small code snippets), `memory_profiler` or `tracemalloc` (for memory).
     * Example:
@@ -1097,7 +1173,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 77. **Q:** What are metaclasses in Python, and when might you use them?
-    **A:**
+    
+**Answer:**
 
     * A metaclass is a “class of a class”; it defines how classes behave (how they are constructed).
     * You specify `metaclass=MyMeta` in class definition.
@@ -1117,7 +1194,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 78. **Q:** Explain coroutine vs generator in Python.
-    **A:**
+    
+**Answer:**
 
     * Generators yield values and can be iterated.
     * Coroutines (with `async def` / `await`) are for asynchronous execution; they don’t just produce a sequence—they await events, perform non-blocking I/O, etc.
@@ -1130,14 +1208,16 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 79. **Q:** What is the difference between `__init__.py` and namespace packages?
-    **A:**
+    
+**Answer:**
 
     * Historically, a folder with `__init__.py` is treated as a Python package.
     * Since Python 3.3+, you can have namespace packages (folders without `__init__.py`) where the directories are still packages.
     * Useful for large modular codebases spanning multiple directories.
 
 80. **Q:** How would you implement LRU (Least Recently Used) cache in Python?
-    **A:**
+    
+**Answer:**
 
     * Use `collections.OrderedDict` (Python 3.7+ dict preserves insertion order) or `functools.lru_cache`.
     * Example custom:
@@ -1164,12 +1244,14 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 81. **Q:** What is the `__slots__` property and when is it used? (covered earlier)
-    **A:**
+    
+**Answer:**
 
     * Already explained in Q59.
 
 82. **Q:** Explain the difference between `==` and `is` again but with immutable caching (e.g., small integers).
-    **A:**
+    
+**Answer:**
 
     * For small immutable integers (-5 to 256 in CPython by default), Python caches objects, so `a is b` may be `True`.
     * Example:
@@ -1185,7 +1267,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 83. **Q:** How do you handle file not found error gracefully?
-    **A:**
+    
+**Answer:**
 
     * Use `try-except FileNotFoundError:`.
     * Example:
@@ -1199,7 +1282,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 84. **Q:** What does `__dict__` attribute of an object represent?
-    **A:**
+    
+**Answer:**
 
     * It’s a dictionary (if available) storing an object’s (writable) attributes.
     * Example:
@@ -1215,12 +1299,14 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 85. **Q:** What is monkey patching again? (covered earlier)
-    **A:**
+    
+**Answer:**
 
     * Already explained in Q61.
 
 86. **Q:** Describe how you would traverse a directory and its subdirectories in Python.
-    **A:**
+    
+**Answer:**
 
     * Use the `os.walk()` function.
     * Example:
@@ -1234,12 +1320,14 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 87. **Q:** Explain the difference between `__repr__` and `__str__` (covered already).
-    **A:**
+    
+**Answer:**
 
     * Already answered in Q42.
 
 88. **Q:** What is the use of the `bisect` module?
-    **A:**
+    
+**Answer:**
 
     * The `bisect` module supports binary search and insertion in sorted lists. Good for keeping a list sorted with minimal overhead.
     * Example:
@@ -1254,7 +1342,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 89. **Q:** How do you handle command-line arguments in Python?
-    **A:**
+    
+**Answer:**
 
     * Use `sys.argv` for low-level; or `argparse` module for structured argument parsing.
     * Example:
@@ -1269,13 +1358,15 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 90. **Q:** Explain how list growth works in Python (memory amortisation).
-    **A:**
+    
+**Answer:**
 
     * Python lists over-allocate space to amortise append operations. When capacity is exceeded, they allocate more space than immediately needed (often ~50% more) to reduce frequent reallocations.
     * So `append()` is amortised O(1), though occasional O(n) when resizing. This is important for performance.
 
 91. **Q:** What’s the difference between `__init__` and `__del__` in a class?
-    **A:**
+    
+**Answer:**
 
     * `__init__(self,…)`: initializer called after object creation.
     * `__del__(self)`: destructor method, called when object is about to be destroyed (via GC). But reliance on it is discouraged because destruction timing is not guaranteed.
@@ -1294,7 +1385,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 92. **Q:** How do you implement a priority queue in Python?
-    **A:**
+    
+**Answer:**
 
     * Use `heapq` module which implements a binary heap.
     * Example:
@@ -1309,7 +1401,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 93. **Q:** What is “duck typing” in Python?
-    **A:**
+    
+**Answer:**
 
     * Duck typing: “If it quacks like a duck, it is a duck”. Instead of checking type, you check for presence of methods/attributes.
     * Example:
@@ -1329,12 +1422,14 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 94. **Q:** What is `__call__` method use case? (covered in Q70)
-    **A:**
+    
+**Answer:**
 
     * See Q70.
 
 95. **Q:** How would you implement a simple linked list in Python?
-    **A:**
+    
+**Answer:**
 
     ```python
     class Node:
@@ -1370,18 +1465,21 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
     ```
 
 96. **Q:** What is the difference between `__init__` and `__new__`? (covered earlier)
-    **A:**
+    
+**Answer:**
 
     * See Q65.
 
 97. **Q:** Explain how a Python dictionary is implemented under the hood (at a high level).
-    **A:**
+    
+**Answer:**
 
     * Python dictionaries are hash tables: each key is hashed; buckets store key,value pairs; on lookup the hash is computed, bucket found, then equality test. They are dynamically resized as load factor increases.
     * This gives average O(1) lookup, insertion. Knowing hashing helps understand collisions, performance issues.
 
 98. **Q:** How do you reverse a string in Python?
-    **A:**
+    
+**Answer:**
 
     * Easiest way: slicing with step -1: `s[::-1]`. Example:
 
@@ -1392,12 +1490,14 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ```
 
 99. **Q:** What is the difference between `__repr__` and `__str__`? (covered earlier)
-    **A:**
+    
+**Answer:**
 
     * See Q42.
 
 100. **Q:** How do you merge dictionaries in Python 3.9+?
-     **A:**
+     
+**Answer:**
 
      * Use the `|` (pipe) operator:
 
@@ -1415,7 +1515,8 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
 Topics include concurrency, async, metaprogramming, memory/patterns, algorithms, design, performance tuning.
 
 101. **Q:** What is the difference between threading and multiprocessing in Python?
-     **A:**
+     
+**Answer:**
 
      * **Threading**: uses threads within the same process; due to the GIL in CPython, only one thread executes Python bytecode at a time; good for I/O-bound tasks.
      * **Multiprocessing**: uses separate processes each with its own memory space; bypasses GIL; better for CPU-bound tasks.
@@ -1436,7 +1537,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 102. **Q:** Explain async/await in Python; what does `asyncio` provide?
-     **A:**
+     
+**Answer:**
 
      * `async def` defines coroutine functions. Calling them returns coroutine objects which must be awaited with `await` inside another coroutine, or run via event loop.
      * `asyncio` module provides event loop, tasks, futures, asynchronous I/O abstractions.
@@ -1453,7 +1555,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 103. **Q:** What is the `multiprocessing.Pool` and how does it differ from `concurrent.futures.ProcessPoolExecutor`?
-     **A:**
+     
+**Answer:**
 
      * `multiprocessing.Pool`: map, apply, etc for processes.
      * `concurrent.futures.ProcessPoolExecutor`: high‐level interface with futures (submit(), map()). Choice depends on API familiarity, features such as callback.
@@ -1470,7 +1573,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 104. **Q:** How would you implement a thread-safe singleton in Python?
-     **A:**
+     
+**Answer:**
 
      ```python
      import threading
@@ -1492,7 +1596,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
      ```
 
 105. **Q:** What is the `async def __aenter__` / `__aexit__` pair used for?
-     **A:**
+     
+**Answer:**
 
      * In asynchronous context managers, you define `__aenter__(self)` and `__aexit__(self, exc_type, exc, tb)` to be used with `async with`.
      * Example:
@@ -1514,7 +1619,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 106. **Q:** What is a memory leak in Python? How can it happen?
-     **A:**
+     
+**Answer:**
 
      * Although Python has GC, memory leaks can occur if references are held inadvertently (cached objects, global lists, closures capturing large objects, circular references with `__del__`, etc.).
      * Example:
@@ -1526,7 +1632,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 107. **Q:** Explain the concept of “weak references” (`weakref`) and when you might use them.
-     **A:**
+     
+**Answer:**
 
      * The `weakref` module allows creation of references to objects that do not increase their reference count—so object can be garbage-collected when only weak references remain.
      * Use case: caching objects but don't want to prevent their garbage collection when unused.
@@ -1546,7 +1653,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 108. **Q:** How do you use the `multiprocessing.Manager` in Python?
-     **A:**
+     
+**Answer:**
 
      * `Manager()` returns a server process that can hold Python objects shared between processes (dicts, lists) safely.
      * Example:
@@ -1567,13 +1675,15 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 109. **Q:** How would you detect and handle deadlocks in Python multi­threaded code?
-     **A:**
+     
+**Answer:**
 
      * Use tools: ensure acquiring locks in consistent order; use `threading.Lock.acquire(timeout=…)`; use higher level concurrency primitives (`Queue`, `Condition`, `Semaphore`); analysis tools for detecting blocking; avoid holding locks across I/O.
      * Example: two threads each holding one lock and waiting for the other → deadlock.
 
 110. **Q:** Explain how you would profile memory usage of a Python object over time.
-     **A:**
+     
+**Answer:**
 
      * Use `tracemalloc` (Python 3.4+) to track memory allocations; use `objgraph` to visualize object graphs; periodically snapshot memory and compare.
      * Example:
@@ -1589,12 +1699,14 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 111. **Q:** What is `metaclass` usage in dynamic class creation? (similar to earlier)
-     **A:**
+     
+**Answer:**
 
      * See Q77.
 
 112. **Q:** What are descriptors in Python (i.e., `__get__`, `__set__`, `__delete__`)?
-     **A:**
+     
+**Answer:**
 
      * A descriptor is an object attribute with “binding behavior”: when attribute access occurs, its descriptor methods are invoked. Descriptors are used to implement e.g. properties, methods, static methods.
      * Example:
@@ -1620,12 +1732,14 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 113. **Q:** Explain how you would implement your own iterator class (with `__iter__`, `__next__`). (covered in Q72)
-     **A:**
+     
+**Answer:**
 
      * See Q72.
 
 114. **Q:** What is a closure in Python? Provide an example.
-     **A:**
+     
+**Answer:**
 
      * A closure is when a nested function remembers values from its enclosing lexical scope even after the outer function has finished execution.
      * Example:
@@ -1641,14 +1755,16 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 115. **Q:** What is the difference between synchronous and asynchronous code in Python?
-     **A:**
+     
+**Answer:**
 
      * Synchronous: tasks execute one after the other; each task may block.
      * Asynchronous: tasks may yield control (via `await`, `asyncio`) allowing other tasks to run while waiting (for I/O etc).
      * Example: reading multiple network endpoints concurrently via `asyncio.gather`.
 
 116. **Q:** How would you implement a trie (prefix tree) in Python?
-     **A:**
+     
+**Answer:**
 
      ```python
      class TrieNode:
@@ -1681,13 +1797,15 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
      ```
 
 117. **Q:** Explain context switching overhead in Python threads; why might you choose processes instead?
-     **A:**
+     
+**Answer:**
 
      * Thread context switching still consumes CPU and suffers from GIL contention in CPython; many threads still blocked waiting; for CPU-bound tasks threads don’t gain much due to GIL.
      * Processes each have separate GIL and memory space; true parallelism on multi-core; overhead higher (IPCs), but for heavy tasks beneficial.
 
 118. **Q:** What is the `subprocess` module for, and how does it compare to `os.system`?
-     **A:**
+     
+**Answer:**
 
      * `subprocess` gives fine‐grained control over spawning new processes, reading/writing their input/output/error streams, capturing return codes, avoiding shell injection.
      * `os.system` is simpler but less flexible and may be vulnerable to shell injection.
@@ -1700,7 +1818,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 119. **Q:** How do you implement a thread pool (or process pool) in Python and when would you use one?
-     **A:**
+     
+**Answer:**
 
      * Use `concurrent.futures.ThreadPoolExecutor` or `ProcessPoolExecutor`.
      * Use thread pool for I/O‐bound tasks; process pool for CPU-bound.
@@ -1718,12 +1837,14 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 120. **Q:** What is the difference between “weakref” and normal references? (covered in Q107)
-     **A:**
+     
+**Answer:**
 
      * See Q107.
 
 121. **Q:** Explain how you would build a REST API in Python (frameworks, best practices).
-     **A:**
+     
+**Answer:**
 
      * Use frameworks like `Flask` or `FastAPI`, define endpoints, use request/response, JSON serialization, proper HTTP status codes, use dependency injection (FastAPI), input validation, authentication.
      * Example (Flask):
@@ -1743,20 +1864,23 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 122. **Q:** How do you handle migrations in a Python web application (e.g., Django)?
-     **A:**
+     
+**Answer:**
 
      * In Django: use `makemigrations` to auto-generate migration files for model changes, then `migrate` to apply them.
      * Best practices: back up data, test migrations, use version control, handle data migrations if needed.
 
 123. **Q:** Explain the difference between `asyncio.Task` and `concurrent.futures.Future`.
-     **A:**
+     
+**Answer:**
 
      * `asyncio.Task`: wraps a coroutine, scheduled on event loop; can be awaited.
      * `concurrent.futures.Future`: returned by `ThreadPoolExecutor` or `ProcessPoolExecutor`; represents pending result from thread/process.
      * Both represent asynchronous results, but in different concurrency models (async I/O vs thread/process).
 
 124. **Q:** What are memory views (`memoryview`) in Python and why use them?
-     **A:**
+     
+**Answer:**
 
      * `memoryview` is a built‐in type that allows access to the memory of another binary object (bytes, bytearray) without copying. Useful for large binary data, slicing without copy.
      * Example:
@@ -1769,7 +1893,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 125. **Q:** How does `pickle` differ from `json` when serializing Python objects?
-     **A:**
+     
+**Answer:**
 
      * `json` serializes to text format of simple types (strings, numbers, lists, dicts) and is cross‐language, human‐readable; cannot handle arbitrary Python objects out of box.
      * `pickle` serializes and deserializes arbitrary Python objects (including classes, functions), but is Python‐specific and not secure for untrusted data.
@@ -1783,24 +1908,28 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 126. **Q:** What is the difference between `@staticmethod` and `@classmethod`? (covered earlier)
-     **A:**
+     
+**Answer:**
 
      * See Q29 and Q30.
 
 127. **Q:** Describe how to implement a plugin architecture in Python.
-     **A:**
+     
+**Answer:**
 
      * Use dynamic imports, registries, entry points (via `setuptools`), classes/interfaces.
      * For example, use `pkg_resources.iter_entry_points('myapp.plugins')` and load plugin classes dynamically.
      * Provide interface (abstract base class) for plugin, allow external modules to register via setup.py entry points.
 
 128. **Q:** How do you ensure backward compatibility in a Python library?
-     **A:**
+     
+**Answer:**
 
      * Use semantic versioning; maintain hierarchy of versions; deprecate features rather than remove; use warnings (`import warnings; warnings.warn(...)`); write tests against older versions; maintain clear changelog; ensure code works under older Python interpreters if supported.
 
 129. **Q:** What is a “metaprogramming” technique in Python (one example)?
-     **A:**
+     
+**Answer:**
 
      * Metaprogramming: writing code that manipulates code (classes/functions) at runtime. Example: using `type()` to dynamically create classes, or decorators that generate classes, or modifying `__class__` of object.
      * Example:
@@ -1812,12 +1941,14 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 130. **Q:** Explain the “Descriptor protocol” (covered in Q112).
-     **A:**
+     
+**Answer:**
 
      * See Q112.
 
 131. **Q:** How would you implement bulk asynchronous HTTP requests in Python?
-     **A:**
+     
+**Answer:**
 
      * Use `aiohttp` (async HTTP client) + `asyncio.gather`.
      * Example:
@@ -1839,7 +1970,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 132. **Q:** Explain how to write thread‐safe code when sharing mutable data between threads.
-     **A:**
+     
+**Answer:**
 
      * Use locks (`threading.Lock()`), `threading.RLock()`, `Queue` for safe producer/consumer, avoid shared mutable state when possible, use immutable objects or copy on write.
      * Example:
@@ -1864,7 +1996,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 133. **Q:** How do you implement a “factory” pattern in Python?
-     **A:**
+     
+**Answer:**
 
      * A factory returns instances of classes based on input parameter.
      * Example:
@@ -1891,13 +2024,15 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 134. **Q:** Explain how to manage dependencies in a large Python project.
-     **A:**
+     
+**Answer:**
 
      * Use virtual environments (`venv`, `conda`), `requirements.txt` or `Pipfile`/`poetry`, pin versions, use CI to test on multiple python versions, use dependency injection, avoid global state.
      * Employ modules, packages, and keep code modular.
 
 135. **Q:** How would you implement a decorator that takes arguments?
-     **A:**
+     
+**Answer:**
 
      ```python
      def repeat(n):
@@ -1917,7 +2052,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
      ```
 
 136. **Q:** Explain how you would make Python objects picklable (i.e., suitable for serialization).
-     **A:**
+     
+**Answer:**
 
      * Ensure that class is defined at top level (not nested); avoid unpickleable attributes (open file handles, sockets); implement `__getstate__`/`__setstate__` if needed; or use `copyreg` to register reduction.
      * Example:
@@ -1935,7 +2071,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 137. **Q:** What is `__sizeof__()` method of object and how can you use it?
-     **A:**
+     
+**Answer:**
 
      * `object.__sizeof__()` returns the memory size in bytes of the object (not including referents). For full memory footprint you may use `sys.getsizeof()` plus sum of sizes of referenced objects.
      * Example:
@@ -1947,7 +2084,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 138. **Q:** How do you implement dynamic attribute access (e.g., `__getattr__`, `__setattr__`)?
-     **A:**
+     
+**Answer:**
 
      * `__getattr__(self, name)`: called when attribute `name` not found via normal lookup.
      * `__setattr__(self, name, value)`: called for all attribute assignments (careful to avoid infinite recursion).
@@ -1967,14 +2105,16 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 139. **Q:** Explain how you would perform A/B testing instrumentation in a Python web app.
-     **A:**
+     
+**Answer:**
 
      * Design: randomize users into groups (A/B), log group assignment, track key metrics, ensure no bias.
      * Implementation: e.g., middleware that assigns `variant = hash(user_id) % 2`, injects UI variation; log to analytics or internal DB; evaluate after sufficient sample size.
      * Use feature flags, rollback capability, monitor statistical significance.
 
 140. **Q:** What is “metaclass plumbing” – e.g., customizing class creation by overriding `__prepare__`, `__new__` of metaclass?
-     **A:**
+     
+**Answer:**
 
      * `__prepare__(metacls, name, bases, **kwargs)` returns namespace used to build class body (e.g., order‐preserving dict).
      * `__new__` of metaclass can modify class attributes, attach metadata, enforce rules.
@@ -1997,7 +2137,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 141. **Q:** How do you optimize Python code for speed? (e.g., using built-ins, avoid globals, etc)
-     **A:**
+     
+**Answer:**
 
      * Use built-ins and library functions (written in C) rather than pure Python loops.
      * Minimise attribute lookups by local references.
@@ -2007,12 +2148,14 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
      * Example: replacing manual sum loop with `sum()`.
 
 142. **Q:** Explain how CPython implements small integer caching and how that can affect `is` operator results. (covered earlier)
-     **A:**
+     
+**Answer:**
 
      * See Q82.
 
 143. **Q:** How would you implement a read-only attribute in a class?
-     **A:**
+     
+**Answer:**
 
      * Use `@property` without setter.
      * Example:
@@ -2031,7 +2174,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 144. **Q:** What’s the difference between `copy.copy()` and slicing for lists (`lst[:]`)?
-     **A:**
+     
+**Answer:**
 
      * `lst[:]` creates a shallow copy of list. Equivalent to `list(lst)` or `lst.copy()`.
      * But `copy.copy()` is generic and works for other objects too.
@@ -2045,7 +2189,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 145. **Q:** Explain how to implement a decorator that caches results with a max size (LRU cache) yourself (without using `functools.lru_cache`).
-     **A:**
+     
+**Answer:**
 
      ```python
      from collections import OrderedDict
@@ -2072,7 +2217,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
      ```
 
 146. **Q:** What is the `@dataclass` decorator (Python 3.7+)? How is it helpful?
-     **A:**
+     
+**Answer:**
 
      * The `@dataclass` decorator automatically generates special methods like `__init__`, `__repr__`, `__eq__`, etc., for classes that primarily store data.
      * Example:
@@ -2090,19 +2236,22 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 147. **Q:** Explain the difference between `isinstance()` and `issubclass()`.
-     **A:**
+     
+**Answer:**
 
      * `isinstance(obj, Class)` checks if `obj` is an instance of `Class` or any subclass.
      * `issubclass(Cls, Class)` checks whether `Cls` is a subclass of `Class`.
 
 148. **Q:** What are memory leaks in context of C extension modules with Python?
-     **A:**
+     
+**Answer:**
 
      * If you write C extension modules (via `PyObject_New`, etc), you must handle reference counts properly. Failure to `Py_DECREF()` when needed can lead to memory leaks even if Python GC runs.
      * Also, if you create cycles involving C‐level objects not visible to Python’s GC, they may not be cleaned.
 
 149. **Q:** Explain the “visitor pattern” and how you might implement it in Python.
-     **A:**
+     
+**Answer:**
 
      * The visitor pattern separates algorithms from the objects on which they operate. You define a `visit` method for each concrete element type.
      * Example:
@@ -2128,7 +2277,8 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        ```
 
 150. **Q:** How do you implement dependency injection in Python?
-     **A:**
+     
+**Answer:**
 
      * Inject dependencies via constructor or via setter arguments instead of hard‐coding inside class. Use interfaces (abstract base classes) so implementation can vary.
      * Example:
