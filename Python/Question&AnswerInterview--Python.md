@@ -39,7 +39,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * `__init__` is the constructor method in Python classes: it’s automatically called when a new instance is created. ([InterviewBit][2])
+   * `__init__` is the constructor method in Python classes: it’s automatically called when a new instance is created. 
    * It’s used to initialize instance attributes.
    * Example:
 
@@ -57,7 +57,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Python is generally considered an interpreted language, since its code is executed by the Python Virtual Machine (PVM) after it is compiled into bytecode. ([GeeksforGeeks][3])
+   * Python is generally considered an interpreted language, since its code is executed by the Python Virtual Machine (PVM) after it is compiled into bytecode. 
    * Under the hood: source code → compiled to `.pyc` bytecode → interpreted/executed.
    * Example: When you run `python script.py`, the interpreter handles execution.
 
@@ -65,7 +65,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Indentation in Python defines the blocks of code (for loops, if statements, function definitions). It is **required**; Python uses indentation instead of braces. ([GeeksforGeeks][3])
+   * Indentation in Python defines the blocks of code (for loops, if statements, function definitions). It is **required**; Python uses indentation instead of braces. 
    * Wrong indentation leads to `IndentationError`.
    * Example:
 
@@ -80,7 +80,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 **Answer:**
 
    * `/` is “true division” (floating-point) even if operands are integers in Python 3.
-   * `//` is floor (or integer) division: it returns the quotient truncated toward negative infinity (for positive numbers, simply integer part). Example: `5//2 == 2`, `5/2 == 2.5`. ([GeeksforGeeks][3])
+   * `//` is floor (or integer) division: it returns the quotient truncated toward negative infinity (for positive numbers, simply integer part). Example: `5//2 == 2`, `5/2 == 2.5`. 
    * Example:
 
      ```python
@@ -92,7 +92,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Dynamic typing means that you don’t have to declare the type of a variable; the type is determined at runtime. ([GeeksforGeeks][3])
+   * Dynamic typing means that you don’t have to declare the type of a variable; the type is determined at runtime. 
    * Example:
 
      ```python
@@ -104,7 +104,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Use the `+` operator: `a + b` gives a new list combining `a` and `b`. ([GeeksforGeeks][3])
+   * Use the `+` operator: `a + b` gives a new list combining `a` and `b`. 
    * Or use `list.extend()`: modifies the first list in-place.
    * Example:
 
@@ -119,7 +119,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
    
 **Answer:**
 
-   * Slicing is a way to extract subsets of sequences (strings, lists, tuples) using `[start:stop:step]` notation. ([InterviewBit][2])
+   * Slicing is a way to extract subsets of sequences (strings, lists, tuples) using `[start:stop:step]` notation. 
    * Example:
 
      ```python
@@ -149,7 +149,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 **Answer:**
 
     * A **module** is a single `.py` file containing Python definitions (functions, classes, variables) that you can import.
-    * A **package** is a directory containing modules, and must include an `__init__.py` file (in older Python versions) to be recognized as a package. ([GeeksforGeeks][3])
+    * A **package** is a directory containing modules, and must include an `__init__.py` file (in older Python versions) to be recognized as a package. 
     * Example:
 
       ```
@@ -165,7 +165,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * `pass` is a no-operation placeholder: it does nothing when executed. It’s useful when you need a syntactically valid block but haven’t implemented it yet. ([GeeksforGeeks][3])
+    * `pass` is a no-operation placeholder: it does nothing when executed. It’s useful when you need a syntactically valid block but haven’t implemented it yet. 
     * Example:
 
       ```python
@@ -177,7 +177,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Python uses a model often called “pass by object reference” (or “pass by assignment”). ([GeeksforGeeks][3])
+    * Python uses a model often called “pass by object reference” (or “pass by assignment”). 
     * If you pass a mutable object to a function, modifications inside can affect the caller’s object. If you pass an immutable object, you cannot modify it in place.
     * Example:
 
@@ -201,7 +201,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
     
 **Answer:**
 
-    * Use `math.floor()` from the `math` module. ([GeeksforGeeks][3])
+    * Use `math.floor()` from the `math` module. 
     * Example:
 
       ```python
@@ -214,7 +214,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 **Answer:**
 
     * `for` loop: iterates over a known sequence (list, tuple, range).
-    * `while` loop: runs until a given condition becomes false — useful when number of iterations isn’t known ahead of time. ([GeeksforGeeks][3])
+    * `while` loop: runs until a given condition becomes false — useful when number of iterations isn’t known ahead of time. 
     * Example:
 
       ```python
