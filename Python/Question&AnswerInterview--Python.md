@@ -137,12 +137,13 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * Immutable types: their contents cannot be changed (strings, tuples, integers). 
 * Example:
 
-      ```python
-      s = "hello"
-      # s[0] = "H"   # Error
-      lst = [1,2,3]
-      lst[0] = 9     # OK
-      ```
+    ```python
+
+        s = "hello"
+        # s[0] = "H"   # Error
+        lst = [1,2,3]
+        lst[0] = 9     # OK
+    ```
 
 ### 11. **Q:** What is a module and what is a package in Python?
     
@@ -152,14 +153,14 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * A **package** is a directory containing modules, and must include an `__init__.py` file (in older Python versions) to be recognized as a package. 
 * Example:
 
-      ```
+    ```
       mypackage/
          __init__.py
          module1.py
          module2.py
-      ```
+    ```
 
-      Then you can `import mypackage.module1` etc.
+Then you can `import mypackage.module1` etc.
 
 ### 12. **Q:** What does the `pass` statement do?
     
@@ -181,7 +182,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * If you pass a mutable object to a function, modifications inside can affect the caller’s object. If you pass an immutable object, you cannot modify it in place.
 * Example:
 
-      ```python
+    ```python
       def f(x):
           x += [3]
 
@@ -195,7 +196,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       n = 2
       g(n)
       print(n)    # 2 – ints immutable
-      ```
+    ```
 
 ### 14. **Q:** How do you floor a number in Python (i.e., get the largest integer ≤ x)?
     
@@ -204,10 +205,10 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * Use `math.floor()` from the `math` module. 
 * Example:
 
-      ```python
+    ```python
       import math
       print(math.floor(3.7))   # 3
-      ```
+     ```
 
 ### 15. **Q:** What is the difference between `for` and `while` loops in Python?
     
@@ -217,7 +218,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * `while` loop: runs until a given condition becomes false — useful when number of iterations isn’t known ahead of time. 
 * Example:
 
-      ```python
+    ```python
       for i in range(5):
           print(i)
 
@@ -225,7 +226,7 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
       while c < 5:
           print(c)
           c += 1
-      ```
+    ```
 
 ### 16. **Q:** What is a dictionary in Python?
     
@@ -234,11 +235,11 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * A dictionary (`dict`) is a built-in mutable mapping type: key → value pairs, with unique keys.
 * Example:
 
-      ```python
+    ```python
       d = {"name": "Alice", "age": 30}
       print(d["name"])  # “Alice”
       d["city"] = "Bangalore"
-      ```
+    ```
 
 ### 17. **Q:** How do you iterate through a dictionary’s keys and values?
     
@@ -247,10 +248,10 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * Use `dict.items()` to get `(key, value)` pairs; `dict.keys()` for keys; `dict.values()` for values.
 * Example:
 
-      ```python
+    ```python
       for key, value in d.items():
           print(f"{key} -> {value}")
-      ```
+    ```
 
 ### 18. **Q:** What is a list comprehension? Give an example.
     
@@ -259,10 +260,10 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * A concise way to create lists using a single expression, often replacing loops.
 * Example:
 
-      ```python
+    ```python
       squares = [x*x for x in range(1, 6)]  # [1,4,9,16,25]
       even = [x for x in range(10) if x % 2 == 0]  # [0,2,4,6,8]
-      ```
+    ```
 
 ### 19. **Q:** What is the difference between `==` and `is` in Python?
     
@@ -272,12 +273,12 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * `is` tests identity (are the two references pointing to the **same** object?).
 * Example:
 
-      ```python
+    ```python
       a = [1,2,3]
       b = [1,2,3]
       print(a == b)  # True
       print(a is b) # False
-      ```
+    ```
 
 ### 20. **Q:** What happens if you modify a list while iterating it?
     
@@ -286,13 +287,13 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * It can lead to unexpected behavior (skip elements or run indefinitely). It’s safer either to iterate over a copy or build a new list.
 * Example:
 
-      ```python
+    ```python
       lst = [1,2,3,4]
       for x in lst:
           if x % 2 == 0:
               lst.remove(x)
       print(lst)  # might result in [1,3] or skip one.
-      ```
+    ```
 
 ### 21. **Q:** Explain what the `__name__ == "__main__"` idiom does.
     
@@ -301,10 +302,10 @@ These questions test basic Python concepts: syntax, data types, control-flow, bu
 * When a Python file is run directly (not imported), `__name__` is set to `"__main__"`.
 * So we use:
 
-      ```python
+    ```python
       if __name__ == "__main__":
           main()
-      ```
+    ```
 
 to ensure `main()` runs only when script is executed, not when imported.
 
@@ -316,7 +317,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 * `extend(iterable)`: iterates over `iterable`, adding each element to the list.
 * Example:
 
-      ```python
+    ```python
       lst = [1,2]
       lst.append([3,4])
       print(lst)  # [1,2,[3,4]]
@@ -324,7 +325,7 @@ to ensure `main()` runs only when script is executed, not when imported.
       lst2 = [1,2]
       lst2.extend([3,4])
       print(lst2) # [1,2,3,4]
-      ```
+    ```
 
 ### 23. **Q:** What is a set in Python? What are its basic properties?
     
@@ -334,11 +335,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 * Useful for membership testing, eliminating duplicates.
 * Example:
 
-      ```python
+    ```python
       s = {1,2,3,2,1}
       print(s)  # {1,2,3}
       s.add(4)
-      ```
+    ```
 
 ### 24. **Q:** What is a generator in Python?
     
@@ -348,14 +349,14 @@ to ensure `main()` runs only when script is executed, not when imported.
 * It produces values lazily (on demand) and is memory‐efficient for large data sets.
 * Example:
 
-      ```python
+    ```python
       def my_gen(n):
           for i in range(n):
               yield i*i
 
       for x in my_gen(5):
           print(x)  # 0,1,4,9,16
-      ```
+    ```
 
 ### 25. **Q:** What is the difference between `=` and `==` in Python?
     
@@ -370,12 +371,12 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 * Python allows tuple unpacking:
 
-      ```python
+    ```python
       a = 5
       b = 10
       a, b = b, a
       print(a, b)  # 10 5
-      ```
+    ```
 
 ### 27. **Q:** What is the difference between `deepcopy` and `copy` (shallow copy) in Python?
     
@@ -385,7 +386,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 * Deep copy (`copy.deepcopy()`): creates new object **and** recursively copies nested objects so that no references to the original nested objects remain.
 * Example:
 
-      ```python
+    ```python
       import copy
       original = [[1,2],[3,4]]
       shallow = copy.copy(original)
@@ -393,7 +394,7 @@ to ensure `main()` runs only when script is executed, not when imported.
       original[0][0] = 999
       print(shallow)  # [[999,2],[3,4]]
       print(deep)     # [[1,2],[3,4]]
-      ```
+    ```
 
 ### 28. **Q:** What does the `@staticmethod` decorator do?
     
@@ -402,14 +403,14 @@ to ensure `main()` runs only when script is executed, not when imported.
 * In a class, `@staticmethod` defines a method that does **not** receive `self` or `cls` parameter; it's just a function within a class’s namespace.
 * Example:
 
-      ```python
+    ```python
       class MyClass:
           @staticmethod
           def greet(name):
               print(f"Hello {name}")
 
       MyClass.greet("Alice")
-      ```
+     ```
 
 ### 29. **Q:** What does the `@classmethod` decorator do?
     
@@ -419,7 +420,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 * Useful for factory methods.
 * Example:
 
-      ```python
+    ```python
       class MyClass:
           count = 0
 
@@ -433,7 +434,7 @@ to ensure `main()` runs only when script is executed, not when imported.
       m1 = MyClass()
       m2 = MyClass()
       MyClass.how_many()  # “2 instances so far”
-      ```
+    ```
 
 ### 30. **Q:** How can you install external packages in Python?
     
@@ -444,8 +445,8 @@ to ensure `main()` runs only when script is executed, not when imported.
       ```bash
       pip install requests
       ```
-    * You can also use `venv` to create virtual environments to isolate dependencies.
-    * Note: For best practice, use `requirements.txt` to freeze versions.
+* You can also use `venv` to create virtual environments to isolate dependencies.
+* Note: For best practice, use `requirements.txt` to freeze versions.
 
 ### 31. **Q:** What is PEP 8?
     
@@ -461,10 +462,10 @@ to ensure `main()` runs only when script is executed, not when imported.
 * A lambda function is an anonymous (no name) small function defined with the `lambda` keyword.
 * Example:
 
-      ```python
+    ```python
       square = lambda x: x*x
       print(square(5))  # 25
-      ```
+  ```
 
 ### 33. **Q:** What is the usage of the `map()` and `filter()` functions?
     
@@ -474,11 +475,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 * `filter(func, iterable)`: returns items for which `func(item)` is `True`.
 * Example:
 
-      ```python
+    ```python
       nums = [1,2,3,4]
       squares = list(map(lambda x: x*x, nums))  # [1,4,9,16]
       evens = list(filter(lambda x: x%2==0, nums)) # [2,4]
-      ```
+    ```
 
 ### 34. **Q:** What is string formatting in Python? Provide an example using f-strings.
     
@@ -487,11 +488,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 * f-strings (Python 3.6+): embed expressions inside string literals using `{}` and prefix `f` before string.
 * Example:
 
-      ```python
+    ```python
       name = "Alice"
       age = 30
       print(f"{name} is {age} years old.")  # “Alice is 30 years old.”
-      ```
+    ```
 
 ### 35. **Q:** Explain how to handle exceptions in Python.
     
@@ -500,7 +501,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 * Use `try‐except` blocks to catch exceptions, optionally `finally`, optionally `else`.
 * Example:
 
-      ```python
+    ```python
       try:
           x = int(input("Enter a number: "))
           y = 10/x
@@ -512,7 +513,7 @@ to ensure `main()` runs only when script is executed, not when imported.
           print("Result:", y)
       finally:
           print("Done.")
-      ```
+    ```
 
 ### 36. **Q:** What is the `with` statement (context manager) used for?
     
@@ -521,11 +522,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 * The `with` statement simplifies resource management (opening/closing files, locks) by guaranteeing the correct acquisition and release of resources.
 * Example:
 
-      ```python
+    ```python
       with open("file.txt", "r") as f:
           data = f.read()
       # file is automatically closed when leaving block
-      ```
+    ```
 
 ### 37. **Q:** What is slicing a string in Python? Provide an example.
     
@@ -533,11 +534,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 * Similar to lists: you can slice strings. Example:
 
-      ```python
+    ```python
       s = "Hello, world!"
       print(s[0:5])     # “Hello”
       print(s[::-1])    # “!dlrow ,olleH”
-      ```
+    ```
 
 ### 38. **Q:** How do you convert a string to an integer in Python?
     
@@ -545,11 +546,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 * Use the built-in `int()` function. Example:
 
-      ```python
+    ```python
       s = "123"
       n = int(s)
       print(n + 10)  # 133
-      ```
+    ```
 
 ### 39. **Q:** What is `enumerate()` used for?
     
@@ -558,13 +559,13 @@ to ensure `main()` runs only when script is executed, not when imported.
 * `enumerate(iterable, start=0)` returns pairs of (index, item) for items in `iterable`. Useful when you need item index and value.
 * Example:
 
-      ```python
+    ```python
       for idx, val in enumerate(["a","b","c"], start=1):
           print(idx, val)
       # 1 a
       # 2 b
       # 3 c
-      ```
+    ```
 
 ### 40. **Q:** What is the difference between `==` and `<`, `>`, etc., for strings in Python?
     
@@ -574,10 +575,10 @@ to ensure `main()` runs only when script is executed, not when imported.
     * `<`, `>` compare lexicographically (based on character codes).
     * Example:
 
-      ```python
+    ```python
       print("apple" < "banana")   # True
       print("Apple" < "apple")    # True (uppercase has lower ASCII)
-      ```
+    ```
 
 ### 41. **Q:** How do you open a file for writing and read from it in Python?
     
@@ -585,7 +586,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 
     * Example:
 
-      ```python
+    ```python
       # Writing
       with open("out.txt", "w") as f:
           f.write("Hello\n")
@@ -594,7 +595,7 @@ to ensure `main()` runs only when script is executed, not when imported.
       with open("out.txt", "r") as f:
           contents = f.read()
           print(contents)
-      ```
+    ```
 
 ### 42. **Q:** What does `__repr__` vs `__str__` in a class mean?
     
@@ -604,7 +605,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 * `__repr__(self)`: unambiguous representation, ideally one that could recreate the object, used by `repr(obj)` or in interactive prompt.
 * Example:
 
-      ```python
+    ```python
       class Person:
           def __init__(self, name):
               self.name = name
@@ -615,7 +616,7 @@ to ensure `main()` runs only when script is executed, not when imported.
       p = Person("Alice")
       print(p)         # Person: Alice
       print(repr(p))   # Person('Alice')
-      ```
+    ```
 
 ### 43. **Q:** What is docstring?
     
@@ -624,13 +625,13 @@ to ensure `main()` runs only when script is executed, not when imported.
 * A docstring is a string literal placed at the beginning of a module, class, or function to describe what it does. It becomes the `__doc__` attribute.
 * Example:
 
-      ```python
+    ```python
       def add(a, b):
           """Return sum of a and b."""
           return a + b
 
       print(add.__doc__)  # “Return sum of a and b.”
-      ```
+    ```
 
 ### 44. **Q:** How do you check whether a key exists in a dictionary?
     
@@ -638,11 +639,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 * Use the `in` operator:
 
-      ```python
+    ```python
       d = {"a":1, "b":2}
       if "a" in d:
           print("exists")
-      ```
+    ```
 
 ### 45. **Q:** What is the ‘slice’ step parameter? Example usage.
         
@@ -650,11 +651,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 * In `[start:stop:step]`, `step` is how many positions to jump. Example:
 
-      ```python
+    ```python
       numbers = [0,1,2,3,4,5,6,7]
       print(numbers[1:7:2])   # [1,3,5]
       print(numbers[::-1])    # reversed list
-      ```
+    ```
 
 ### 46. **Q:** What is the `zip()` function used for?
     
@@ -662,7 +663,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 * `zip(*iterables)` combines elements from each iterable into tuples, stopping at the shortest. Example:
 
-      ```python
+    ```python
       names = ["Alice","Bob","Carol"]
       ages  = [30, 25, 27]
       for name, age in zip(names, ages):
@@ -670,7 +671,7 @@ to ensure `main()` runs only when script is executed, not when imported.
       # Alice 30
       # Bob 25
       # Carol 27
-      ```
+    ```
 
 ### 47. **Q:** How do you remove duplicates from a list while preserving order?
     
@@ -678,7 +679,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 * One approach:
 
-      ```python
+    ```python
       seen = set()
       result = []
       for x in lst:
@@ -686,7 +687,7 @@ to ensure `main()` runs only when script is executed, not when imported.
               seen.add(x)
               result.append(x)
       # result is deduplicated list preserving order
-      ```
+    ```
 
 ### 48. **Q:** What does the `*args` and `**kwargs` syntax mean in function definitions?
     
@@ -696,7 +697,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 * `**kwargs`: collects extra keyword arguments into a dict.
 * Example:
 
-      ```python
+    ```python
       def func(a, b, *args, **kwargs):
           print(a, b)
           print(args)
@@ -707,7 +708,7 @@ to ensure `main()` runs only when script is executed, not when imported.
       # 1 2
       # (3,4)
       # {'x':5, 'y':6}
-      ```
+    ```
 
 ### 49. **Q:** How do you pick a random element from a list?
     
@@ -715,11 +716,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 * Use the `random` module:
 
-      ```python
+    ```python
       import random
       lst = [1,2,3,4]
       print(random.choice(lst))
-      ```
+    ```
 
 ### 50. **Q:** What is list slicing vs indexing?
     
@@ -729,11 +730,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 * Slicing (`lst[i:j]`): returns a new list with elements from i up to (but not including) j.
 * Example:
 
-      ```python
+    ```python
       lst = [10,20,30,40]
       print(lst[2])     # 30
       print(lst[1:3])   # [20,30]
-      ```
+    ```
 
 ---
 
