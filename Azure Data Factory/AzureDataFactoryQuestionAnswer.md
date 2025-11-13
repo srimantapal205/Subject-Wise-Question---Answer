@@ -1,3 +1,10 @@
+# Azure Data Factory - Question and Answer
+
+
+
+
+---
+
 ### Question 1: What is Azure Data Factory and why do you need it?
 **Answer :** Azure Data Factory is a cloud-based service that enables data orchestration and integration. It acts as a conductor, managing various data activities to solve business problems. 
 
@@ -9,12 +16,19 @@ For example, transferring data from an on-premises SQL Server to Azure SQL Cloud
 
 3. ETL Operations: Extracting, transforming, and loading data, even unstructured or semi-structured data, using features like Data Flow.
 
+
+
+---
+
 ### Question 2: What is a pipeline in Azure Data Factory?
 **Answer :** A pipeline in Azure Data Factory is a collection of activities designed to execute in a defined sequence to achieve a specific task. It is the fundamental building block in ADF. For example:
 - A pipeline may start with a Lookup Activity, followed by a Copy Activity.
 - It can be used to define conditional logic, like "if condition A, do X; if condition B, do Y."
 
 A basic pipeline could include just a single activity, such as moving data from an on-premises server to the cloud.
+
+
+---
 
 ### Question 3: What do you mean by a data source in Azure Data Factory?
 **Answer :** A data source in Azure Data Factory represents the input or output system involved in data movement or transformation processes. It can be:
@@ -31,6 +45,9 @@ A basic pipeline could include just a single activity, such as moving data from 
 
 In essence, a data source is a system or storage used to interact with data during ADF operations.
 
+
+---
+
 ### Question 4: What is a linked service in Azure Data Factory?
 
 **Answer:** A linked service in Azure Data Factory is a connection object that defines how ADF connects to external data sources or systems.
@@ -46,6 +63,9 @@ In essence, a data source is a system or storage used to interact with data duri
 - A linked service is created for the SQL database (source).
 - Another linked service is created for Azure Blob Storage (destination).
 
+
+---
+
 ### Question 5: What is a dataset in Azure Data Factory?
 **Answer :** A dataset in Azure Data Factory represents a structure or pointer to the data within a data source. It acts as a reference to the actual data being used in pipelines.
 Key Points about Datasets:
@@ -58,6 +78,9 @@ Example: For transferring data from a SQL database to a Blob Storage, you would:
 
 In summary, datasets provide a structured representation of data stored in external systems, facilitating data operations in ADF.
 
+
+---
+
 ### Question 6: What is the integration runtime in Azure Data Factory?
 **Answer :** The integration runtime (IR) is the compute infrastructure used by Azure Data Factory to perform data movement, transformation, and dispatching activities.  Key Points about Integration Runtime:
 - It provides the compute resources for data transfer and activity execution.
@@ -65,6 +88,9 @@ In summary, datasets provide a structured representation of data stored in exter
 - Plays a significant role in pipeline costs as it determines the compute usage.
 
 Example: When moving data from an on-premises SQL database to Azure Blob Storage, IR handles the compute required to copy the data. In short, integration runtime is the core component that powers the data transfer and transformations in Azure Data Factory.
+
+
+---
 
 ### Question 7: What are mapping data flows in Azure Data Factory?
 **Answer :** Mapping data flows are visual, no-code transformation tools in Azure Data Factory.
@@ -76,6 +102,9 @@ Key Points about Mapping Data Flows:
 
 Example: If you need to clean and aggregate data from multiple sources, you can use mapping data flows to visually define these transformations, which will run on Spark.
 
+
+---
+
 ### Question 8: What are triggers in Azure Data Factory?
 **Answer :** Triggers in Azure Data Factory are mechanisms used to start pipeline executions based on specific conditions or schedules.
 Key Points about Triggers:
@@ -84,6 +113,9 @@ Key Points about Triggers:
 - Commonly used to automate data workflows.
 
 Example: A trigger can be set to execute a pipeline whenever a new file is added to a specific container in Blob Storage. Triggers provide a flexible way to schedule and automate pipeline executions in ADF.
+
+
+---
 
 ### Question 9: What is the copy activity in Azure Data Factory?
 **Answer :** The copy activity is a core activity in Azure Data Factory used to copy data from a source to a destination.
@@ -94,6 +126,9 @@ Key Points about Copy Activity:
 - Widely used for data migration tasks.
 
 Example: Copy activity can transfer data from an on-premises SQL database to Azure Blob Storage, either in full or incrementally, depending on the pipeline configuration.
+
+---
+
 
 ---
 
@@ -113,6 +148,9 @@ Example: Copy activity can transfer data from an on-premises SQL database to Azu
     - Triggers execute the complete pipeline; debug can halt at a set point.
     - Debug is interactive and used for testing, while triggers are for scheduled or event-driven automation in production.
     - Both logs are separated to help identify whether executions are debug or trigger-based.
+
+
+---
 
 ### Question 11: What is a variable in an Azure Data Factory pipeline?
 **Answer:**
@@ -134,6 +172,9 @@ Example: Copy activity can transfer data from an on-premises SQL database to Azu
     - Create a variable named myDate in pipeline1.
     - Use the Set Variable activity to assign a value (e.g., a specific date) or derive the value dynamically during execution.
 This functionality enables flexibility and control over temporary data during pipeline workflows.
+
+
+---
 
 ### Question 12: What are pipeline parameters in Azure Data Factory?
 **Answer:**
@@ -161,6 +202,9 @@ This functionality enables flexibility and control over temporary data during pi
     - Supports dynamic configurations and user-specific executions without modifying the pipeline definition.
 Pipeline parameters are a powerful feature to enhance the scalability and versatility of data workflows.
 
+
+---
+
 ### Question 13: What is the difference between variables and pipeline parameters in Azure Data Factory?
 **Answer:**
 - Variables:
@@ -181,6 +225,9 @@ Pipeline parameters are a powerful feature to enhance the scalability and versat
         - Variables: During pipeline execution using the Set Variable activity.
         - Pipeline Parameters: Before the pipeline starts, during runtime configuration.
 Understanding this distinction helps to use these features effectively based on the pipeline's dynamic needs.
+
+
+---
 
 ### Question 14: What are global parameters in Azure Data Factory?
 **Answer:**
@@ -205,6 +252,9 @@ Understanding this distinction helps to use these features effectively based on 
     - Define a global parameter named databaseName with the value Mission100DB.
     - Use this parameter across pipelines where the database name is needed. If the database name changes, update it in the global parameter, and the change propagates to all pipelines automatically.
 Global parameters simplify managing shared configurations and ensure consistency across pipelines, especially in large-scale workflows.
+
+
+---
 
 ### Question 15: At how many levels can parameterization be done in Azure Data Factory (ADF)?
 **Answer:** Parameterization in ADF can be done at four levels, providing flexibility to handle dynamic values in different scopes:
@@ -249,6 +299,9 @@ Demonstration in ADF Studio:
 - Global Parameter:
     - Go to Manage Tab → Global Parameters → New Parameter.
 These levels of parameterization offer powerful tools to create dynamic, reusable, and scalable workflows in Azure Data Factory.
+
+
+---
 
 ### Question 16: What are Azure Data Factory User Properties?
 **Answer:** User Properties in Azure Data Factory are custom key-value pairs that can be added to activities in a pipeline. These properties are primarily used for monitoring and debugging purposes, providing additional context about activity execution.
@@ -295,12 +348,18 @@ These levels of parameterization offer powerful tools to create dynamic, reusabl
     - Centralized Monitoring: Useful for pipelines with multiple activities to track each activity’s purpose and outcome.
 By using user properties effectively, you can streamline the monitoring and debugging processes in Azure Data Factory.
 
+
+---
+
 ### Question 17: What is the annotation in Azure Data Factory (ADF)?
 **Answer:** Annotations in Azure Data Factory (ADF) allow you to attach additional information to components like pipelines, linked services, or datasets. They act like tags that can help organize and filter ADF resources.
 
 For example, in a shared ADF environment used by multiple teams, annotations can be used to tag pipelines or linked services to indicate which team owns them. This makes it easier for new team members to identify relevant components and avoid confusion.
 
 Annotations can also be used as a filtering criterion to display only resources with specific tags, improving clarity and manageability. You can add annotations through the properties section of a pipeline, linked service, or dataset in ADF Studio. When filtering, annotations help narrow down the view to only those components associated with a particular tag or group.
+
+
+---
 
 ### Question 18: What is the difference between Azure Data Factory user properties and annotations?
 **Answer:**
@@ -325,6 +384,9 @@ Annotations can also be used as a filtering criterion to display only resources 
 - Use user properties to capture execution-specific details or custom metrics for activities.
 
 These distinctions clarify when to use annotations or user properties in Azure Data Factory projects, enabling better resource management and execution tracking.
+
+
+---
 
 ### Question 19: What are the different types of Integration Runtimes in Azure Data Factory?
 **Answer:** Integration Runtime (IR) in Azure Data Factory is the core component that provides the computational power to execute activities in a pipeline. There are three types of Integration Runtimes:
@@ -355,11 +417,17 @@ These distinctions clarify when to use annotations or user properties in Azure D
 These options allow flexibility in configuring the IR based on the specific requirements of your data integration tasks.
 
 ---
+
+---
+
 ### Question 20: Is it mandatory to create an Integration Runtime (IR) in Azure Data Factory (ADF)? Explain why.
 
 **Answer :** No, it is not mandatory to create an Integration Runtime (IR) in Azure Data Factory (ADF). When you create an Azure Data Factory account, you automatically get a default Integration Runtime called Auto Resolve Integration Runtime. This default IR works perfectly well for data movement and transformation within the cloud or across public networks.
 
 However, if you need to transfer data from a private network or on-premises server to the cloud, you must create a Self-Hosted Integration Runtime. This is necessary to enable secure and seamless data migration in such scenarios.
+
+
+---
 
 ### Question 21: Is it possible to call one pipeline from another pipeline in Azure Data Factory (ADF)? If yes, how?
 **Answer :** Yes, it is possible to call one pipeline from another pipeline in Azure Data Factory (ADF). This can be achieved using the `Execute Pipeline Activity`.
@@ -378,6 +446,9 @@ Steps to call a pipeline from another pipeline:
     - Child Pipeline: The pipeline being invoked through the Execute Pipeline Activity.
 By using the Execute Pipeline Activity, you can easily manage pipeline dependencies and control their execution flow, ensuring either sequential or parallel processing based on your requirements.
 
+
+
+---
 
 ### Question 22: How can you ensure that while pulling data from an on-premises database server for multiple tables using a copy activity inside a ForEach loop in Azure Data Factory (ADF), only one database request is sent at a time?
 **Answer :** Yes, it is possible to ensure that only one database request is sent at a time when using a ForEach loop for pulling data from multiple tables in Azure Data Factory.
@@ -412,6 +483,9 @@ By using the Execute Pipeline Activity, you can easily manage pipeline dependenc
 By configuring the ForEach activity in sequential mode, you ensure that each table’s data is copied one at a time, thereby adhering to the requirement of sending only 
 one request to the on-premises database at a time.
 
+
+
+---
 
 ### Question 23: You are moving data from an on-premises database to Azure Cloud using Azure Data Factory (ADF). What are the necessary steps to ensure the pipeline executes successfully?
 **Answer :** To successfully move data from an on-premises database to Azure Cloud using Azure Data Factory, follow these steps:
@@ -449,6 +523,9 @@ Key Considerations:
 - Performance: Optimize the pipeline settings to handle large datasets efficiently.
 By following these steps, you can ensure the pipeline runs successfully and migrates data securely from the on-premises database to Azure Cloud.
 
+
+---
+
 ### Question 24: How can you ensure that data movement between an Azure SQL Database and Azure Storage within the same region (e.g., US East) does not violate compliance by moving data outside the region during an Azure Data Factory (ADF) copy activity?
 **Answer :** To ensure data movement stays within the same region and complies with regulations, you need to configure a custom Azure Integration Runtime (IR) and avoid relying on the default Auto-Resolve IR. Here's how you can achieve this:
 
@@ -478,6 +555,9 @@ By following these steps, you can ensure the pipeline runs successfully and migr
 By explicitly assigning an Azure Integration Runtime tied to a specific region, you eliminate the risk of ADF using integration runtime resources outside the intended region, thereby ensuring compliance with data residency requirements.
 
 This approach guarantees that all data movement operations stay confined to the selected region, adhering to strict compliance standards.
+
+
+---
 
 ### Question 24: How can you ensure that data movement between an Azure SQL Database and Azure Storage in the same region (e.g., US East) complies with the requirement that data should not leave the region, using Azure Data Factory (ADF)?
 
@@ -511,6 +591,9 @@ A Custom Azure Integration Runtime provides full control over the region in whic
     - A Custom Azure Integration Runtime is a preferred approach for scenarios requiring strict regional control.
 This solution ensures compliance and eliminates the risk of accidental data movement outside the specified region.
 
+
+
+---
 
 ### Question 25: How can you implement a nested ForEach loop in Azure Data Factory (ADF) when ADF does not natively support nesting ForEach activities?
 
@@ -552,6 +635,9 @@ The Execute Pipeline activity allows modular design by invoking one pipeline fro
 - May introduce slightly increased latency due to inter-pipeline execution overhead.
 - Requires careful parameter management to ensure seamless data flow between parent and child pipelines.
 
+
+
+---
 
 ### Question 26: How do you move your Azure Data Factory (ADF) pipeline from development to another environment like UAT or production? What best practices should you follow?
 **Answer :** To move your Azure Data Factory pipeline from development to another environment such as UAT or production, follow these steps and best practices:
@@ -597,6 +683,9 @@ The Execute Pipeline activity allows modular design by invoking one pipeline fro
 
 
 
+
+
+---
 
 ### Question 27: You are informed that your production pipeline, which was working fine earlier, has suddenly stopped working. What steps will you take to troubleshoot and resolve the issue?
 
@@ -667,6 +756,9 @@ By following this structured troubleshooting process, you can systematically ide
 
 
 
+
+---
+
 ### Question 28: How would you create an incremental pipeline to pull data from an on-premises database to Azure SQL Database on a daily basis?
 **Answer :** To create an incremental pipeline in Azure Data Factory (ADF), the high watermark concept can be utilized. Here's a detailed explanation of how to implement this approach:
 High Watermark Concept
@@ -733,6 +825,9 @@ The pipeline consists of the following activities:
 
 By following this high watermark-based approach, you ensure efficient and reliable incremental data loading from an on-premises database to Azure SQL Database.
 
+
+---
+
 ### Question 30: Assume there is a business requirement where an external application drops a file in a Blob Storage account. Your pipeline has to pick this file and push the data into an Azure SQL Database. How would you design the solution using Azure Data Factory?
 **Answer :**
 To design the solution:
@@ -763,6 +858,9 @@ To design the solution:
 - The event trigger activates the pipeline.
 - The Copy Activity transfers the data to Azure SQL Database.
     
+
+---
+
 ### Question 31: Assume there is a business requirement where your pipeline is copying data from source to destination. You want to receive an email notification whenever the copy activity fails. How would you design this solution using Azure Data Factory?
 **Answer :**
 **To design the solution:**
@@ -793,6 +891,9 @@ To design the solution:
 - The pipeline operates normally for successful copy activities.
 
 - In case of failure, the Logic App sends an automated email notification with relevant error details.
+
+
+---
 
 ### Question 32: Assume you are developing a pipeline that copies data from source to destination. This pipeline runs daily, and you need to create a folder hierarchy to store the file in a proper date format. The folder structure should dynamically change based on the date the pipeline runs. How would you design this solution using Azure Data Factory?
 **Answer :**
@@ -826,6 +927,9 @@ This setup ensures that the folder hierarchy is automatically created based on t
 
 
 
+
+---
+
 ### Question 33: Assume you are developing a pipeline that copies data from a REST API source to a destination. The pipeline runs daily, and the REST endpoints are dynamic, with the URL containing a date parameter that changes based on the pipeline's execution day. How would you design this solution using Azure Data Factory?
 **Answer :**
 ** To design the solution:**
@@ -856,6 +960,9 @@ This setup ensures that the folder hierarchy is automatically created based on t
 
 This method ensures that the REST endpoint dynamically adjusts to fetch the appropriate data based on the current execution date, aligning with the daily run schedule of the pipeline.
 
+
+
+---
 
 ### Question 34: How would you design a solution to copy data automatically from multiple files in a folder, where each file corresponds to a specific table in a database, and the file names match the table names?
 
@@ -892,6 +999,9 @@ This method ensures that the REST endpoint dynamically adjusts to fetch the appr
     - Validate parameterization to avoid errors in dynamic dataset configurations.
 
 
+
+---
+
 ### Question 35: In which scenario would you use a Linked Self-Hosted Integration Runtime in Azure Data Factory?
 
 **Answer :**
@@ -921,6 +1031,9 @@ A Linked Self-Hosted Integration Runtime is used when you want to reuse an exist
 - Reduced Setup Time: Avoids redundant configuration.
 - Cost Savings: Eliminates the need for additional virtual machines or integration runtimes.
 
+
+
+---
 
 ### Question 37: How would you handle a scenario where some rows in a file do not match the table schema, causing the Copy Activity in Azure Data Factory to fail?
 
@@ -972,6 +1085,9 @@ Benefits:
 
 This approach ensures efficient handling of data mismatches while providing visibility into the failed rows for corrective action.
 
+
+
+---
 
 ### Question 38: How can you improve the performance of a Copy Activity in Azure Data Factory if it is working very slowly?
 
