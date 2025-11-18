@@ -234,25 +234,25 @@ Consider an Orders table where OrderID and ProductID together uniquely identify 
 
 Data integrity refers to the accuracy, consistency, and reliability of the data stored in the database. SQL databases maintain data integrity through several mechanisms:
 
-Constraints: Ensuring that certain conditions are always met. For example, NOT NULL ensures a column cannot have missing values, FOREIGN KEY ensures a valid relationship between tables, and UNIQUE ensures no duplicate values.
+**Constraints:** Ensuring that certain conditions are always met. For example, NOT NULL ensures a column cannot have missing values, FOREIGN KEY ensures a valid relationship between tables, and UNIQUE ensures no duplicate values.
 
-Transactions: Ensuring that a series of operations either all succeed or all fail, preserving data consistency.
+**Transactions:** Ensuring that a series of operations either all succeed or all fail, preserving data consistency.
 
-Triggers: Automatically enforcing rules or validations before or after changes to data.
+**Triggers:** Automatically enforcing rules or validations before or after changes to data.
 
-Normalization: Organizing data into multiple related tables to minimize redundancy and prevent anomalies.
+**Normalization:** Organizing data into multiple related tables to minimize redundancy and prevent anomalies.
 
 These measures collectively ensure that the data remains reliable and meaningful over time.
 
 ## 35. What are the advantages of using stored procedures?
 
-Improved Performance: Stored procedures are precompiled and cached in the database, making their execution faster than sending multiple individual queries.
+**Improved Performance:** Stored procedures are precompiled and cached in the database, making their execution faster than sending multiple individual queries.
 
-Reduced Network Traffic: By executing complex logic on the server, fewer round trips between the application and database are needed.
+**Reduced Network Traffic:** By executing complex logic on the server, fewer round trips between the application and database are needed.
 
-Enhanced Security: Stored procedures can restrict direct access to underlying tables, allowing users to execute only authorized operations.
+**Enhanced Security:** Stored procedures can restrict direct access to underlying tables, allowing users to execute only authorized operations.
 
-Reusability and Maintenance: Once a procedure is written, it can be reused across multiple applications. If business logic changes, you only need to update the stored procedure, not every application that uses it.
+**Reusability and Maintenance:** Once a procedure is written, it can be reused across multiple applications. If business logic changes, you only need to update the stored procedure, not every application that uses it.
 
 ## 36. What is a UNION operation, and how is it used?
 
@@ -266,9 +266,9 @@ Example:
 
 ## 37. What is the difference between UNION and UNION ALL?
 
-UNION: Removes duplicate rows from the result set, ensuring only unique rows are returned.
+**UNION:** Removes duplicate rows from the result set, ensuring only unique rows are returned.
 
-UNION ALL: Includes all rows from each query, including duplicates.
+**UNION ALL:** Includes all rows from each query, including duplicates.
 
 Performance-wise, UNION ALL is faster because it doesn’t require an additional step to remove duplicates.
 Example:
@@ -294,12 +294,11 @@ Example:
 
 Scalar functions operate on individual values and return a single value as a result. They are often used for formatting or converting data. Common examples include:
 
-LEN(): Returns the length of a string.
+**LEN():** Returns the length of a string.
 
-ROUND(): Rounds a numeric value.
+**ROUND():** Rounds a numeric value.
 
-CONVERT(): Converts a value from one data type to another.
-
+**CONVERT():** Converts a value from one data type to another.
 Example:
 
         SELECT LEN('Example') AS StringLength;
@@ -313,13 +312,13 @@ Example:
 
 ## 41. What are the differences between SQL’s COUNT() and SUM() functions?
 
-1. COUNT(): Counts the number of rows or non-NULL values in a column.
+1. **COUNT():** Counts the number of rows or non-NULL values in a column.
 
 Example:
 
         SELECT COUNT(*) FROM Orders;
 
-2. SUM(): Adds up all numeric values in a column.
+2. **SUM():** Adds up all numeric values in a column.
 
 Example:
 
@@ -327,9 +326,9 @@ Example:
 
 ## 42. What is the difference between the NVL and NVL2 functions?
 
-NVL(): Replaces a NULL value with a specified replacement value.
+**NVL():** Replaces a NULL value with a specified replacement value.
 
-NVL2(): Evaluates two values:
+**NVL2():** Evaluates two values:
 
 If the first argument is NOT NULL, returns the second argument.
 
@@ -342,9 +341,9 @@ Example:
 
 ## 43. How does the RANK() function differ from DENSE_RANK()?
     
-RANK(): Assigns a rank to each row, with gaps if there are ties.
+**RANK():** Assigns a rank to each row, with gaps if there are ties.
 
-DENSE_RANK(): Assigns consecutive ranks without any gaps.
+**DENSE_RANK():** Assigns consecutive ranks without any gaps.
 
 Example:
 
@@ -355,9 +354,9 @@ If two employees have the same salary, they get the same rank, but RANK() will s
 
 ## 44. What is the difference between ROW_NUMBER() and RANK()?
 
-ROW_NUMBER(): Assigns a unique number to each row regardless of ties.
+**ROW_NUMBER():** Assigns a unique number to each row regardless of ties.
 
-RANK(): Assigns the same number to tied rows and leaves gaps for subsequent ranks.
+**RANK():** Assigns the same number to tied rows and leaves gaps for subsequent ranks.
 
 Example:
 
@@ -387,13 +386,13 @@ Example: Calculating a running total
 
 ## 47. What is the difference between an index and a key in SQL?
 
-1. Index
+1. **Index**
 
 An index is a database object created to speed up data retrieval. It stores a sorted reference to table data, which helps the database engine find rows more quickly than scanning the entire table.
 
 Example: A non-unique index on a column like LastName allows quick lookups of rows where the last name matches a specific value.
 
-2. Key
+2. **Key**
 
 A key is a logical concept that enforces rules for uniqueness or relationships in the data.
 
