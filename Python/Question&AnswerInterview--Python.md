@@ -169,10 +169,10 @@ Then you can `import mypackage.module1` etc.
 * `pass` is a no-operation placeholder: it does nothing when executed. It’s useful when you need a syntactically valid block but haven’t implemented it yet. 
 * Example:
 
-      ```python
+    ```python
       def not_implemented_yet():
           pass
-      ```
+    ```
 
 ### 13. **Q:** What is the difference between “pass by value” and “pass by reference” in Python?
     

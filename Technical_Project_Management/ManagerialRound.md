@@ -1,4 +1,4 @@
-# ✅ **Managerial Round – Azure Data Engineer Questions & Answers**
+# ✅ **  Questions & Answers**
 
 ---
 
