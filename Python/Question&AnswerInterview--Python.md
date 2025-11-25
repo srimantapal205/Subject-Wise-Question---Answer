@@ -572,9 +572,9 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 **Answer:**
 
-    * `==` checks equality of two strings.
-    * `<`, `>` compare lexicographically (based on character codes).
-    * Example:
+* `==` checks equality of two strings.
+* `<`, `>` compare lexicographically (based on character codes).
+* Example:
 
     ```python
       print("apple" < "banana")   # True
@@ -585,7 +585,7 @@ to ensure `main()` runs only when script is executed, not when imported.
 
 **Answer:**
 
-    * Example:
+* Example:
 
     ```python
       # Writing
@@ -731,11 +731,11 @@ to ensure `main()` runs only when script is executed, not when imported.
 - Slicing (`lst[i:j]`): returns a new list with elements from i up to (but not including) j.
 - Example:
 
-  ```python
+```python
     lst = [10,20,30,40]
     print(lst[2])     # 30
     print(lst[1:3])   # [20,30]
-  ```
+```
 
 ---
 
@@ -747,11 +747,11 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
 
 **Answer:**
 
-    * Python supports multiple inheritance: a class can inherit from multiple base classes.
-    * The Method Resolution Order (MRO) defines the order in which base classes are searched when looking up a method. In new-style classes (Python 3) it uses C3 linearization.
-    * Example:
+* Python supports multiple inheritance: a class can inherit from multiple base classes.
+* The Method Resolution Order (MRO) defines the order in which base classes are searched when looking up a method. In new-style classes (Python 3) it uses C3 linearization.
+* Example:
 
-      ```python
+    ```python
       class A:
           def greet(self): print("A")
 
@@ -767,25 +767,25 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       d = D()
       d.greet()  # prints "B", because B is searched before C
       print(D.mro())  # [D, B, C, A, object]
-      ```
-    * Key takeaway: MRO ensures a consistent and deterministic lookup order.
+    ```
+* Key takeaway: MRO ensures a consistent and deterministic lookup order.
 
 ### 52. **Q:** What is the difference between shallow copy and deep copy? (again but in context)
 
 **Answer:**
 
-    * As answered previously: shallow copy copies the outer object, inner references still point to original. Deep copy copies the entire structure recursively.
-    * Use when you want independent nested objects.
-    * Example shown in beginner section.
+* As answered previously: shallow copy copies the outer object, inner references still point to original. Deep copy copies the entire structure recursively.
+* Use when you want independent nested objects.
+* Example shown in beginner section.
 
 ### 53. **Q:** What is a decorator in Python? Provide an example.
 
 **Answer:**
 
-    * A decorator is a function that takes another function (or class) as input and returns a new function (or class) with added/modified behavior.
-    * Example:
+* A decorator is a function that takes another function (or class) as input and returns a new function (or class) with added/modified behavior.
+* Example:
 
-      ```python
+    ```python
       def my_decorator(func):
           def wrapper(*args, **kwargs):
               print("Before function call")
@@ -803,34 +803,34 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       # Before function call
       # Hello!
       # After function call
-      ```
+    ```
 
 ### 54. **Q:** What are iterators and iterable in Python?
 
 **Answer:**
 
-    * An **iterable** is an object you can obtain an iterator from (e.g., lists, tuples, sets, dicts).
-    * An **iterator** is an object that implements `__next__()` and `__iter__()`; calling `next()` yields successive values, raises `StopIteration` when done.
-    * Example:
+* An **iterable** is an object you can obtain an iterator from (e.g., lists, tuples, sets, dicts).
+* An **iterator** is an object that implements `__next__()` and `__iter__()`; calling `next()` yields successive values, raises `StopIteration` when done.
+* Example:
 
-      ```python
+    ```python
       lst = [1,2,3]
       it = iter(lst)
       print(next(it))  # 1
       print(next(it))  # 2
       print(next(it))  # 3
       # next(it) now raises StopIteration
-      ```
+    ```
 
 ### 55. **Q:** What is `yield` and how does it differ from `return`?
 
 **Answer:**
 
-    * `return` ends function execution and optionally sends back a value.
-    * `yield` makes the function a generator: each time it yields, it suspends state and returns a value; next time it resumes after yield.
-    * Example:
+* `return` ends function execution and optionally sends back a value.
+* `yield` makes the function a generator: each time it yields, it suspends state and returns a value; next time it resumes after yield.
+* Example:
 
-      ```python
+    ```python
       def count_up_to(n):
           i = 1
           while i <= n:
@@ -839,32 +839,32 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
 
       for num in count_up_to(3):
           print(num)  # 1,2,3
-      ```
+    ```
 
 ### 56. **Q:** Explain list vs generator comprehensions; differences in memory.
 
 **Answer:**
 
-    * List comprehension (`[x*x for x in range(n)]`) builds the entire list in memory.
-    * Generator expression (`(x*x for x in range(n))`) returns a generator that yields items one at a time; uses less memory.
-    * Example:
+* List comprehension (`[x*x for x in range(n)]`) builds the entire list in memory.
+* Generator expression (`(x*x for x in range(n))`) returns a generator that yields items one at a time; uses less memory.
+* Example:
 
-      ```python
+    ```python
       squares_list = [x*x for x in range(1000000)]
       # uses memory for all million squares
 
       squares_gen = (x*x for x in range(1000000))
       # memory footprint is small; yields one at a time
-      ```
+    ```
 
 ### 57. **Q:** What is an abstract base class (ABC) in Python?
 
 **Answer:**
 
-    * In module `abc`, you can define classes with `@abstractmethod` that cannot be instantiated unless abstract methods are overridden. Useful for interface‐like behavior.
-    * Example:
+* In module `abc`, you can define classes with `@abstractmethod` that cannot be instantiated unless abstract methods are overridden. Useful for interface‐like behavior.
+* Example:
 
-      ```python
+    ```python
       from abc import ABC, abstractmethod
 
       class Shape(ABC):
@@ -881,24 +881,24 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       # s = Shape()  # Error
       c = Circle(5)
       print(c.area())  # 78.5
-      ```
+    ```
 
 ### 58. **Q:** How does Python’s memory management work? (heap, garbage collection)
 
 **Answer:**
 
-    * Python uses a private heap for all objects & data structures. The memory manager handles allocation. ([BrainStation][4])
-    * There’s built-in garbage collection (GC) and reference counting: when an object’s reference count drops to zero, it can be reclaimed.
-    * Example: cyclic references may require GC to clean up.
+* Python uses a private heap for all objects & data structures. The memory manager handles allocation. ([BrainStation][4])
+* There’s built-in garbage collection (GC) and reference counting: when an object’s reference count drops to zero, it can be reclaimed.
+* Example: cyclic references may require GC to clean up.
 
 ### 59. **Q:** What are `__slots__` in Python classes and when might you use them?
 
 **Answer:**
 
-    * `__slots__` is a class variable you define to restrict attribute creation to a fixed list and avoid per‐instance `__dict__`, reducing memory overhead when many instances exist.
-    * Example:
+* `__slots__` is a class variable you define to restrict attribute creation to a fixed list and avoid per‐instance `__dict__`, reducing memory overhead when many instances exist.
+* Example:
 
-      ```python
+    ```python
       class Point:
           __slots__ = ('x', 'y')
           def __init__(self, x, y):
@@ -906,17 +906,17 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
               self.y = y
 
       p = Point(1,2)
-      # p.z = 10  # AttributeError
-      ```
+        # p.z = 10  # AttributeError
+     ```
 
 ### 60. **Q:** Explain context managers and how you can create your own using `__enter__`, `__exit__`.
 
 **Answer:**
 
-    * A context manager defines `__enter__()` (called at block start) and `__exit__(exc_type, exc_val, exc_tb)` (called on exit). It can be used with `with` statement to manage resources.
-    * Example:
+* A context manager defines `__enter__()` (called at block start) and `__exit__(exc_type, exc_val, exc_tb)` (called on exit). It can be used with `with` statement to manage resources.
+* Example:
 
-      ```python
+    ```python
       class MyContext:
           def __enter__(self):
               print("Enter")
@@ -930,31 +930,31 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       # Enter
       # Inside
       # Exit
-      ```
+    ```
 
 ### 61. **Q:** What is monkey-patching?
 
 **Answer:**
 
-    * Monkey‐patching refers to dynamically modifying classes or modules at runtime (adding methods, changing behavior). While powerful, it can be risky for maintainability.
-    * Example:
+* Monkey‐patching refers to dynamically modifying classes or modules at runtime (adding methods, changing behavior). While powerful, it can be risky for maintainability.
+* Example:
 
-      ```python
+    ```python
       import math
       original_sqrt = math.sqrt
       math.sqrt = lambda x: 42
       print(math.sqrt(16))  # 42
       math.sqrt = original_sqrt  # restore
-      ```
+    ```
 
 ### 62. **Q:** Explain how you would implement a stack data structure in Python.
 
 **Answer:**
 
-    * Use a list (or `collections.deque`) to implement stack: `push` = `append`, `pop` = `pop()`.
-    * Example:
+* Use a list (or `collections.deque`) to implement stack: `push` = `append`, `pop` = `pop()`.
+* Example:
 
-      ```python
+    ```python
       class Stack:
           def __init__(self):
               self._items = []
@@ -970,25 +970,25 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
               return None
           def is_empty(self):
               return not self._items
-      ```
+    ```
 
 ### 63. **Q:** Explain shallow vs deep copy again but in context of lists of dictionaries.
 
 **Answer:**
 
-    * Suppose you have `lst = [ {'a':1}, {'b':2} ]`.
+* Suppose you have `lst = [ {'a':1}, {'b':2} ]`.
 
-      * A shallow copy `lst2 = lst.copy()` creates a new top‐level list but the dictionaries inside are the same objects. Modifying a dictionary in `lst2` modifies `lst`.
-      * A deep copy (`import copy; lst3 = copy.deepcopy(lst)`) duplicates the dictionaries too, so modifications are independent.
+* A shallow copy `lst2 = lst.copy()` creates a new top‐level list but the dictionaries inside are the same objects. Modifying a dictionary in `lst2` modifies `lst`.
+* A deep copy (`import copy; lst3 = copy.deepcopy(lst)`) duplicates the dictionaries too, so modifications are independent.
 
 ### 64. **Q:** How do you sort a list of dictionaries by a given key?
 
 **Answer:**
 
-    * Use `sorted()` with `key=` parameter or list’s `sort()` method.
-    * Example:
+* Use `sorted()` with `key=` parameter or list’s `sort()` method.
+* Example:
 
-      ```python
+    ```python
       people = [
         {"name":"Alice","age":30},
         {"name":"Bob","age":25},
@@ -996,45 +996,45 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       ]
       sorted_by_age = sorted(people, key=lambda x: x["age"])
       # [{'name':'Bob',...}, {'name':'Carol',...}, {'name':'Alice',...}]
-      ```
+    ```
 
 ### 65. **Q:** Explain the difference between `__new__` and `__init__` in class instantiation.
 
 **Answer:**
 
-    * `__new__(cls, ...)` is called to create (allocate) a new instance (before initialization). It returns the new instance (or subclass).
-    * `__init__(self, ...)` initializes the instance after it’s created.
-    * Usually you override `__new__` when subclassing immutable types (like `tuple`, `str`) or customizing instantiation.
+* `__new__(cls, ...)` is called to create (allocate) a new instance (before initialization). It returns the new instance (or subclass).
+* `__init__(self, ...)` initializes the instance after it’s created.
+* Usually you override `__new__` when subclassing immutable types (like `tuple`, `str`) or customizing instantiation.
 
 ### 66. **Q:** What is list slicing performance — is it O(n)?
 
 **Answer:**
 
-    * Yes, slicing a list (e.g., `lst[1:1000]`) creates a new list and copies elements, so it’s O(k) where k = size of slice.
-    * Important for performance when doing many or large slices.
+* Yes, slicing a list (e.g., `lst[1:1000]`) creates a new list and copies elements, so it’s O(k) where k = size of slice.
+* Important for performance when doing many or large slices.
 
 ### 67. **Q:** How do Python’s built-in `sort()` and `sorted()` functions work internally (algorithm)?
 
 **Answer:**
 
-    * Python (CPython) uses Timsort (a hybrid stable sorting algorithm derived from merge sort and insertion sort) for list sorting since Python 2.3. ([Wikipedia][5])
-    * It is O(n log n) worst-case, and takes advantage of existing runs (already sorted subsequences) to accelerate for nearly‐sorted input.
+* Python (CPython) uses Timsort (a hybrid stable sorting algorithm derived from merge sort and insertion sort) for list sorting since Python 2.3. ([Wikipedia][5])
+* It is O(n log n) worst-case, and takes advantage of existing runs (already sorted subsequences) to accelerate for nearly‐sorted input.
 
 ### 68. **Q:** What is the Global Interpreter Lock (GIL) in Python?
 
 **Answer:**
 
-    * The GIL is a mutex that allows only one native thread to execute Python bytecode at a time in CPython.
-    * It means multi-threading may not scale CPU‐bound workloads; you may use multiprocessing or external libraries releasing the GIL for concurrency.
+* The GIL is a mutex that allows only one native thread to execute Python bytecode at a time in CPython.
+* It means multi-threading may not scale CPU‐bound workloads; you may use multiprocessing or external libraries releasing the GIL for concurrency.
 
 ### 69. **Q:** How do you implement caching in Python (memoization) for a recursive function?
 
 **Answer:**
 
-    * Use dictionary to store previously computed results (manual) or use `functools.lru_cache`.
-    * Example:
+* Use dictionary to store previously computed results (manual) or use `functools.lru_cache`.
+* Example:
 
-      ```python
+    ```python
       from functools import lru_cache
 
       @lru_cache(maxsize=None)
@@ -1044,7 +1044,7 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
           return fib(n-1) + fib(n-2)
 
       print(fib(50))  # fast, thanks to caching
-      ```
+    ```
 
 ### 70. **Q:** What is the difference between `__call__()` and normal methods?
 
