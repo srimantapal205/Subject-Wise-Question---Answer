@@ -1068,10 +1068,10 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
 
 **Answer:**
 
-    * Use two pointers i, j starting at list1[0], list2[0], compare and copy smaller into result, advance pointer; when one list ends, copy remainder.
-    * Example:
+* Use two pointers i, j starting at list1[0], list2[0], compare and copy smaller into result, advance pointer; when one list ends, copy remainder.
+* Example:
 
-    ```python
+```python
       def merge(a, b):
           i = j = 0
           result = []
@@ -1084,7 +1084,7 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
           result.extend(a[i:])
           result.extend(b[j:])
           return result
-    ```
+```
 
 ### 72. **Q:** What is the difference between `__getitem__`, `__iter__`, `__next__` in custom classes?
 
@@ -1255,10 +1255,10 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
 
 **Answer:**
 
-    * For small immutable integers (-5 to 256 in CPython by default), Python caches objects, so `a is b` may be `True`.
-    * Example:
+* For small immutable integers (-5 to 256 in CPython by default), Python caches objects, so `a is b` may be `True`.
+* Example:
 
-    ```python
+```python
       a = 100
       b = 100
       print(a is b)  # True (because cached)
@@ -1266,7 +1266,7 @@ Here we dig a bit deeper: OOP, advanced built-ins, decorators, iterators, some a
       a = 1000
       b = 1000
       print(a is b)  # Often False (not guaranteed)
-    ```
+```
 
 ### 83. **Q:** How do you handle file not found error gracefully?
 
