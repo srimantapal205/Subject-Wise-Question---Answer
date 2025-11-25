@@ -1578,7 +1578,7 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
 
 **Answer:**
 
-    ```python
+```python
      import threading
 
      class Singleton:
@@ -1595,7 +1595,7 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
      s1 = Singleton()
      s2 = Singleton()
      print(s1 is s2)  # True
-    ```
+```
 
 ### 105. **Q:** What is the `async def __aenter__` / `__aexit__` pair used for?
 
@@ -1768,7 +1768,7 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
 
 **Answer:**
 
-    ```python
+```python
      class TrieNode:
          def __init__(self):
              self.children = {}
@@ -1796,7 +1796,7 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
      trie.insert("hello")
      print(trie.search("hell"))  # False
      print(trie.search("hello")) # True
-    ```
+```
 
 ### 117. **Q:** Explain context switching overhead in Python threads; why might you choose processes instead?
 
@@ -1919,15 +1919,15 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
 
 **Answer:**
 
-     * Use dynamic imports, registries, entry points (via `setuptools`), classes/interfaces.
-     * For example, use `pkg_resources.iter_entry_points('myapp.plugins')` and load plugin classes dynamically.
-     * Provide interface (abstract base class) for plugin, allow external modules to register via setup.py entry points.
+* Use dynamic imports, registries, entry points (via `setuptools`), classes/interfaces.
+* For example, use `pkg_resources.iter_entry_points('myapp.plugins')` and load plugin classes dynamically.
+* Provide interface (abstract base class) for plugin, allow external modules to register via setup.py entry points.
 
 ### 128. **Q:** How do you ensure backward compatibility in a Python library?
 
 **Answer:**
 
-     * Use semantic versioning; maintain hierarchy of versions; deprecate features rather than remove; use warnings (`import warnings; warnings.warn(...)`); write tests against older versions; maintain clear changelog; ensure code works under older Python interpreters if supported.
+* Use semantic versioning; maintain hierarchy of versions; deprecate features rather than remove; use warnings (`import warnings; warnings.warn(...)`); write tests against older versions; maintain clear changelog; ensure code works under older Python interpreters if supported.
 
 ### 129. **Q:** What is a “metaprogramming” technique in Python (one example)?
 
@@ -2029,14 +2029,14 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
 
 **Answer:**
 
-     * Use virtual environments (`venv`, `conda`), `requirements.txt` or `Pipfile`/`poetry`, pin versions, use CI to test on multiple python versions, use dependency injection, avoid global state.
-     * Employ modules, packages, and keep code modular.
+* Use virtual environments (`venv`, `conda`), `requirements.txt` or `Pipfile`/`poetry`, pin versions, use CI to test on multiple python versions, use dependency injection, avoid global state.
+* Employ modules, packages, and keep code modular.
 
 ### 135. **Q:** How would you implement a decorator that takes arguments?
 
 **Answer:**
 
-     ```python
+```python
      def repeat(n):
          def decorator(func):
              def wrapper(*args, **kwargs):
@@ -2051,16 +2051,16 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
 
      greet("Alice")
      # prints “Hello Alice” three times
-     ```
+```
 
 ### 136. **Q:** Explain how you would make Python objects picklable (i.e., suitable for serialization).
 
 **Answer:**
 
-     * Ensure that class is defined at top level (not nested); avoid unpickleable attributes (open file handles, sockets); implement `__getstate__`/`__setstate__` if needed; or use `copyreg` to register reduction.
-     * Example:
+* Ensure that class is defined at top level (not nested); avoid unpickleable attributes (open file handles, sockets); implement `__getstate__`/`__setstate__` if needed; or use `copyreg` to register reduction.
+* Example:
 
-       ```python
+    ```python
        import pickle
 
        class MyObj:
@@ -2070,30 +2070,30 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        obj = MyObj(10)
        data = pickle.dumps(obj)
        new_obj = pickle.loads(data)
-       ```
+    ```
 
 ### 137. **Q:** What is `__sizeof__()` method of object and how can you use it?
 
 **Answer:**
 
-     * `object.__sizeof__()` returns the memory size in bytes of the object (not including referents). For full memory footprint you may use `sys.getsizeof()` plus sum of sizes of referenced objects.
-     * Example:
+* `object.__sizeof__()` returns the memory size in bytes of the object (not including referents). For full memory footprint you may use `sys.getsizeof()` plus sum of sizes of referenced objects.
+* Example:
 
-       ```python
+    ```python
        import sys
        lst = [1,2,3]
        print(sys.getsizeof(lst))
-       ```
+    ```
 
 ### 138. **Q:** How do you implement dynamic attribute access (e.g., `__getattr__`, `__setattr__`)?
 
 **Answer:**
 
-     * `__getattr__(self, name)`: called when attribute `name` not found via normal lookup.
-     * `__setattr__(self, name, value)`: called for all attribute assignments (careful to avoid infinite recursion).
-     * Example:
+* `__getattr__(self, name)`: called when attribute `name` not found via normal lookup.
+* `__setattr__(self, name, value)`: called for all attribute assignments (careful to avoid infinite recursion).
+* Example:
 
-       ```python
+    ```python
        class Magic:
            def __getattr__(self, name):
                return f"No attribute {name}"
@@ -2104,25 +2104,25 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
        print(m.unknown)  # “No attribute unknown”
        m.x = 10
        print(m.x)        # 10
-       ```
+    ```
 
 ### 139. **Q:** Explain how you would perform A/B testing instrumentation in a Python web app.
 
 **Answer:**
 
-     * Design: randomize users into groups (A/B), log group assignment, track key metrics, ensure no bias.
-     * Implementation: e.g., middleware that assigns `variant = hash(user_id) % 2`, injects UI variation; log to analytics or internal DB; evaluate after sufficient sample size.
-     * Use feature flags, rollback capability, monitor statistical significance.
+* Design: randomize users into groups (A/B), log group assignment, track key metrics, ensure no bias.
+* Implementation: e.g., middleware that assigns `variant = hash(user_id) % 2`, injects UI variation; log to analytics or internal DB; evaluate after sufficient sample size.
+* Use feature flags, rollback capability, monitor statistical significance.
 
 ### 140. **Q:** What is “metaclass plumbing” – e.g., customizing class creation by overriding `__prepare__`, `__new__` of metaclass?
 
 **Answer:**
 
-     * `__prepare__(metacls, name, bases, **kwargs)` returns namespace used to build class body (e.g., order‐preserving dict).
-     * `__new__` of metaclass can modify class attributes, attach metadata, enforce rules.
-     * Example:
+* `__prepare__(metacls, name, bases, **kwargs)` returns namespace used to build class body (e.g., order‐preserving dict).
+* `__new__` of metaclass can modify class attributes, attach metadata, enforce rules.
+* Example:
 
-       ```python
+    ```python
        class OrderedMeta(type):
            @classmethod
            def __prepare__(metacls, name, bases):
@@ -2136,18 +2136,18 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
            x = 1
            y = 2
            def method(self): pass
-       ```
+    ```
 
 ### 141. **Q:** How do you optimize Python code for speed? (e.g., using built-ins, avoid globals, etc)
 
 **Answer:**
 
-     * Use built-ins and library functions (written in C) rather than pure Python loops.
-     * Minimise attribute lookups by local references.
-     * Use list comprehensions, generator expressions.
-     * Avoid global variables (they’re slower to access).
-     * Use profiling (`cProfile`) to identify hotspots.
-     * Example: replacing manual sum loop with `sum()`.
+* Use built-ins and library functions (written in C) rather than pure Python loops.
+* Minimise attribute lookups by local references.
+* Use list comprehensions, generator expressions.
+* Avoid global variables (they’re slower to access).
+* Use profiling (`cProfile`) to identify hotspots.
+* Example: replacing manual sum loop with `sum()`.
 
 ### 142. **Q:** Explain how CPython implements small integer caching and how that can affect `is` operator results. (covered earlier)
 
@@ -2241,15 +2241,15 @@ Topics include concurrency, async, metaprogramming, memory/patterns, algorithms,
 
 **Answer:**
 
-     * `isinstance(obj, Class)` checks if `obj` is an instance of `Class` or any subclass.
-     * `issubclass(Cls, Class)` checks whether `Cls` is a subclass of `Class`.
+* `isinstance(obj, Class)` checks if `obj` is an instance of `Class` or any subclass.
+* `issubclass(Cls, Class)` checks whether `Cls` is a subclass of `Class`.
 
 ### 148. **Q:** What are memory leaks in context of C extension modules with Python?
 
 **Answer:**
 
-     * If you write C extension modules (via `PyObject_New`, etc), you must handle reference counts properly. Failure to `Py_DECREF()` when needed can lead to memory leaks even if Python GC runs.
-     * Also, if you create cycles involving C‐level objects not visible to Python’s GC, they may not be cleaned.
+* If you write C extension modules (via `PyObject_New`, etc), you must handle reference counts properly. Failure to `Py_DECREF()` when needed can lead to memory leaks even if Python GC runs.
+* Also, if you create cycles involving C‐level objects not visible to Python’s GC, they may not be cleaned.
 
 ### 149. **Q:** Explain the “visitor pattern” and how you might implement it in Python.
 
