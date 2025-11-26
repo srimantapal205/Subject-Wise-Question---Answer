@@ -657,7 +657,7 @@ ADF example:
 ## 6. **You have two datasets (customer & orders) in Blob Storage that need to be joined on `CustomerID`, aggregated, and written into Azure SQL Database. How would you build this?**
 
 *** Answer: ***
-Here’s a **complete, interview-ready answer** with a **clear architectural diagram** and detailed **step-by-step explanation** for the given **Azure Data Engineering scenario** 👇
+
 
 ---
 
