@@ -468,7 +468,7 @@ By using the Execute Pipeline Activity, you can easily manage pipeline dependenc
 
 **Advantages:**
 
-    - Prevents overloading the on-premises database server with multiple simultaneous requests, which could cause performance issues or server downtime.
+- Prevents overloading the on-premises database server with multiple simultaneous requests, which could cause performance issues or server downtime.
 
 **Disadvantage:**
 
@@ -603,12 +603,15 @@ This solution ensures compliance and eliminates the risk of accidental data move
 
 ##### Step 1: Create Two Pipelines
 1. Pipeline 1 (Parent Pipeline):
-        ○ Add a ForEach activity that iterates over the outer collection.
-        ○ Inside this ForEach, add an Execute Pipeline activity to call Pipeline 2.
-2. Pipeline 2 (Child Pipeline):
-        ○ Add a ForEach activity that iterates over the inner collection.
-        ○ Implement the required activities inside this loop to process the inner loop logic.
 
+    - Add a ForEach activity that iterates over the outer collection.
+    - Inside this ForEach, add an Execute Pipeline activity to call Pipeline 2.
+
+2. Pipeline 2 (Child Pipeline):
+
+    - Add a ForEach activity that iterates over the inner collection.
+    - Implement the required activities inside this loop to process the inner loop logic.
+    
 ##### Step 2: Configure the Parent Pipeline (Pipeline 1)
 1. Add a ForEach activity to iterate over the outer collection.
 2. Inside the ForEach, drag and drop an Execute Pipeline activity.
