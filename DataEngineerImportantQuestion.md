@@ -688,4 +688,671 @@ ranked.filter("row_num <= 10").show()
    * Use autoscaling clusters in Databricks, control Synapse resource classes, and use partitioning to reduce cost of scans.
 
 ---
+---
 
+## 31️) Metadata-driven ingestion framework in ADF for 100+ heterogeneous tables
+
+**Core idea**:
+One *generic* ADF pipeline drives ingestion for all tables using a **metadata/config table**. You add a new row in metadata → the pipeline knows *what* and *how* to ingest.
+
+### a) Design the metadata model
+
+Create a **control table** (in Azure SQL DB or Synapse SQL) like `IngestionConfig`:
+
+**Table-level metadata** (one row per source table):
+
+* `source_system` (e.g., `ERP`, `CRM`)
+* `source_type` (e.g., `SQLServer`, `Oracle`, `API`, `CSV`)
+* `source_connection` (ADF linked service name or logical identifier)
+* `source_object` (table name or file pattern)
+* `source_schema` (schema name if DB)
+* `load_type` (`FULL`, `INCREMENTAL`, `CDC`)
+* `watermark_column` (e.g., `LastUpdatedDate`)
+* `watermark_type` (`DATETIME`, `INT`, `LSN`)
+* `target_container`, `target_path` (e.g., `bronze/source_system/table_name/`)
+* `file_format` (`PARQUET`, `DELTA`, `CSV`)
+* `partition_column` (e.g., `ingestion_date`, `txn_date`)
+* `active_flag` (to enable/disable ingestion)
+* `pre_sql`, `post_sql` (optional SQL for source)
+
+**Optional column-level metadata** (if you want mapping/transform):
+
+* `IngestionColumns`:
+
+  * `source_system`, `source_object`
+  * `source_column`, `target_column`
+  * `data_type`, `nullable_flag`
+  * `masking_rule`, `business_rule_id` (for PII or transformations)
+
+### b) Generic ingestion pipeline in ADF
+
+1. **Pipeline parameters**:
+
+   * `p_source_system`, `p_run_date`, `p_load_group` (optional).
+
+2. **Lookup activity – Load metadata**
+
+   * Use `Lookup` to read `IngestionConfig` rows:
+   * Query like:
+
+     ```sql
+     SELECT * FROM IngestionConfig
+     WHERE source_system = '@{pipeline().parameters.p_source_system}'
+       AND active_flag = 1;
+     ```
+
+3. **ForEach activity over configuration rows**
+   Inside ForEach (items = `@activity('Lookup').output.value`):
+
+   * **Set Variable activities** to pull values:
+
+     * `v_source_object = @item().source_object`
+     * `v_target_path = @concat(item().target_container, '/', item().target_path)` etc.
+
+   * **If load type = FULL / INCREMENTAL**
+     Use **Copy Activity** or **Mapping Data Flow**:
+
+     * Source query dynamically built using watermark if incremental:
+
+       ```sql
+       SELECT * 
+       FROM @{item().source_schema}.@{item().source_object}
+       WHERE @{item().watermark_column} > @{item().last_watermark}
+       ```
+
+   * For **different structures**:
+
+     * Use **Auto Mapping** in Copy activity where possible.
+     * Or use **Mapping Data Flow** with **schema drift** enabled.
+     * Or call a **Databricks notebook** that handles the schema during load.
+
+4. **Dynamic dataset & linked service**
+   Use **parameterized datasets**:
+
+   * `@{item().source_schema}`, `@{item().source_object}`, `@{item().target_path}`, etc.
+   * This way one dataset covers 100+ tables.
+
+5. **Watermark management**
+
+   * Store in separate table `IngestionWatermark`:
+
+     * `source_system`, `source_object`, `watermark_column`, `last_value`.
+   * At the end of each table’s ingestion, use **Stored Procedure activity** or **Lookup+Copy** to update `last_value` to the **max** from current load.
+
+6. **Logging & error handling**
+
+   Create a log table `IngestionRunLog`:
+
+   * `run_id`, `source_system`, `source_object`, `start_time`, `end_time`, `status`, `rows_read`, `rows_written`, `error_message`.
+   * Use ADF activity output to log success/failure via Stored Procedure or Web/API.
+
+---
+
+## 32️) CDC-based incremental loading from SQL Server/Oracle to ADLS Gen2
+
+Two main approaches:
+
+### a) Simple watermark-based incremental (when CDC is not enabled)
+
+1. **Pre-requisite**: table has reliable column like `LastUpdatedDate` or `ModifiedOn`.
+
+2. **Watermark table** (as above):
+
+   * `source_system`, `table_name`, `watermark_column`, `last_value`.
+
+3. In ADF:
+
+   * Lookup `last_value` for table.
+   * Source query of Copy Activity:
+
+     ```sql
+     SELECT *
+     FROM dbo.Orders
+     WHERE LastUpdatedDate > @last_watermark
+     ```
+
+4. Land data as **Delta/Parquet** in ADLS Gen2 (Bronze).
+
+5. Post-load, find max `LastUpdatedDate` of loaded data and update watermark.
+
+This **does not handle deletes** unless you have soft delete flag.
+
+### b) True CDC using SQL Server CDC or Oracle (log-based)
+
+**SQL Server CDC:**
+
+1. Enable CDC on table:
+
+   ```sql
+   EXEC sys.sp_cdc_enable_db;
+   EXEC sys.sp_cdc_enable_table 
+     @source_schema = N'dbo',
+     @source_name   = N'Orders',
+     @role_name     = NULL,
+     @supports_net_changes = 1;
+   ```
+
+2. CDC changes appear in `cdc.dbo_Orders_CT` with columns:
+
+   * `__$start_lsn`, `__$end_lsn`, `__$operation` (1=delete, 2=insert, 3=update-before, 4=update-after).
+
+3. Store `last_lsn` in watermark table.
+
+4. In ADF Copy Activity:
+
+   * Source query:
+
+     ```sql
+     DECLARE @from_lsn binary(10) = ?; -- last_lsn from watermark
+     DECLARE @to_lsn binary(10) = sys.fn_cdc_get_max_lsn();
+
+     SELECT *
+     FROM cdc.fn_cdc_get_all_changes_dbo_Orders(@from_lsn, @to_lsn, 'all');
+     ```
+
+5. Land this **CDC feed** into ADLS as a **Delta** table `orders_cdc_bronze`.
+
+6. In Databricks, apply CDC into Silver:
+
+   ```python
+   from delta.tables import DeltaTable
+
+   delta_target = DeltaTable.forPath(spark, "/mnt/silver/orders")
+
+   changes_df = spark.read.format("delta").load("/mnt/bronze/orders_cdc")
+
+   # Map __$operation to flags
+   upserts = changes_df.filter("__$operation in (2,4)")
+   deletes = changes_df.filter("__$operation = 1")
+
+   # Upserts
+   delta_target.alias("t").merge(
+       upserts.alias("s"),
+       "t.OrderID = s.OrderID"
+   ).whenMatchedUpdateAll(
+   ).whenNotMatchedInsertAll(
+   ).execute()
+
+   # Deletes
+   delta_target.alias("t").merge(
+       deletes.alias("s"),
+       "t.OrderID = s.OrderID"
+   ).whenMatchedDelete().execute()
+   ```
+
+7. Update `last_lsn` in watermark table with `@to_lsn`.
+
+**Oracle**:
+Common patterns:
+
+* Use **Oracle GoldenGate**, **Qlik Replicate**, or similar to stream CDC into ADLS/Kafka and then into Delta.
+* For a simple approach, use **SCN** or `LAST_UPDATE_DATE` like SQL watermark.
+
+---
+
+## 33️) Optimizing Delta Lake for high-volume MERGE operations
+
+Key focus areas: **I/O, partitioning, file sizes, and join strategy**.
+
+### a) Partitioning strategy
+
+* Partition Delta tables by **high-cardinality but query-aligned** columns:
+
+  * For financial fact tables: `trade_date`, `as_of_date`, `org_id`.
+* Ensure MERGE predicate includes partition column:
+
+  ```sql
+  MERGE INTO fact_trades t
+  USING updates u
+  ON  t.trade_date = u.trade_date
+  AND t.trade_id = u.trade_id
+  ```
+* This allows partition pruning → fewer files touched.
+
+### b) Reduce data scanned during MERGE
+
+* **Limit merge scope**:
+
+  * Filter target table to partitions affected:
+
+    ```python
+    affected_dates = updates_df.select("trade_date").distinct().collect()
+    # Build list and filter target_df by these dates before converting to DeltaTable
+    ```
+* For extremely large tables, **execute MERGE per partition** in a loop.
+
+### c) Control file sizes & small file problem
+
+* Enable **auto optimize & auto compact** (if available):
+
+  ```sql
+  SET spark.databricks.delta.autoCompact.enabled = true;
+  SET spark.databricks.delta.optimizeWrite.enabled = true;
+  ```
+* Periodically run:
+
+  ```sql
+  OPTIMIZE delta.`/mnt/silver/fact_trades`
+  ZORDER BY (trade_id, account_id);
+  ```
+
+### d) Leverage join optimizations
+
+* Ensure the updates DataFrame has **reasonable size**; if small, broadcast:
+
+  ```python
+  from pyspark.sql.functions import broadcast
+
+  updates_small = broadcast(updates_df)
+  ```
+* Tune shuffle:
+
+  ```python
+  spark.conf.set("spark.sql.shuffle.partitions", 2000)  # based on cluster size & data volume
+  ```
+
+### e) Minimize updates when not needed
+
+* In MERGE, restrict updates to truly changed rows:
+
+  ```sql
+  WHEN MATCHED AND (
+    t.amount <> u.amount OR
+    t.status <> u.status
+  )
+  THEN UPDATE SET ...
+  ```
+
+This reduces Delta’s data rewrite.
+
+---
+
+## 34️) Cost-efficient Medallion Lakehouse for financial analytics
+
+### a) Bronze – Raw landing
+
+* **Storage**: ADLS Gen2, cheapest tier where allowed.
+* **Ingestion**:
+
+  * CDC / batch from source systems (core banking, treasury, market data).
+  * Use ADF + Databricks Autoloader or Copy Activity for large tabular data.
+* **Design**:
+
+  * Folder structure:
+
+    * `/bronze/source_system/table_name/ingestion_date=YYYY-MM-DD/`
+  * Store as **Delta** or **Parquet**.
+* **Costs**:
+
+  * Use **job clusters** (Databricks) with auto-termination for ingestion jobs.
+  * Use **spot/low-priority** VMs where SLAs permit.
+
+### b) Silver – Cleaned & conformed
+
+* Activities:
+
+  * Data cleansing, type casting, deduplication, surrogate keys.
+  * Join with reference data: currency rates, product hierarchies, calendars.
+* Tables:
+
+  * `dim_customer`, `dim_product`, `dim_account`, `dim_currency`, `fact_transactions`, `fact_positions`, `fact_fx_rates`.
+* **Patterns**:
+
+  * Implement SCD Type 2 for key dimensions (customers, accounts).
+  * Use Delta constraints & expectations (NOT NULL, check constraints).
+* **Performance/cost**:
+
+  * Partition large facts by `as_of_date` or `txn_date`.
+  * Use Photon (if available) for heavy aggregations.
+  * Schedule major transformations off-peak.
+
+### c) Gold – Analytics-ready layer
+
+* Business-specific marts:
+
+  * **Risk**: VaR, exposure by counterparty, liquidity metrics.
+  * **Finance**: P&L by product, cost of funds, NII.
+* Data models:
+
+  * Star schemas for BI (Power BI, Fabric, etc.).
+  * Calculated tables/aggregates for common queries.
+* Access:
+
+  * Use **SQL Endpoints / Serverless SQL** or **Power BI Direct Lake**.
+
+### d) Governance & security
+
+* Use **Unity Catalog**:
+
+  * Catalog → Schema → Tables per environment (`dev`, `test`, `prod`).
+  * Row/column level security for PII and regulatory sensitive data.
+* Tag assets (business owner, data classification: confidential/public).
+
+### e) Cost controls
+
+* Right-size clusters (small clusters with scaling; not huge always-on).
+* Use **Delta cache** instead of re-reading.
+* **VACUUM** with appropriate retention to control storage.
+* Use **Lifecycle policies** on old Bronze files (move to cool/archive tier if allowed).
+* Avoid unnecessary copies of Gold data; rely on views where possible.
+
+---
+
+## 35️) Schedule & orchestrate dependent Databricks notebooks using ADF/Synapse
+
+### a) Pattern using ADF
+
+1. **Linked Service** to Databricks:
+
+   * Using PAT or MSI.
+
+2. **Pipeline design**:
+
+   * Activities:
+
+     1. Notebook A – Ingest Bronze.
+     2. Notebook B – Transform to Silver.
+     3. Notebook C – Aggregate to Gold.
+   * Use **Databricks Notebook Activity** for each.
+   * Use `dependsOn` to enforce order: B → A, C → B.
+
+3. **Passing parameters to notebooks**:
+
+   * In activity:
+
+     * Base parameters: `p_run_date`, `p_source_system`.
+   * In notebook:
+
+     ```python
+     dbutils.widgets.text("p_run_date", "")
+     run_date = dbutils.widgets.get("p_run_date")
+     ```
+
+4. **Error handling**:
+
+   * If Notebook B fails, pipeline stops and triggers failure path.
+   * Configure:
+
+     * `retry`, `retryInterval`, `timeout`.
+
+5. **Synapse pipelines** work similarly:
+
+   * Use **Synapse notebook activity** and dependencies.
+
+### b) Alternative: Orchestrate inside Databricks Jobs, trigger from ADF
+
+* Create a **Databricks Job** that chains notebooks:
+
+  * Task A → Task B → Task C with dependencies.
+* From ADF, use **Web Activity** or **Databricks Job activity** to trigger the job.
+* Advantage: job-level alerting and retries managed in Databricks; ADF just triggers and monitors.
+
+---
+
+## 36️) Debug & resolve skew in large Spark jobs (Databricks)
+
+### a) Identify skew
+
+1. **Spark UI**:
+
+   * Go to problematic job → stage → tasks.
+   * Symptoms:
+
+     * One or few tasks taking much longer.
+     * Very large input size for specific partitions.
+     * High spill to disk.
+
+2. **Data profiling**:
+
+   * Check key distribution:
+
+     ```python
+     df.groupBy("join_key").count().orderBy(F.desc("count")).show(20)
+     ```
+   * If top keys have huge counts → skew.
+
+### b) Common fixes
+
+1. **Key salting** (for skewed join keys):
+
+   * For highly repeated key `A`:
+
+     ```python
+     from pyspark.sql.functions import col, rand, concat, lit, floor
+
+     salt_buckets = 10
+
+     large_df_salted = large_df.withColumn(
+         "join_key_salted",
+         concat(col("join_key"), lit("_"), floor(rand()*salt_buckets))
+     )
+
+     small_df_salted = small_df.withColumn(
+         "salt", F.explode(F.array(*[F.lit(i) for i in range(salt_buckets)]))
+     ).withColumn(
+         "join_key_salted",
+         concat(col("join_key"), lit("_"), col("salt"))
+     )
+     ```
+   * Join on `join_key_salted` instead.
+
+2. **Use Adaptive Query Execution (AQE)**:
+
+   ```python
+   spark.conf.set("spark.sql.adaptive.enabled", "true")
+   spark.conf.set("spark.sql.adaptive.skewJoin.enabled", "true")
+   ```
+
+   AQE will split skewed partitions and optimize joins.
+
+3. **Broadcast small tables**:
+
+   ```python
+   from pyspark.sql.functions import broadcast
+
+   joined = large_df.join(broadcast(dim_df), "join_key")
+   ```
+
+   Avoids shuffle join.
+
+4. **Repartition wisely**:
+
+   * Increase partitions for huge datasets:
+
+     ```python
+     df = df.repartition(2000, "join_key")  # based on cluster
+     ```
+   * Or `repartitionByRange` for better balance.
+
+5. **Filter early**:
+
+   * Push filters before wide transformations:
+
+     ```python
+     filtered = df.filter("txn_date >= '2025-01-01'")
+     ```
+   * Avoid bringing unnecessary rows into shuffle.
+
+6. **Handle special keys separately**:
+
+   * If one key is extremely skewed, process it in a **separate job** or path, then union results.
+
+---
+
+## 37) End-to-end data quality monitoring (expectations / custom rules)
+
+### a) Define a DQ framework
+
+Categories of checks:
+
+* **Schema**: column exists, data type matches.
+* **Completeness**: NOT NULL, minimum row counts.
+* **Uniqueness**: primary key uniqueness.
+* **Validity**: domain constraints (e.g., `amount >= 0`, `status IN ('Active','Closed')`).
+* **Referential integrity**: foreign key presence (fact to dim).
+* **Timeliness**: data freshness vs SLA.
+* **Drift**: distribution changes (e.g., average, % of nulls).
+
+Store rules in a **metadata table**:
+
+* `table_name`, `column_name`, `rule_type`, `rule_expression`, `severity` (`WARN`, `FAIL`), `threshold`, `active_flag`.
+
+### b) Implement using Great Expectations / Deequ / custom code
+
+**Option 1 – Delta Live Tables expectations** (if using DLT):
+
+```python
+df = (spark.readStream
+      .format("cloudFiles")
+      .option("cloudFiles.format", "json")
+      .load("/mnt/bronze/orders"))
+
+df = (df
+      .withColumn("amount", F.col("amount").cast("double"))
+      .expectOrDrop("amount_not_null", "amount IS NOT NULL")
+      .expectOrFail("status_valid", "status in ('NEW','CLOSED','CANCELLED')")
+     )
+```
+
+**Option 2 – Custom validation notebook in Databricks**:
+
+```python
+from pyspark.sql.functions import expr
+
+def run_checks(df, rules_df, table_name):
+    results = []
+    for r in rules_df.collect():
+        rule_expr = r["rule_expression"]
+        failed_count = df.filter(f"NOT ({rule_expr})").count()
+        total = df.count()
+        passed = failed_count <= r["threshold"]
+        results.append((table_name, r["rule_id"], failed_count, total, passed))
+    return spark.createDataFrame(results, schema="table_name string, rule_id int, failed_count long, total long, passed boolean")
+```
+
+* Save `results` into `dq_results` Delta table.
+* If any **severity = FAIL** and `passed = false`, raise an exception so pipeline fails.
+
+### c) Orchestration
+
+* In ADF:
+
+  * After data load → **Databricks Notebook Activity** to run checks.
+  * If notebook fails → send alerts, mark pipeline as failed.
+
+* Dashboards:
+
+  * Build Power BI/Databricks SQL dashboards on `dq_results` + `dq_rules` to monitor over time.
+
+---
+
+## 38) Schedule & orchestrate Databricks jobs using ADF and monitor failures
+
+(Complementary to Q5, with focus on **monitoring**.)
+
+### a) Orchestration pattern
+
+1. In Databricks, define a **Job** with tasks/notebooks.
+2. In ADF:
+
+   * Use **Web Activity** or **Databricks Job activity**:
+
+     * Start the job using REST API or ADF built-in activity.
+   * Optionally, use a **Until activity** loop to poll job status (if using REST).
+
+### b) Capture and log job status
+
+* After Databricks activity:
+
+  * Check `@activity('DatabricksJob').output.runOutput.state`.
+  * Use **If Condition**:
+
+    * If `state == 'SUCCESS'` → continue.
+    * Else → log failure to `PipelineRunLog` table and send notification.
+
+* Use **Stored Procedure** or **Web Activity**:
+
+  * To log: `pipelineId`, `activityName`, `status`, `startTime`, `endTime`, `errorMessage`.
+
+### c) Alerts & monitoring
+
+* **ADF alerts**:
+
+  * Create alert rules in Azure Monitor:
+
+    * Condition: `Pipeline failed` or `Activity failed`.
+    * Action: Email/Teams/Logic App.
+
+* **Databricks alerts**:
+
+  * Configure **Job-level alerts**:
+
+    * On failure: send email/Slack/Teams.
+  * Central logging to **Log Analytics** using diagnostic settings.
+
+* **Retries & fallback**:
+
+  * In ADF Databricks activity:
+
+    * `retry = 3`, `retryInterval = 00:05:00`.
+  * If still fails:
+
+    * Trigger incident (Logic App to create ticket / call webhook).
+
+---
+
+## 39) Using Databricks Autoloader for continuous streaming into Delta Lake
+
+**Autoloader** simplifies incremental ingestion from cloud storage with file discovery, schema inference, and evolution.
+
+### a) Basic pattern
+
+```python
+from pyspark.sql.functions import col
+
+source_path = "/mnt/raw/transactions"
+checkpoint_path = "/mnt/chkpt/transactions"
+schema_location = "/mnt/schema/transactions"
+
+df = (spark.readStream
+      .format("cloudFiles")
+      .option("cloudFiles.format", "json")
+      .option("cloudFiles.schemaLocation", schema_location)
+      .option("cloudFiles.inferColumnTypes", "true")
+      .load(source_path))
+
+# Light transformations
+df_clean = (df
+            .withColumn("amount", col("amount").cast("double"))
+            .withColumn("ingestion_ts", F.current_timestamp())
+           )
+
+(df_clean.writeStream
+ .format("delta")
+ .option("checkpointLocation", checkpoint_path)
+ .outputMode("append")
+ .partitionBy("txn_date")
+ .trigger(processingTime="1 minute")  # or "availableNow" for micro-batch
+ .start("/mnt/bronze/transactions"))
+```
+
+### b) Key options
+
+* `cloudFiles.format` = `json`, `csv`, `parquet`, etc.
+* `cloudFiles.schemaLocation`: where Autoloader stores inferred/evolved schema.
+* `cloudFiles.maxFilesPerTrigger`: control ingestion rate.
+* `cloudFiles.schemaEvolutionMode = "addNewColumns"` for schema changes.
+* `rescuedDataColumn = "_rescued_data"` to capture corrupt/mismatched records.
+
+### c) File discovery modes
+
+* **Directory listing mode** (default): scans directory; good for modest volumes.
+* **File notification mode** (with Event Grid / queues): for very high throughput; Autoloader reads notifications instead of listing.
+
+### d) Integrate with Medallion
+
+* Bronze: Autoloader writes streaming Delta.
+* Silver: another streaming or batch job reads Bronze Delta and applies business rules, DQ checks → writes Silver.
+* Use **Change Data Feed (CDF)** on Bronze/Silver tables for downstream incremental processing.
+
+---
