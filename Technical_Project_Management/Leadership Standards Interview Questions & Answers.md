@@ -2,10 +2,15 @@
 # ✅ **LEADERSHIP LEVELS**
 
 **Level 1 — Self-Leadership**
+
 **Level 2 — Team Leadership**
+
 **Level 3 — Cross-Functional Leadership**
+
 **Level 4 — Organizational Leadership**
+
 **Level 5 — Strategic Leadership**
+
 
 ---
 
