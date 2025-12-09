@@ -461,6 +461,8 @@ MasterPipeline
 
 Great questions! Here's a comprehensive breakdown of each one:
 
+
+
 ---
 
 ### 37. **Explain the differences between RDDs, DataFrames, and Datasets in PySpark. When would you use each?**
@@ -500,8 +502,11 @@ Only when `collect()` is called does Spark build and execute the DAG.
 ### 39. **Describe the role of the Catalyst optimizer in PySpark. How does it enhance query execution?**
 
 Catalyst is Spark SQL’s query optimizer. It improves performance by:
+
 - Analyzing and optimizing logical and physical query plans.
+
 - Applying rule-based transformations (e.g., constant folding, predicate pushdown).
+
 - Reordering operations for optimal execution.
 
 **Benefit:** Makes DataFrame and SQL operations significantly faster than RDDs.
