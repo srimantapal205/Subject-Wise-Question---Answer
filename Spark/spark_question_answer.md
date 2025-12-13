@@ -184,8 +184,11 @@ Resilient Distributed Dataset (RDD) Lineage is a graph of all the parent RDD of 
 
 ## 23. What are the two main types of Vector in Spark?
 There are two main types of Vector in Spark:
-Dense Vector: A dense vector is backed by an array of double data type. This array contains the values.
-E.g. {1.0 , 0.0, 3.0} Sparse Vector: A sparse vector is backed by two parallel arrays. One array is for indices and the other array is for values. E.g. {3, [0,2], [1.0,3.0]} In this array, the first element is the number of elements in vector. Second element is the array of indices of non-zero values. Third element is the array of non-zero values.
+
+**Dense Vector:** A dense vector is backed by an array of double data type. This array contains the values.
+E.g. {1.0 , 0.0, 3.0} 
+
+**Sparse Vector:** A sparse vector is backed by two parallel arrays. One array is for indices and the other array is for values. E.g. {3, [0,2], [1.0,3.0]} In this array, the first element is the number of elements in vector. Second element is the array of indices of non-zero values. Third element is the array of non-zero values.
 
 
 
