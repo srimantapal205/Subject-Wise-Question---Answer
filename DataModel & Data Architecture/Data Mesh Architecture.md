@@ -96,7 +96,7 @@ Central platform team provides:
 
 ## 4️⃣ High-Level Data Mesh Architecture
 
-### MD Diagram – Conceptual View
+### Diagram – Conceptual View
 
 ```mermaid
 flowchart LR
@@ -148,7 +148,7 @@ A **data product** is a **fully owned, discoverable, trustworthy dataset** desig
 
 ---
 
-### MD Diagram – Data Product Lifecycle
+### Diagram – Data Product Lifecycle
 
 ```mermaid
 flowchart TB
@@ -193,7 +193,7 @@ Each domain team acts as a **mini data team**.
 
 ---
 
-### MD Diagram – Platform vs Domain Split
+### Diagram – Platform vs Domain Split
 
 ```mermaid
 flowchart LR
@@ -237,7 +237,7 @@ flowchart LR
 
 ---
 
-### MD Diagram – Federated Governance
+### Diagram – Federated Governance
 
 ```mermaid
 flowchart TB
@@ -344,7 +344,7 @@ flowchart TB
 
 ---
 
-### 🧩 Azure Data Mesh – MD Diagram
+### 🧩 Azure Data Mesh – Diagram
 
 ```mermaid
 flowchart TB
@@ -400,8 +400,11 @@ flowchart TB
 # 2️⃣ Data Mesh + Lakehouse (Combined Architecture)
 
 > ⚠️ **Important Architect Insight**
+
 > **Data Mesh is NOT a replacement for Lakehouse.**
+
 > 👉 **Data Mesh is an operating model**
+
 > 👉 **Lakehouse is the technical foundation**
 
 ---
@@ -426,7 +429,7 @@ Each domain owns its **Bronze → Silver → Gold** independently.
 
 ---
 
-### 🧩 Data Mesh + Lakehouse – MD Diagram
+### 🧩 Data Mesh + Lakehouse – Diagram
 
 ```mermaid
 flowchart TB
@@ -460,9 +463,13 @@ flowchart TB
 ## 2.3 Why This Works
 
 ✔ No duplicate pipelines
+
 ✔ Clear ownership
+
 ✔ Scales across teams
+
 ✔ Supports BI + ML
+
 ✔ Cost optimized
 
 ---
@@ -470,6 +477,7 @@ flowchart TB
 # 3️⃣ Security & Compliance in Azure Data Mesh
 
 Security is **NOT centralized OR decentralized**
+
 👉 It is **federated & automated**
 
 ---
@@ -494,7 +502,7 @@ Security is **NOT centralized OR decentralized**
 
 ---
 
-### 🧩 Security Architecture – MD Diagram
+### 🧩 Security Architecture – Diagram
 
 ```mermaid
 flowchart TB
@@ -522,7 +530,7 @@ flowchart TB
 
 ---
 
-### 🧩 Governance Flow – MD Diagram
+### 🧩 Governance Flow – Diagram
 
 ```mermaid
 flowchart LR
@@ -570,7 +578,7 @@ Each domain data product must define:
 
 # 4️⃣ End-to-End Secure Azure Data Mesh Flow
 
-### 🧩 Complete Flow – MD Diagram
+### 🧩 Complete Flow – Diagram
 
 ```mermaid
 flowchart TB
