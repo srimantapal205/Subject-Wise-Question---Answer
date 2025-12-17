@@ -130,7 +130,7 @@
 
 ---
 
-## 4️⃣ Types of Modern Data Architectures (with MD Diagrams)
+## 4️⃣ Types of Modern Data Architectures with Diagrams
 
 ---
 
@@ -146,7 +146,7 @@
 
 * Ingest → Transform → Load → BI
 
-### MD Diagram
+### Diagram
 
 ```mermaid
 flowchart LR
@@ -173,7 +173,7 @@ flowchart LR
 
 * Ingest → Store → Process → Consume
 
-### MD Diagram
+### Diagram
 
 ```mermaid
 flowchart LR
@@ -204,7 +204,7 @@ Combines **Data Lake + Data Warehouse**
 
 * Bronze → Silver → Gold
 
-### MD Diagram
+### Diagram
 
 ```mermaid
 flowchart TB
@@ -233,7 +233,7 @@ flowchart TB
 
 * Event → Stream → Process → Serve
 
-### MD Diagram
+### Diagram
 
 ```mermaid
 flowchart LR
@@ -262,7 +262,7 @@ Handles **batch + real-time** together
 * Speed layer
 * Serving layer
 
-### MD Diagram
+### Diagram
 
 ```mermaid
 flowchart LR
@@ -287,7 +287,7 @@ flowchart LR
 * Streaming-first
 * Single processing pipeline
 
-### MD Diagram
+### Diagram
 
 ```mermaid
 flowchart LR
@@ -311,7 +311,7 @@ flowchart LR
 * Decentralized ownership
 * Domain-driven data products
 
-### MD Diagram
+### Diagram
 
 ```mermaid
 flowchart LR
@@ -330,7 +330,7 @@ flowchart LR
 
 ## 5️⃣ End-to-End Modern Data Architecture (Reference)
 
-### MD Diagram
+### Diagram
 
 ```mermaid
 flowchart TB
@@ -359,12 +359,3 @@ flowchart TB
 
 ---
 
-## 7️⃣ Key Interview Takeaways (Architect Level)
-
-* **Lakehouse is the default modern choice**
-* **Streaming is mandatory for real-time use cases**
-* **Governance is not optional**
-* **Metadata-driven design is critical**
-* **Cost optimization comes from decoupling compute & storage**
-
----
