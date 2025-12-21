@@ -11,6 +11,3 @@
 ## Microsoft Fabric
 ## Azure Synapse Analytics
 ## Power BI
-
-
-    
