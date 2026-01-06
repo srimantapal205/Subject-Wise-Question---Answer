@@ -245,6 +245,7 @@ Use try-catch blocks strategically around critical operations:
 For example, in Python:
 
 `
+
     try:
         # Load data
 
@@ -261,7 +262,7 @@ For example, in Python:
     except Exception as e:
 
         logger.error(f"Pipeline failed: {e}")
-        
+
         raise
 
 `
