@@ -245,16 +245,25 @@ Use try-catch blocks strategically around critical operations:
 For example, in Python:
 
 `
-try:
-    # Load data
-    data = spark.read.csv("data.csv")
-    # Transform data
-    transformed_data = data.filter(data['age'] > 18)
-    # Save data
-    transformed_data.write.parquet("output.parquet")
-except Exception as e:
-    logger.error(f"Pipeline failed: {e}")
-    raise
+    try:
+        # Load data
+
+        data = spark.read.csv("data.csv")
+
+        # Transform data
+
+        transformed_data = data.filter(data['age'] > 18)
+
+        # Save data
+
+        transformed_data.write.parquet("output.parquet")
+
+    except Exception as e:
+
+        logger.error(f"Pipeline failed: {e}")
+        
+        raise
+
 `
 
 c. Retry Mechanism
