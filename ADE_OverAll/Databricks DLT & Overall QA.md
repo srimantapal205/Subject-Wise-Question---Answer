@@ -797,3 +797,293 @@ Unity Catalog + RBAC + isolated schemas.
 Experience with streaming, optimization, governance, and monitoring at scale.
 
 ---
+
+# Below are **end-to-end, production-style coding examples** 
+
+* **Databricks Delta Live Tables (DLT)**
+* **Structured Streaming**
+* **PySpark + Python**
+* **Spark SQL**
+* **Azure Data Services (ADF, ADLS, Synapse pattern)**
+* **Unity Catalog**
+* **Performance optimization for high-volume real-time pipelines**
+
+---
+
+## 1️⃣ High-Level Real-Time Architecture (Context)
+
+```
+Event Source (Kafka / Event Hub)
+        ↓
+Structured Streaming
+        ↓
+DLT Bronze (Raw)
+        ↓
+DLT Silver (Clean + Dedup)
+        ↓
+DLT Gold (Aggregations)
+        ↓
+Synapse / BI / APIs
+```
+
+Storage: **ADLS Gen2**
+Governance: **Unity Catalog**
+Orchestration: **ADF triggers Databricks DLT pipeline**
+
+---
+
+## 2️⃣ Unity Catalog Setup (One-Time)
+
+```sql
+-- Create catalog
+CREATE CATALOG realtime_catalog;
+
+-- Create schema
+CREATE SCHEMA realtime_catalog.iot;
+
+-- Grant access
+GRANT USE CATALOG ON CATALOG realtime_catalog TO `data_engineers`;
+GRANT USE SCHEMA ON SCHEMA realtime_catalog.iot TO `data_engineers`;
+```
+
+✅ Enables **centralized governance, lineage, and security**
+
+---
+
+## 3️⃣ Structured Streaming Ingestion (Bronze Layer – DLT)
+
+### PySpark – Streaming from Kafka/Event Hub
+
+```python
+import dlt
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+@dlt.table(
+    name="bronze_events",
+    comment="Raw streaming events from source",
+    table_properties={"quality": "bronze"}
+)
+def bronze_events():
+    return (
+        spark.readStream
+            .format("kafka")
+            .option("kafka.bootstrap.servers", "broker:9092")
+            .option("subscribe", "iot-events")
+            .option("startingOffsets", "latest")
+            .load()
+            .selectExpr("CAST(value AS STRING) as json")
+            .select(from_json(col("json"), schema_of_json("""{
+                "device_id": "string",
+                "event_time": "timestamp",
+                "temperature": "double"
+            }""")).alias("data"))
+            .select("data.*")
+    )
+```
+
+🔹 **Why this matters in interview**
+
+* Streaming ingestion
+* Schema enforcement
+* Bronze pattern
+
+---
+
+## 4️⃣ Data Quality & Deduplication (Silver Layer – DLT)
+
+```python
+@dlt.table(
+    name="silver_events",
+    comment="Cleaned and deduplicated events",
+    table_properties={"quality": "silver"}
+)
+@dlt.expect_or_drop("valid_device", "device_id IS NOT NULL")
+@dlt.expect("valid_temperature", "temperature BETWEEN -40 AND 100")
+def silver_events():
+    return (
+        dlt.read_stream("bronze_events")
+           .withWatermark("event_time", "10 minutes")
+           .dropDuplicates(["device_id", "event_time"])
+    )
+```
+
+✅ Uses:
+
+* **EXPECT / EXPECT_OR_DROP**
+* **Watermarking**
+* **Exactly-once semantics**
+
+---
+
+## 5️⃣ Business Aggregations (Gold Layer – DLT)
+
+```python
+@dlt.table(
+    name="gold_device_metrics",
+    comment="Aggregated metrics per device",
+    table_properties={"quality": "gold"}
+)
+def gold_device_metrics():
+    return (
+        dlt.read_stream("silver_events")
+           .groupBy(
+               window(col("event_time"), "5 minutes"),
+               col("device_id")
+           )
+           .agg(
+               avg("temperature").alias("avg_temp"),
+               max("temperature").alias("max_temp"),
+               count("*").alias("event_count")
+           )
+    )
+```
+
+📊 Perfect **real-time analytics output**
+
+---
+
+## 6️⃣ SQL Version (DLT SQL Pipeline)
+
+```sql
+CREATE STREAMING LIVE TABLE silver_events_sql
+(
+  CONSTRAINT valid_device EXPECT (device_id IS NOT NULL),
+  CONSTRAINT valid_temp EXPECT (temperature BETWEEN -40 AND 100)
+)
+AS
+SELECT DISTINCT
+    device_id,
+    event_time,
+    temperature
+FROM STREAM(LIVE.bronze_events);
+```
+
+💡 Interview tip: **mention SQL + PySpark coexistence**
+
+---
+
+## 7️⃣ CDC / UPSERT using APPLY CHANGES INTO (DLT)
+
+```sql
+APPLY CHANGES INTO LIVE.device_state
+FROM STREAM(LIVE.silver_events)
+KEYS (device_id)
+SEQUENCE BY event_time
+COLUMNS *
+```
+
+✅ Handles **late data + CDC** automatically
+
+---
+
+## 8️⃣ Performance Optimization – MUST KNOW
+
+### 🔹 Partitioning + Z-Ordering
+
+```sql
+OPTIMIZE realtime_catalog.iot.gold_device_metrics
+ZORDER BY (device_id);
+```
+
+---
+
+### 🔹 Auto Compaction & Optimize Write
+
+```python
+spark.conf.set("spark.databricks.delta.optimizeWrite.enabled", "true")
+spark.conf.set("spark.databricks.delta.autoCompact.enabled", "true")
+```
+
+---
+
+### 🔹 Broadcast Join Optimization
+
+```python
+from pyspark.sql.functions import broadcast
+
+enriched_df = silver_df.join(
+    broadcast(device_dim),
+    "device_id",
+    "left"
+)
+```
+
+---
+
+### 🔹 Adaptive Query Execution
+
+```python
+spark.conf.set("spark.sql.adaptive.enabled", "true")
+```
+
+---
+
+## 9️⃣ Writing Streaming Output to ADLS (Delta)
+
+```python
+(
+    gold_df.writeStream
+        .format("delta")
+        .outputMode("append")
+        .option("checkpointLocation", "abfss://chk@storage.dfs.core.windows.net/gold/")
+        .start("abfss://gold@storage.dfs.core.windows.net/device_metrics/")
+)
+```
+
+✔ Fault-tolerant
+✔ Exactly-once
+✔ Cloud-native
+
+---
+
+## 🔟 ADF → Databricks DLT Trigger (Concept)
+
+ADF pipeline:
+
+* **Web Activity / Databricks Activity**
+* Pass parameters like:
+
+  * environment
+  * storage path
+  * pipeline mode (triggered / continuous)
+
+DLT handles **processing**, ADF handles **orchestration**
+
+---
+
+## 1️⃣1️⃣ Monitoring & Debugging (Interview Favorite)
+
+```python
+for q in spark.streams.active:
+    q.lastProgress
+```
+
+Key Metrics:
+
+* inputRowsPerSecond
+* processedRowsPerSecond
+* stateOperators
+
+---
+
+## 1️⃣2️⃣ Typical Interview Explanation (How to Answer)
+
+> “I use Structured Streaming with DLT for real-time ingestion, enforce quality at Silver using expectations, aggregate at Gold, govern everything using Unity Catalog, and optimize using Z-Ordering, Photon, AQE, and broadcast joins.”
+
+---
+
+## 1️⃣3️⃣ BONUS: Spark SQL Window + Dedup (Classic Question)
+
+```sql
+SELECT *
+FROM (
+  SELECT *,
+         ROW_NUMBER() OVER (
+           PARTITION BY device_id, event_time
+           ORDER BY event_time DESC
+         ) rn
+  FROM realtime_catalog.iot.silver_events
+)
+WHERE rn = 1;
+```
