@@ -166,5 +166,3 @@
 40. **Can you enable row-level security in Fabric Warehouse?**
     → Yes, using T-SQL security functions in semantic models.
 
----
-
